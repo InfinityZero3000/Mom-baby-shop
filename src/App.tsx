@@ -12,11 +12,14 @@ import { ProductDetailPage } from './screens/ProductDetailPage';
 import { CheckoutPage } from './screens/CheckoutPage';
 
 export const App: React.FC = () => {
+  // Detect if running on GitHub Pages
+  const basename = window.location.hostname === 'jenniferzero.github.io' ? '/Mom-baby-shop' : '';
+  
   return (
     <CartProvider>
       <WishlistProvider>
         <ToastProvider>
-          <Router>
+          <Router basename={basename}>
             <Routes>
               {/* Trang chủ chính - Sử dụng ImprovedHomePage */}
               <Route path="/" element={<ImprovedHomePage />} />
