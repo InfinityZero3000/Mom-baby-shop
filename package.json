@@ -7,8 +7,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:github": "vite build --mode production",
     "preview": "vite preview",
-    "deploy": "vite build && cp CNAME dist/ && gh-pages -d dist"
+    "preview:github": "vite preview --base /Mom-baby-shop/",
+    "deploy": "npm run build:github && powershell -Command \"Copy-Item -Path CNAME -Destination dist/\" && gh-pages -d dist"
   },
   "dependencies": {
     "clsx": "2.1.1",

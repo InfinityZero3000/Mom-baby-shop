@@ -4,7 +4,6 @@ import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { ShoppingCartModal } from './components/ShoppingCartModal';
-import { TrangCh } from './screens/TrangCh';
 import { ImprovedHomePage } from './screens/ImprovedHomePage';
 import { MainProductPage } from './screens/MainProductPage';
 import { StrollerListPage } from './screens/StrollerListPage';
@@ -19,13 +18,8 @@ export const App: React.FC = () => {
         <ToastProvider>
           <Router>
             <Routes>
-              {/* Redirect từ root đến home */}
-              <Route path="/" element={<Navigate to="/home" replace />} />
-              
-              {/* Trang chủ gốc */}
-              <Route path="/original" element={<TrangCh />} />
-              
-              {/* Trang chủ cải tiến */}
+              {/* Trang chủ chính - Sử dụng ImprovedHomePage */}
+              <Route path="/" element={<ImprovedHomePage />} />
               <Route path="/home" element={<ImprovedHomePage />} />
               
               {/* Trang sản phẩm chính */}
@@ -33,7 +27,8 @@ export const App: React.FC = () => {
               
               {/* Danh sách xe đẩy */}
               <Route path="/strollers" element={<StrollerListPage />} />
-                {/* Danh sách quần áo */}
+              
+              {/* Danh sách quần áo */}
               <Route path="/clothing" element={<ClothingListPage />} />
               
               {/* Trang chi tiết sản phẩm */}
@@ -42,8 +37,11 @@ export const App: React.FC = () => {
               {/* Trang thanh toán */}
               <Route path="/checkout" element={<CheckoutPage />} />
               
+              {/* Trang liên hệ - tạm thời hiển thị ImprovedHomePage */}
+              <Route path="/contact" element={<ImprovedHomePage />} />
+              
               {/* Fallback */}
-              <Route path="*" element={<Navigate to="/home" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             
             {/* Shopping Cart Modal */}
