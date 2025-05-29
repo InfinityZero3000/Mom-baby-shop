@@ -142,7 +142,12 @@ npm install
 - Kiểm tra GitHub Pages settings
 - Clear browser cache
 
-**4. Routing không hoạt động trên GitHub Pages:**
+**4. Màn hình trắng trên GitHub Pages:**
+- Đảm bảo React Router có `basename` đúng
+- Kiểm tra build với `npm run preview:github` trước khi deploy
+- File `404.html` phải có trong thư mục `public/`
+
+**5. Routing không hoạt động trên GitHub Pages:**
 - Đảm bảo đã dùng `npm run build:github`
 - Kiểm tra base path trong `vite.config.ts`
 
