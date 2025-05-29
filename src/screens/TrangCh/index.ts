@@ -1,0 +1,1 @@
+export { TrangCh } from "./TrangCh";

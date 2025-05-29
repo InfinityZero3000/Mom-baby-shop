@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MomBabyShop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="/dist/output.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-white text-gray-800">
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center px-8 py-2 border-b text-sm">
+    <div class="flex space-x-6">
+      <a href="#" class="font-semibold hover:text-pink-500">TRANG CHỦ</a>
+      <a href="#" class="hover:text-pink-500">MẪU MỚI</a>
+      <a href="#" class="hover:text-pink-500">BÁN CHẠY</a>
+      <a href="#" class="hover:text-pink-500">GIẢM GIÁ</a>
+    </div>
+    <div class="flex space-x-6 items-center">
+      <a href="#" class="hover:text-pink-500">CHÍNH SÁCH</a>
+      <a href="#" class="hover:text-pink-500">LIÊN HỆ</a>
+      <a href="#" class="ml-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" /></svg></a>
+      <a href="#" class="ml-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></svg></a>
+    </div>
+  </nav>
+
+  <!-- Banner -->
+  <section class="relative bg-gray-100 rounded-xl mx-6 mt-4 overflow-hidden" style="height: 320px;">
+    <img src="/public/images/banner.jpg" alt="Banner" class="absolute inset-0 w-full h-full object-cover opacity-80">
+    <div class="relative z-10 flex flex-col items-center justify-center h-full">
+      <h1 class="text-4xl font-bold mb-4">
+        <span class="text-pink-500">Mom</span><span class="text-blue-400">Baby</span><span class="text-gray-700">Shop</span>
+      </h1>
+      <div class="flex w-full max-w-md mb-4">
+        <input type="text" placeholder="Quần áo, nôi, sữa..." class="flex-1 px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none">
+        <button class="px-6 py-2 bg-blue-500 text-white rounded-r-lg font-semibold hover:bg-blue-600">Tìm kiếm</button>
+      </div>
+      <p class="text-white text-lg font-semibold mb-4 text-center drop-shadow-lg">
+        MomBabyShop - Đồng hành cùng mẹ chăm sóc bé yêu với những sản phẩm quần áo, đồ dùng và sữa tốt nhất.
+      </p>
+      <button class="px-6 py-2 bg-white text-gray-800 rounded-lg font-semibold shadow hover:bg-gray-100">Khám phá ngay!</button>
+    </div>
+  </section>
+
+  <!-- Giới thiệu -->
+  <section class="flex flex-col md:flex-row items-center justify-between px-8 py-10">
+    <div class="md:w-2/3">
+      <h2 class="text-xl font-bold mb-4 italic"><span class="text-pink-500">Lựa chọn tốt nhất</span> dành cho bé</h2>
+      <p class="text-gray-700 leading-relaxed">
+        Tại MomBabyShop, chúng tôi đã giúp các bậc cha mẹ phát triển gia đình trong một thời gian dài. Với vô vàn xe đẩy em bé đạt giải thưởng, đồ dùng tốt, quần áo trẻ em nổi bật phù hợp trẻ em, cùng ghế ô tô đến giường cũi, chúng tôi có tất cả những thứ thiết yếu bạn cần để tận hưởng cuộc sống với một đứa trẻ nhỏ.
+      </p>
+    </div>
+    <div class="md:w-1/3 mt-8 md:mt-0 flex justify-center">
+      <img src="/public/images/mom-baby.jpg" alt="Mẹ và bé" class="rounded-lg shadow-lg w-72 h-72 object-cover">
+    </div>
+  </section>
+
+  <!-- Logo thương hiệu -->
+  <section class="flex justify-center items-center space-x-8 py-4 bg-pink-50">
+    <img src="/public/images/logo-graco.png" class="h-8" alt="Graco">
+    <img src="/public/images/logo-bob.png" class="h-8" alt="BOB">
+    <img src="/public/images/logo-joovy.png" class="h-8" alt="Joovy">
+    <img src="/public/images/logo-joie.png" class="h-8" alt="Joie">
+  </section>
+
+  <!-- Danh mục nổi bật -->
+  <section class="px-8 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="relative rounded-xl overflow-hidden shadow-lg">
+        <img src="/public/images/fashion.jpg" class="w-full h-56 object-cover" alt="Thời trang trẻ em">
+        <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-end p-4">
+          <h3 class="text-white text-lg font-bold mb-2">Thời trang trẻ em</h3>
+          <p class="text-white text-sm mb-2">Hãy mang đến cho bé những vẻ ngoài mới mẻ và thật cuốn hút.</p>
+          <button class="bg-white text-gray-800 px-4 py-2 rounded font-semibold">Mua ngay</button>
+        </div>
+      </div>
+      <div class="relative rounded-xl overflow-hidden shadow-lg">
+        <img src="/public/images/stroller.jpg" class="w-full h-56 object-cover" alt="Mẫu xe đẩy mới nhất">
+        <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-end p-4">
+          <h3 class="text-white text-lg font-bold mb-2">Mẫu xe đẩy mới nhất</h3>
+          <p class="text-white text-sm mb-2">Những chiếc xe đẩy tiện lợi và thoải mái cho bé giúp mẹ và bé có những trải nghiệm thú vị, an toàn.</p>
+          <button class="bg-white text-gray-800 px-4 py-2 rounded font-semibold">Mua ngay</button>
+        </div>
+      </div>
+      <div class="relative rounded-xl overflow-hidden shadow-lg">
+        <img src="/public/images/bed.jpg" class="w-full h-56 object-cover" alt="Đồng em đêm">
+        <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-end p-4">
+          <h3 class="text-white text-lg font-bold mb-2">Đồng em đêm</h3>
+          <p class="text-white text-sm mb-2">Mua đồng em đêm hãy sắm cho các bé bộ quần áo ngủ xinh xắn và thoải mái.</p>
+          <button class="bg-white text-gray-800 px-4 py-2 rounded font-semibold">Mua ngay</button>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center mt-8">
+      <button class="bg-blue-400 text-white px-8 py-2 rounded-lg font-semibold hover:bg-blue-500">Xem thêm</button>
+    </div>
+  </section>
+
+  <!-- Hình trẻ em -->
+  <section class="flex justify-center py-8 bg-white">
+    <img src="/public/images/kids.png" class="w-full max-w-4xl" alt="Trẻ em">
+  </section>
+
+  <!-- Sản phẩm nổi bật -->
+  <section class="px-8 py-8">
+    <h2 class="text-3xl font-bold text-center mb-8 text-pink-500">Sản phẩm nổi bật</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="bg-pink-100 rounded-xl p-4 flex flex-col items-center">
+        <img src="/public/images/pillow.jpg" class="w-24 h-24 object-cover mb-2" alt="Gối chữ U đa năng">
+        <div class="text-center">
+          <h3 class="font-semibold">Gối chữ U đa năng</h3>
+          <p class="text-gray-500">160.000 đ</p>
+        </div>
+      </div>
+      <div class="bg-blue-100 rounded-xl p-4 flex flex-col items-center">
+        <img src="/public/images/stroller2.jpg" class="w-24 h-24 object-cover mb-2" alt="Xe đẩy trẻ em Chrome">
+        <div class="text-center">
+          <h3 class="font-semibold">Xe đẩy trẻ em Joie Chrome</h3>
+          <p class="text-gray-500">7.500.000 đ</p>
+        </div>
+      </div>
+      <div class="bg-gray-100 rounded-xl p-4 flex flex-col items-center">
+        <img src="/public/images/serina.jpg" class="w-24 h-24 object-cover mb-2" alt="Nôi đưa trẻ em Joie Serina">
+        <div class="text-center">
+          <h3 class="font-semibold">Nôi đưa trẻ em Joie Serina</h3>
+          <p class="text-gray-500">9.499.000 đ</p>
+        </div>
+      </div>
+      <div class="bg-blue-100 rounded-xl p-4 flex flex-col items-center">
+        <img src="/public/images/holla.jpg" class="w-24 h-24 object-cover mb-2" alt="Ghế gội đầu Holla">
+        <div class="text-center">
+          <h3 class="font-semibold">Ghế gội đầu Holla</h3>
+          <p class="text-gray-500">450.000 đ</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center mt-8">
+      <button class="bg-blue-400 text-white px-8 py-2 rounded-lg font-semibold hover:bg-blue-500">Tìm thêm</button>
+    </div>
+  </section>
+
+  <!-- Ưu đãi khách hàng -->
+  <section class="bg-pink-100 py-8 px-8 rounded-xl mx-8 my-8">
+    <h2 class="text-2xl font-bold text-center mb-6">ƯU ĐÃI KHÁCH HÀNG</h2>
+    <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+      <div class="flex flex-col items-center">
+        <img src="/public/images/icon-supply.png" class="w-12 h-12 mb-2" alt="Cung cấp">
+        <h3 class="font-semibold mb-1">Cung cấp</h3>
+        <p class="text-center text-gray-600 text-sm">Giúp cho các mẹ và bé có những trải nghiệm tốt nhất</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <img src="/public/images/icon-return.png" class="w-12 h-12 mb-2" alt="Hoàn trả">
+        <h3 class="font-semibold mb-1">Hoàn trả</h3>
+        <p class="text-center text-gray-600 text-sm">Nếu sản phẩm có vấn đề gì có thể hoàn đổi lại trong 30 ngày sau khi mua</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <img src="/public/images/icon-care.png" class="w-12 h-12 mb-2" alt="Chăm sóc khách hàng">
+        <h3 class="font-semibold mb-1">Chăm sóc khách hàng</h3>
+        <p class="text-center text-gray-600 text-sm">Chúng tôi luôn hỗ trợ và lắng nghe</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-50 py-8 px-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+      <div>
+        <h4 class="font-bold mb-2">Cửa hàng</h4>
+        <ul class="text-gray-600 text-sm space-y-1">
+          <li>Sản phẩm nổi bật</li>
+          <li>Bán chạy</li>
+          <li>Giảm giá</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Về chúng tôi</h4>
+        <ul class="text-gray-600 text-sm space-y-1">
+          <li>Câu chuyện</li>
+          <li>Đội ngũ</li>
+          <li>Tuyển dụng</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Hỗ trợ</h4>
+        <ul class="text-gray-600 text-sm space-y-1">
+          <li>Liên hệ</li>
+          <li>FAQ</li>
+          <li>Chính sách đổi trả</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">EMAIL</h4>
+        <form class="flex">
+          <input type="email" placeholder="Đăng nhập email để nhận mã giảm giá 30%" class="px-2 py-1 rounded-l border border-gray-300 focus:outline-none">
+          <button class="bg-blue-400 text-white px-4 py-1 rounded-r hover:bg-blue-500">Gửi</button>
+        </form>
+      </div>
+    </div>
+    <div class="flex justify-between items-center border-t pt-4">
+      <p class="text-gray-500 text-sm">© 2025 MomBabyShop. Bảo lưu mọi quyền.</p>
+      <div class="flex space-x-4">
+        <a href="#"><img src="/public/images/icon-fb.png" class="w-6 h-6" alt="Facebook"></a>
+        <a href="#"><img src="/public/images/icon-yt.png" class="w-6 h-6" alt="YouTube"></a>
+        <a href="#"><img src="/public/images/icon-tiktok.png" class="w-6 h-6" alt="TikTok"></a>
+        <a href="#"><img src="/public/images/icon-ig.png" class="w-6 h-6" alt="Instagram"></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
