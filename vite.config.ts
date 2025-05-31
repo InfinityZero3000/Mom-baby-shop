@@ -1,6 +1,6 @@
 import react from "@vitejs/plugin-react";
-import tailwind from "tailwindcss";
 import { defineConfig } from "vite";
+import path from "path";
 
 export default defineConfig(({ mode }) => {
   // Check if building for production (GitHub Pages)
@@ -9,9 +9,20 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: isGitHubBuild ? '/Mom-baby-shop/' : '/',
-    css: {
-      postcss: {
-        plugins: [tailwind()],
+    build: {
+      outDir: 'dist',
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom'],
+          },
+        },
+      },
+    },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
       },
     },
   };

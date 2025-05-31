@@ -10,7 +10,7 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 ## 📋 Yêu cầu hệ thống
 
 > **Điều kiện tiên quyết:**
-> - [Node.js](https://nodejs.org/en/) (phiên bản 16.0 trở lên)
+> - [Node.js](https://nodejs.org/en/) (phiên bản 18.0 trở lên)
 > - [Git](https://git-scm.com/) (để clone và deploy)
 > - Trình duyệt web hiện đại (Chrome, Firefox, Edge, Safari)
 
@@ -28,6 +28,108 @@ npm install
 ```
 
 ## 🎯 Các cách chạy chương trình
+
+### **Development (Phát triển)**
+```bash
+npm run dev
+```
+Mở trình duyệt và truy cập: `http://localhost:5173`
+
+### **Production Build (Build sản phẩm)**
+```bash
+npm run build
+```
+
+### **Preview Build**
+```bash
+npm run preview
+```
+
+## 🌐 Deploy lên GitHub Pages
+
+### **Phương pháp 1: Tự động (Khuyến nghị)**
+
+Project đã được cấu hình GitHub Actions để tự động deploy:
+
+1. **Push code lên GitHub:**
+```bash
+git add .
+git commit -m "Update project"
+git push origin main
+```
+
+2. **GitHub Actions sẽ tự động:**
+   - Build project với cấu hình production
+   - Deploy lên GitHub Pages
+   - Cập nhật website tự động
+
+### **Phương pháp 2: Thủ công**
+
+```bash
+# Build cho GitHub Pages
+npm run build:github
+
+# Deploy thủ công
+npm run deploy
+```
+
+### **Kiểm tra cấu hình trước khi deploy (Windows)**
+```bash
+check-config.bat
+```
+
+## 📁 Cấu trúc Project tối ưu cho GitHub Pages
+
+```
+Mom-baby-shop/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # GitHub Actions workflow
+├── public/                     # Static assets
+├── src/                        # Source code
+├── index.html                  # Entry point
+├── 404.html                   # SPA routing support
+├── CNAME                      # Custom domain (optional)
+├── vite.config.ts             # Vite config với base path
+├── package.json               # Scripts và dependencies
+├── postcss.config.js          # PostCSS config
+└── tsconfig.app.json          # TypeScript config với path mapping
+```
+
+## ⚙️ Cấu hình quan trọng
+
+### **1. Base Path trong vite.config.ts**
+```typescript
+base: isGitHubBuild ? '/Mom-baby-shop/' : '/'
+```
+
+### **2. Scripts trong package.json**
+```json
+{
+  "build:github": "NODE_ENV=production vite build --mode production",
+  "deploy": "npm run build:github && gh-pages -d dist"
+}
+```
+
+### **3. GitHub Actions Workflow**
+- Tự động trigger khi push lên `main` branch
+- Build với `npm run build:github`
+- Deploy lên GitHub Pages
+
+## 🔧 Xử lý sự cố
+
+### **Lỗi 404 khi truy cập routes**
+- File `404.html` đã được cấu hình cho SPA routing
+- GitHub Actions tự động copy `index.html` thành `404.html`
+
+### **CSS không load đúng**
+- Kiểm tra base path trong `vite.config.ts`
+- Đảm bảo `postcss.config.js` được cấu hình đúng
+
+### **Build không thành công**
+- Chạy `npm install` để cài đặt lại dependencies
+- Kiểm tra Node.js version (>= 18.0)
+- Chạy `check-config.bat` để kiểm tra cấu hình
 
 ### **1️⃣ Development Mode (Phát triển)**
 Chạy server phát triển với hot reload:
