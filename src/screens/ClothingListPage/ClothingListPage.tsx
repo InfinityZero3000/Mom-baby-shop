@@ -18,6 +18,8 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  User,
+  Package,
 } from "lucide-react";
 
 interface ClothingProduct {
@@ -47,7 +49,7 @@ export const ClothingListPage = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
   
   const { addItem, openCart, totalItems } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { addToWishlist, removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
   const { showToast } = useToast();
 
   // Sample clothing products data
@@ -221,8 +223,7 @@ export const ClothingListPage = (): JSX.Element => {
               <Link to="/products" className="font-semibold text-gray-800 hover:text-[#ef62f9]">SẢN PHẨM</Link>
             </div>
           </div>
-          
-          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
             <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -231,8 +232,29 @@ export const ClothingListPage = (): JSX.Element => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 w-80"
               />
-            </div>            <Button variant="ghost" size="icon">
-              <Heart className="h-5 w-5" />
+            </div>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/orders">
+                <Package className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/profile">
+                <User className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/wishlist">
+                <Heart className="h-5 w-5" />
+                {wishlistTotalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {wishlistTotalItems}
+                  </span>
+                )}
+              </Link>
             </Button>
             <Button variant="ghost" size="icon" className="relative" onClick={openCart}>
               <ShoppingCart className="h-5 w-5" />

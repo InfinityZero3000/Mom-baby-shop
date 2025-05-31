@@ -3,13 +3,16 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
 
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
     - name: Checkout 🛎️
@@ -32,9 +35,10 @@ jobs:
         cp CNAME dist/
         cp dist/index.html dist/404.html
 
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@v4
+    - name: Upload artifact 📦
+      uses: actions/upload-pages-artifact@v3
       with:
-        folder: dist
-        branch: gh-pages
-        clean: true
+        path: dist
+
+    - name: Deploy 🚀
+      uses: actions/deploy-pages@v4

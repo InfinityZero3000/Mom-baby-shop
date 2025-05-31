@@ -20,7 +20,10 @@ import {
   Twitter,
   ArrowLeft,
   Home,
-  ChevronRight
+  ChevronRight,
+  User,
+  Package,
+  Search
 } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
@@ -50,9 +53,8 @@ interface ProductDetailProps {
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const { addItem } = useCart();
-  const { addItem: addToWishlist, isInWishlist, removeItem: removeFromWishlist } = useWishlist();
+  const navigate = useNavigate();  const { addItem } = useCart();
+  const { addItem: addToWishlist, isInWishlist, removeItem: removeFromWishlist, totalItems: wishlistTotalItems } = useWishlist();
   const { addToast } = useToast();
 
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -306,17 +308,48 @@ export const ProductDetailPage: React.FC = () => {
               <Link to="/products" className="text-gray-700 hover:text-[#ef62f9] font-medium">Sản phẩm</Link>
               <Link to="/strollers" className="text-gray-700 hover:text-[#ef62f9] font-medium">Xe đẩy</Link>
               <Link to="/clothing" className="text-gray-700 hover:text-[#ef62f9] font-medium">Quần áo</Link>
+            </div>          </div>
+            <div className="flex items-center space-x-4">
+            <div className="relative hidden md:block">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Tìm kiếm sản phẩm..."
+                className="pl-10 w-60"
+              />
             </div>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/orders">
+                <Package className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/profile">
+                <User className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/wishlist">
+                <Heart className="h-5 w-5" />
+                {wishlistTotalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {wishlistTotalItems}
+                  </span>
+                )}
+              </Link>
+            </Button>
+            
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Quay lại
+            </Button>
           </div>
-          
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Quay lại
-          </Button>
         </div>
       </nav>
 

@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
+import UserRoleIndicator from "../../components/UserRoleIndicator";
 import {
   Search,
   ShoppingCart,
@@ -17,6 +19,8 @@ import {
   Shield,
   RotateCcw,
   Phone,
+  User,
+  Package,
 } from "lucide-react";
 
 interface FeaturedProduct {
@@ -35,8 +39,9 @@ interface FeaturedProduct {
 export const ImprovedHomePage = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState("");
   const { addItem, openCart, totalItems } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const { showToast } = useToast();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
+  const { addToast } = useToast();
+  const { isAuthenticated, logout } = useAuth();
 
   // Featured products data
   const featuredProducts: FeaturedProduct[] = [
@@ -105,16 +110,8 @@ export const ImprovedHomePage = (): JSX.Element => {
     { name: "Mothercare", logo: "/brand-mothercare.png" },
     { name: "Fisher-Price", logo: "/brand-fisher-price.png" },
     { name: "Aptamil", logo: "/brand-aptamil.png" },
-    { name: "Babylove", logo: "/brand-babylove.png" },
-  ];
+    { name: "Babylove", logo: "/brand-babylove.png" },  ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % featuredProducts.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length);
-  };
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -135,13 +132,20 @@ export const ImprovedHomePage = (): JSX.Element => {
       image: product.image,
       category: product.category,
     });
-    showToast(`${product.name} đã được thêm vào giỏ hàng!`, "success");
+    addToast({
+      type: "success",
+      title: "Thành công!",
+      message: `${product.name} đã được thêm vào giỏ hàng!`
+    });
   };
-
   const handleWishlistToggle = (product: FeaturedProduct) => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
-      showToast(`${product.name} đã được xóa khỏi danh sách yêu thích`, "info");
+      addToast({
+        type: "info",
+        title: "Đã xóa",
+        message: `${product.name} đã được xóa khỏi danh sách yêu thích`
+      });
     } else {
       addToWishlist({
         id: product.id,
@@ -150,8 +154,15 @@ export const ImprovedHomePage = (): JSX.Element => {
         originalPrice: product.originalPrice,
         image: product.image,
         category: product.category,
+        brand: product.category,
+        rating: product.rating,
+        reviews: product.reviews,
       });
-      showToast(`${product.name} đã được thêm vào danh sách yêu thích`, "success");
+      addToast({
+        type: "success",
+        title: "Thành công!",
+        message: `${product.name} đã được thêm vào danh sách yêu thích`
+      });
     }
   };
 
@@ -164,13 +175,31 @@ export const ImprovedHomePage = (): JSX.Element => {
             <span>Tải ứng dụng</span>
             <span>|</span>
             <span>Kết nối</span>
-          </div>
-          <div className="hidden md:flex items-center gap-4">
+          </div>          <div className="hidden md:flex items-center gap-4">
+            <Link to="/orders" className="hover:text-gray-200">Đơn hàng</Link>
+            <span>|</span>
             <span>Hỗ trợ</span>
             <span>|</span>
-            <span>Đăng nhập</span>
+            <Link to="/profile" className="hover:text-gray-200">Tài khoản</Link>
             <span>|</span>
-            <span>Đăng ký</span>
+            {isAuthenticated ? (
+              <>
+                <UserRoleIndicator />
+                <span>|</span>
+                <button 
+                  onClick={logout}
+                  className="hover:text-gray-200 cursor-pointer"
+                >
+                  Đăng xuất
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="hover:text-gray-200">Đăng nhập</Link>
+                <span>|</span>
+                <Link to="/register" className="hover:text-gray-200">Đăng ký</Link>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -190,8 +219,7 @@ export const ImprovedHomePage = (): JSX.Element => {
               <a href="mailto:info@mombabyshop.com" className="font-semibold text-gray-800 hover:text-[#ef62f9]">LIÊN HỆ</a>
             </div>
           </div>
-          
-          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
             <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -200,8 +228,29 @@ export const ImprovedHomePage = (): JSX.Element => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 w-80"
               />
-            </div>            <Button variant="ghost" size="icon">
-              <Heart className="h-5 w-5" />
+            </div>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/orders">
+                <Package className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/profile">
+                <User className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/wishlist">
+                <Heart className="h-5 w-5" />
+                {wishlistTotalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {wishlistTotalItems}
+                  </span>
+                )}
+              </Link>
             </Button>
             <Button variant="ghost" size="icon" className="relative" onClick={openCart}>
               <ShoppingCart className="h-5 w-5" />
@@ -330,7 +379,7 @@ export const ImprovedHomePage = (): JSX.Element => {
           {/* Product Carousel */}
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product, index) => (
+              {featuredProducts.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow group">
                   <div className={`relative h-64 ${product.bgColor} p-4`}>
                     {product.discount && (

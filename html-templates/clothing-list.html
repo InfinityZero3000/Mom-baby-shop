@@ -49,17 +49,16 @@
 
     <!-- Navigation -->
     <nav class="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-8">
-                <div class="text-3xl font-bold">
+        <div class="flex justify-between items-center">            <div class="flex items-center space-x-8">
+                <div class="text-3xl font-bold logo">
                     <span class="text-[#ef62f9]">MomBaby</span>
                     <span class="text-[#0bbdf8] font-pattaya">Shop</span>
                 </div>
                 <div class="hidden lg:flex space-x-8">
-                    <a href="mombabyshop-html.html" class="font-semibold text-gray-800 hover:text-[#ef62f9]">TRANG CHỦ</a>
-                    <a href="stroller-list.html" class="font-semibold text-gray-800 hover:text-[#ef62f9]">XE ĐẨY</a>
-                    <a href="clothing-list.html" class="font-semibold text-[#ef62f9]">QUẦN ÁO</a>
-                    <a href="product-list.html" class="font-semibold text-gray-800 hover:text-[#ef62f9]">SẢN PHẨM</a>
+                    <a href="mombabyshop-html.html" data-nav-target="home" class="font-semibold text-gray-800 hover:text-[#ef62f9]">TRANG CHỦ</a>
+                    <a href="stroller-list.html" data-nav-target="strollers" class="font-semibold text-gray-800 hover:text-[#ef62f9]">XE ĐẨY</a>
+                    <a href="clothing-list.html" data-nav-target="clothing" class="font-semibold text-[#ef62f9]">QUẦN ÁO</a>
+                    <a href="product-list.html" data-nav-target="products" class="font-semibold text-gray-800 hover:text-[#ef62f9]">SẢN PHẨM</a>
                 </div>
             </div>
             
@@ -78,20 +77,19 @@
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                     </svg>
-                </button>
-                <button id="cartButton" class="p-2 text-gray-600 hover:text-[#ef62f9] transition-colors relative">
+                </button>                <button id="cartButton" class="p-2 text-gray-600 hover:text-[#ef62f9] transition-colors relative cart-button">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M9 19.5h.01M20 19.5h.01"></path>
                     </svg>
-                    <span id="cartCount" class="absolute -top-2 -right-2 bg-[#ef62f9] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-[#ef62f9] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden cart-count">0</span>
                 </button>
             </div>
         </div>
-    </nav>
-
-    <!-- Breadcrumb -->
-    <div class="px-8 lg:px-20 py-4 text-sm text-gray-600">
-        <span>Trang chủ</span> <span class="mx-2">/</span> <span class="text-[#ef62f9]">Quần áo trẻ em</span>
+    </nav>    <!-- Breadcrumb -->
+    <div class="px-8 lg:px-20 py-4 text-sm text-gray-600 breadcrumb">
+        <span class="cursor-pointer hover:text-[#ef62f9]" onclick="navigateTo('mombabyshop-html.html')">Trang chủ</span> 
+        <span class="mx-2">/</span> 
+        <span class="text-[#ef62f9]">Quần áo trẻ em</span>
     </div>
 
     <div class="px-8 lg:px-20 py-8">
@@ -570,10 +568,9 @@
                 grid.className = 'grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3';
             } else {
                 grid.className = 'grid gap-6 grid-cols-1';
-            }
-
-            grid.innerHTML = currentProducts.map(product => `
-                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+            }            grid.innerHTML = currentProducts.map(product => `
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow product-card" 
+                     data-product-id="${product.id}" data-category="clothing">
                     <div class="${currentViewMode === 'list' ? 'flex' : ''}">
                         <!-- Product Image -->
                         <div class="relative ${currentViewMode === 'list' ? 'w-64 h-48' : 'w-full h-64'} bg-gray-50">
@@ -583,8 +580,8 @@
                                 </div>
                             ` : ''}
                             <button 
-                                class="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-white/80 transition-colors"
-                                onclick="toggleWishlist(${JSON.stringify(product).replace(/"/g, '&quot;')})"
+                                class="absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-white/80 transition-colors wishlist-button"
+                                data-product-id="${product.id}"
                             >
                                 <svg class="h-4 w-4 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -593,7 +590,7 @@
                             <img
                                 src="${product.image}"
                                 alt="${product.name}"
-                                class="w-full h-full object-cover"
+                                class="w-full h-full object-cover product-image"
                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMzUgNzVIMTY1VjEyNUgxMzVWNzVaIiBmaWxsPSIjOUNBM0FGIi8+CjxwYXRoIGQ9Ik0xMjAgMTAwTDE4MCA5NUwxNzUgMTA1TDEyMCAxMDBaIiBmaWxsPSIjOUNBM0FGIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNkI3MjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiPkjDrG5oPC90ZXh0Pgo8L3N2Zz4='"
                             />
                         </div>
@@ -601,7 +598,7 @@
                         <!-- Product Info -->
                         <div class="p-4 flex-1">
                             <div class="flex items-start justify-between mb-2">
-                                <h3 class="font-semibold text-lg leading-6 line-clamp-2">
+                                <h3 class="font-semibold text-lg leading-6 line-clamp-2 product-name">
                                     ${product.name}
                                 </h3>
                             </div>
@@ -616,7 +613,7 @@
                             </div>
 
                             <div class="flex items-center gap-2 mb-3">
-                                <span class="text-xl font-bold text-[#ef62f9]">
+                                <span class="text-xl font-bold text-[#ef62f9] product-price" data-price="${product.priceValue}">
                                     ${product.price}
                                 </span>
                                 ${product.originalPrice ? `
@@ -656,18 +653,18 @@
                                     `).join('')}
                                     ${product.colors.length > 3 ? '<span class="text-xs text-gray-500">...</span>' : ''}
                                 </div>
-                            </div>
-
-                            <div class="flex gap-2">
+                            </div>                            <div class="flex gap-2">
                                 <button 
-                                    class="flex-1 bg-[#ef62f9] hover:bg-[#df52e9] text-white px-4 py-2 rounded-lg flex items-center justify-center transition-colors"
-                                    onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})"
+                                    class="flex-1 bg-[#ef62f9] hover:bg-[#df52e9] text-white px-4 py-2 rounded-lg flex items-center justify-center transition-colors add-to-cart-button"
+                                    data-product-id="${product.id}"
                                 >
                                     <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M9 19.5h.01M20 19.5h.01"></path>
                                     </svg>
                                     Thêm vào giỏ
-                                </button>                                <button class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors" onclick="window.location.href='product-detail.html?id=' + product.id">
+                                </button>
+                                <button class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors view-detail-button" 
+                                        data-product-id="${product.id}" data-category="clothing">
                                     Xem chi tiết
                                 </button>
                             </div>
