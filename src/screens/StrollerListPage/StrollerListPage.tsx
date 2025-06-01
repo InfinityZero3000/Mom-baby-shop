@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
@@ -15,7 +15,6 @@ import {
   Filter,
   Grid,
   List,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   User,
@@ -37,6 +36,7 @@ interface StrollerProduct {
 }
 
 export const StrollerListPage = (): JSX.Element => {
+  const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
@@ -45,8 +45,17 @@ export const StrollerListPage = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
   
   const { addItem, openCart, totalItems } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
-  const { showToast } = useToast();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
+  const { addToast } = useToast();
+
+  // Effect to handle search params from URL
+  useEffect(() => {
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      setSearchTerm(searchQuery);
+      setCurrentPage(1);
+    }
+  }, [searchParams]);
 
   // Sample stroller products data
   const strollerProducts: StrollerProduct[] = [
@@ -136,7 +145,12 @@ export const StrollerListPage = (): JSX.Element => {
   const totalPages = Math.ceil(strollerProducts.length / productsPerPage);
 
   const filteredProducts = strollerProducts.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = searchTerm === "" || 
+                         product.name.toLowerCase().includes(searchLower) ||
+                         product.brand.toLowerCase().includes(searchLower) ||
+                         product.features.some(feature => feature.toLowerCase().includes(searchLower)) ||
+                         product.colors.some(color => color.toLowerCase().includes(searchLower));
     const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
     return matchesSearch && matchesBrand;
   });
@@ -166,13 +180,21 @@ export const StrollerListPage = (): JSX.Element => {
       category: "Xe đẩy",
       brand: product.brand,
     });
-    showToast(`${product.name} đã được thêm vào giỏ hàng!`, "success");
+    addToast({
+      type: "success",
+      title: "Thành công!",
+      message: `${product.name} đã được thêm vào giỏ hàng!`
+    });
   };
 
   const handleWishlistToggle = (product: StrollerProduct) => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
-      showToast(`${product.name} đã được xóa khỏi danh sách yêu thích`, "info");
+      addToast({
+        type: "info",
+        title: "Đã xóa",
+        message: `${product.name} đã được xóa khỏi danh sách yêu thích`
+      });
     } else {
       addToWishlist({
         id: product.id,
@@ -182,8 +204,14 @@ export const StrollerListPage = (): JSX.Element => {
         image: product.image,
         category: "Xe đẩy",
         brand: product.brand,
+        rating: product.rating,
+        reviews: product.reviews,
       });
-      showToast(`${product.name} đã được thêm vào danh sách yêu thích`, "success");
+      addToast({
+        type: "success",
+        title: "Thành công!",
+        message: `${product.name} đã được thêm vào danh sách yêu thích`
+      });
     }
   };
 

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
@@ -43,6 +43,7 @@ interface Product {
 }
 
 export const MainProductPage = (): JSX.Element => {
+  const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
@@ -53,6 +54,15 @@ export const MainProductPage = (): JSX.Element => {
   const { addItem, totalItems, openCart } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
   const { addToast } = useToast();
+
+  // Effect to handle search params from URL
+  useEffect(() => {
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      setSearchTerm(searchQuery);
+      setCurrentPage(1); // Reset to first page when searching
+    }
+  }, [searchParams]);
   // Handler functions
   const handleAddToCart = (product: Product) => {
     const cartItem = {
@@ -210,8 +220,13 @@ export const MainProductPage = (): JSX.Element => {
   const productsPerPage = 6;
   
   const filteredProducts = allProducts.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = searchTerm === "" || 
+                         product.name.toLowerCase().includes(searchLower) ||
+                         product.brand.toLowerCase().includes(searchLower) ||
+                         product.category.toLowerCase().includes(searchLower) ||
+                         product.description.toLowerCase().includes(searchLower) ||
+                         product.features.some(feature => feature.toLowerCase().includes(searchLower));
     const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -377,16 +392,43 @@ export const MainProductPage = (): JSX.Element => {
 
           {/* Main Content */}
           <div className="lg:w-3/4">
+            {/* Search Bar */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Tìm kiếm sản phẩm theo tên, thương hiệu, mô tả..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 h-12 text-base"
+                />
+              </div>
+            </div>
+
             {/* Filter Bar */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">
-                  {selectedCategory === "all" ? "Tất cả sản phẩm" : 
+                  {searchTerm ? `Kết quả tìm kiếm: "${searchTerm}"` :
+                   selectedCategory === "all" ? "Tất cả sản phẩm" : 
                    categories.find(c => c.id === selectedCategory)?.name}
                 </h2>
                 <p className="text-gray-600">
-                  Hiển thị {currentProducts.length} của {filteredProducts.length} sản phẩm
+                  {searchTerm ? 
+                    `Tìm thấy ${filteredProducts.length} sản phẩm` :
+                    `Hiển thị ${currentProducts.length} của ${filteredProducts.length} sản phẩm`
+                  }
                 </p>
+                {searchTerm && (
+                  <Button
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setSearchTerm("")}
+                    className="mt-2"
+                  >
+                    Xóa tìm kiếm
+                  </Button>
+                )}
               </div>
               
               <div className="flex items-center gap-4">

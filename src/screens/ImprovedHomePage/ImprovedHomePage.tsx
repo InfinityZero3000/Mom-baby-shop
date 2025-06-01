@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
@@ -38,6 +38,7 @@ interface FeaturedProduct {
 
 export const ImprovedHomePage = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
   const { addItem, openCart, totalItems } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
   const { addToast } = useToast();
@@ -166,6 +167,20 @@ export const ImprovedHomePage = (): JSX.Element => {
     }
   };
 
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+    } else {
+      navigate('/products');
+    }
+  };
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="bg-white min-h-screen">
       {/* Top Bar */}
@@ -226,6 +241,7 @@ export const ImprovedHomePage = (): JSX.Element => {
                 placeholder="Tìm kiếm sản phẩm..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={handleSearchKeyPress}
                 className="pl-10 w-80"
               />
             </div>
@@ -290,8 +306,12 @@ export const ImprovedHomePage = (): JSX.Element => {
                   placeholder="Quần áo, nôi, sữa, xe đẩy..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={handleSearchKeyPress}
                 />
-                <Button className="h-16 px-8 bg-gradient-to-r from-[#ef62f9] to-[#0bbdf8] hover:from-[#df52e9] hover:to-[#0aacf7] rounded-r-2xl text-xl font-semibold shadow-lg">
+                <Button 
+                  className="h-16 px-8 bg-gradient-to-r from-[#ef62f9] to-[#0bbdf8] hover:from-[#df52e9] hover:to-[#0aacf7] rounded-r-2xl text-xl font-semibold shadow-lg"
+                  onClick={handleSearch}
+                >
                   Tìm kiếm
                 </Button>
               </div>

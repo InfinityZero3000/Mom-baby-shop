@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
@@ -15,7 +15,6 @@ import {
   Filter,
   Grid,
   List,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   User,
@@ -39,6 +38,7 @@ interface ClothingProduct {
 }
 
 export const ClothingListPage = (): JSX.Element => {
+  const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -49,8 +49,17 @@ export const ClothingListPage = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
   
   const { addItem, openCart, totalItems } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
-  const { showToast } = useToast();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
+  const { addToast } = useToast();
+
+  // Effect to handle search params from URL
+  useEffect(() => {
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      setSearchTerm(searchQuery);
+      setCurrentPage(1);
+    }
+  }, [searchParams]);
 
   // Sample clothing products data
   const clothingProducts: ClothingProduct[] = [
@@ -154,7 +163,13 @@ export const ClothingListPage = (): JSX.Element => {
   const totalPages = Math.ceil(clothingProducts.length / productsPerPage);
 
   const filteredProducts = clothingProducts.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = searchTerm === "" || 
+                         product.name.toLowerCase().includes(searchLower) ||
+                         product.category.toLowerCase().includes(searchLower) ||
+                         product.material.toLowerCase().includes(searchLower) ||
+                         product.ageRange.toLowerCase().includes(searchLower) ||
+                         product.colors.some(color => color.toLowerCase().includes(searchLower));
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
     const matchesSize = selectedSizes.length === 0 || selectedSizes.some(size => product.sizes.includes(size));
     const matchesAgeRange = selectedAgeRanges.length === 0 || selectedAgeRanges.includes(product.ageRange);
@@ -186,13 +201,21 @@ export const ClothingListPage = (): JSX.Element => {
       category: product.category,
       brand: product.category,
     });
-    showToast(`${product.name} đã được thêm vào giỏ hàng!`, "success");
+    addToast({
+      type: "success",
+      title: "Thành công!",
+      message: `${product.name} đã được thêm vào giỏ hàng!`
+    });
   };
 
   const handleWishlistToggle = (product: ClothingProduct) => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
-      showToast(`${product.name} đã được xóa khỏi danh sách yêu thích`, "info");
+      addToast({
+        type: "info",
+        title: "Đã xóa",
+        message: `${product.name} đã được xóa khỏi danh sách yêu thích`
+      });
     } else {
       addToWishlist({
         id: product.id,
@@ -203,7 +226,11 @@ export const ClothingListPage = (): JSX.Element => {
         category: product.category,
         brand: product.category,
       });
-      showToast(`${product.name} đã được thêm vào danh sách yêu thích`, "success");
+      addToast({
+        type: "success", 
+        title: "Thành công!",
+        message: `${product.name} đã được thêm vào danh sách yêu thích`
+      });
     }
   };
 
