@@ -116,6 +116,9 @@ pnpm-lock.yaml
 # Generated documentation
 docs/_build/
 
+#Github tonken
+setup-github-token.sh
+
 # Project specific - keep only necessary files
 # Don't ignore these important project files:
 # !package.json

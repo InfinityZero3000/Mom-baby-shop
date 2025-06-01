@@ -3,7 +3,8 @@
   "source": "./index.html",
   "type": "module",
   "name": "mom-baby-shop",
-  "description": "Mom baby shop project made by Zero",  "scripts": {
+  "description": "Mom baby shop project made by Zero",
+  "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:github": "cross-env NODE_ENV=production vite build --mode production",
@@ -13,23 +14,25 @@
     "deploy:local": "npm run build:github && powershell -Command \"Copy-Item -Path CNAME -Destination dist/\" && gh-pages -d dist"
   },
   "dependencies": {
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.0",
     "clsx": "2.1.1",
     "lucide-react": "^0.453.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
-    "tailwind-merge": "2.5.4",
-    "@radix-ui/react-separator": "^1.1.0",
-    "@radix-ui/react-slot": "^1.1.0",
-    "class-variance-authority": "^0.7.0"
-  },  "devDependencies": {
+    "tailwind-merge": "2.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.0",
     "@vitejs/plugin-react": "4.3.4",
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
     "esbuild": "0.24.0",
-    "gh-pages": "^6.1.1",
+    "gh-pages": "^6.3.0",
     "globals": "15.12.0",
     "postcss": "^8.4.49",
     "tailwindcss": "3.4.16",
