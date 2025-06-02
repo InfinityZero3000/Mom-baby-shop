@@ -5,6 +5,7 @@ import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { ShoppingCartModal } from './components/ShoppingCartModal';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { ImprovedHomePage } from './screens/ImprovedHomePage';
 import { MainProductPage } from './screens/MainProductPage';
 import { StrollerListPage } from './screens/StrollerListPage';
@@ -41,16 +42,32 @@ export const App: React.FC = () => {
                 <Route path="/clothing" element={<ClothingListPage />} />
                   {/* Trang chi tiết sản phẩm */}
                 <Route path="/product/:id" element={<ProductDetailPage />} />
-                  {/* Trang danh sách yêu thích */}
-                <Route path="/wishlist" element={<WishlistPage />} />
-                  {/* Trang lịch sử đơn hàng */}
-                <Route path="/orders" element={<OrderHistoryPage />} />
+                  {/* Trang danh sách yêu thích - Cần đăng nhập */}
+                <Route path="/wishlist" element={
+                  <ProtectedRoute>
+                    <WishlistPage />
+                  </ProtectedRoute>
+                } />
+                  {/* Trang lịch sử đơn hàng - Cần đăng nhập */}
+                <Route path="/orders" element={
+                  <ProtectedRoute>
+                    <OrderHistoryPage />
+                  </ProtectedRoute>
+                } />
                 
-                {/* Trang thông tin cá nhân */}
-                <Route path="/profile" element={<UserProfilePage />} />
+                {/* Trang thông tin cá nhân - Cần đăng nhập */}
+                <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <UserProfilePage />
+                  </ProtectedRoute>
+                } />
                 
-                {/* Trang thanh toán */}
-                <Route path="/checkout" element={<CheckoutPage />} />
+                {/* Trang thanh toán - Cần đăng nhập */}
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <CheckoutPage />
+                  </ProtectedRoute>
+                } />
                 
                 {/* Trang liên hệ - tạm thời hiển thị ImprovedHomePage */}
                 <Route path="/contact" element={<ImprovedHomePage />} />

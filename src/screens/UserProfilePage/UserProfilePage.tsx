@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
@@ -20,7 +21,10 @@ import {
   Heart,
   Bell,
   Shield,
-  LogOut
+  LogOut,
+  Store,
+  UserCog,
+  Settings
 } from 'lucide-react';
 
 interface UserProfile {
@@ -57,60 +61,67 @@ interface UserPreferences {
 
 export const UserProfilePage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, updateUser, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<'profile' | 'addresses' | 'preferences' | 'security'>('profile');
   const [isEditing, setIsEditing] = useState(false);
 
-  // Sample user data
-  const [userProfile, setUserProfile] = useState<UserProfile>({
-    id: "USER-001",
-    name: "Nguyễn Văn A",
-    email: "nguyen.vana@email.com",
-    phone: "+84 123 456 789",
-    avatar: "/api/placeholder/150/150",
-    addresses: [
-      {
-        id: "ADDR-001",
-        type: 'home',
-        name: "Nhà riêng",
-        street: "123 Đường ABC, Quận 1",
-        city: "TP. Hồ Chí Minh",
-        postalCode: "70000",
-        country: "Việt Nam",
-        isDefault: true
-      },
-      {
-        id: "ADDR-002",
-        type: 'work',
-        name: "Văn phòng",
-        street: "456 Đường DEF, Quận 3",
-        city: "TP. Hồ Chí Minh",
-        postalCode: "70000",
-        country: "Việt Nam",
-        isDefault: false
-      }
-    ],
+  // Convert auth user to profile format
+  const userProfile: UserProfile = {
+    id: user?.id.toString() || '',
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    avatar: user?.avatar,
+    addresses: user?.addresses?.map(addr => ({
+      id: addr.id.toString(),
+      type: 'home' as const,
+      name: addr.name,
+      street: addr.address,
+      city: addr.city,
+      postalCode: '',
+      country: 'Việt Nam',
+      isDefault: addr.isDefault
+    })) || [],
     preferences: {
       notifications: {
-        email: true,
-        sms: true,
+        email: user?.preferences?.orderUpdates || true,
+        sms: false,
         push: false
       },
-      newsletter: true,
-      language: "vi",
-      currency: "VND"
+      newsletter: user?.preferences?.newsletter || false,
+      language: user?.preferences?.language || "vi",
+      currency: user?.preferences?.currency || "VND"
     }
-  });
+  };
 
   const [editedProfile, setEditedProfile] = useState(userProfile);
 
   const handleSaveProfile = () => {
-    setUserProfile(editedProfile);
+    // Update user in AuthContext
+    updateUser({
+      name: editedProfile.name,
+      email: editedProfile.email,
+      phone: editedProfile.phone,
+      avatar: editedProfile.avatar,
+      preferences: {
+        newsletter: editedProfile.preferences.newsletter,
+        promotions: editedProfile.preferences.notifications.email,
+        orderUpdates: editedProfile.preferences.notifications.email,
+        language: editedProfile.preferences.language,
+        currency: editedProfile.preferences.currency
+      }
+    });
     setIsEditing(false);
   };
 
   const handleCancelEdit = () => {
     setEditedProfile(userProfile);
     setIsEditing(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   const renderProfileSection = () => (
@@ -133,7 +144,21 @@ export const UserProfilePage: React.FC = () => {
           
           <div className="flex-1">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900">Thông tin cá nhân</h2>
+              <div className="flex items-center space-x-3">
+                <h2 className="text-2xl font-bold text-gray-900">Thông tin cá nhân</h2>
+                <Badge 
+                  className={`text-xs font-medium ${
+                    user?.role === 'admin' 
+                      ? 'bg-red-100 text-red-800' 
+                      : user?.role === 'seller' 
+                      ? 'bg-blue-100 text-blue-800' 
+                      : 'bg-green-100 text-green-800'
+                  }`}
+                >
+                  {user?.role === 'admin' ? 'Quản trị viên' : 
+                   user?.role === 'seller' ? 'Người bán' : 'Khách hàng'}
+                </Badge>
+              </div>
               {!isEditing ? (
                 <Button 
                   onClick={() => setIsEditing(true)}
@@ -263,6 +288,84 @@ export const UserProfilePage: React.FC = () => {
           </div>
         </Card>
       </div>
+
+      {/* Role-specific Quick Actions */}
+      {(user?.role === 'seller' || user?.role === 'admin') && (
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            {user?.role === 'admin' ? 'Quản trị' : 'Quản lý bán hàng'}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {user?.role === 'seller' && (
+              <>
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <Store className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Cửa hàng</h4>
+                      <p className="text-sm text-gray-500">Quản lý cửa hàng</p>
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                      <Package className="w-5 h-5 text-indigo-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Sản phẩm</h4>
+                      <p className="text-sm text-gray-500">Quản lý sản phẩm</p>
+                    </div>
+                  </div>
+                </Card>
+              </>
+            )}
+            
+            {user?.role === 'admin' && (
+              <>
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                      <UserCog className="w-5 h-5 text-red-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Quản lý user</h4>
+                      <p className="text-sm text-gray-500">Quản lý tài khoản</p>
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                      <Settings className="w-5 h-5 text-yellow-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Cài đặt hệ thống</h4>
+                      <p className="text-sm text-gray-500">Cấu hình hệ thống</p>
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                      <Package className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Tất cả đơn hàng</h4>
+                      <p className="text-sm text-gray-500">Quản lý đơn hàng</p>
+                    </div>
+                  </div>
+                </Card>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -330,7 +433,15 @@ export const UserProfilePage: React.FC = () => {
                     email: e.target.checked
                   }
                 };
-                setUserProfile({...userProfile, preferences: newPreferences});
+                updateUser({
+                  preferences: {
+                    newsletter: newPreferences.newsletter,
+                    promotions: newPreferences.notifications.email,
+                    orderUpdates: newPreferences.notifications.email,
+                    language: newPreferences.language,
+                    currency: newPreferences.currency
+                  }
+                });
               }}
               className="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 rounded focus:ring-pink-500 focus:ring-2"
             />
@@ -352,7 +463,15 @@ export const UserProfilePage: React.FC = () => {
                     sms: e.target.checked
                   }
                 };
-                setUserProfile({...userProfile, preferences: newPreferences});
+                updateUser({
+                  preferences: {
+                    newsletter: newPreferences.newsletter,
+                    promotions: newPreferences.notifications.email,
+                    orderUpdates: newPreferences.notifications.email,
+                    language: newPreferences.language,
+                    currency: newPreferences.currency
+                  }
+                });
               }}
               className="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 rounded focus:ring-pink-500 focus:ring-2"
             />
@@ -374,7 +493,15 @@ export const UserProfilePage: React.FC = () => {
                     push: e.target.checked
                   }
                 };
-                setUserProfile({...userProfile, preferences: newPreferences});
+                updateUser({
+                  preferences: {
+                    newsletter: newPreferences.newsletter,
+                    promotions: newPreferences.notifications.email,
+                    orderUpdates: newPreferences.notifications.email,
+                    language: newPreferences.language,
+                    currency: newPreferences.currency
+                  }
+                });
               }}
               className="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 rounded focus:ring-pink-500 focus:ring-2"
             />
@@ -556,7 +683,10 @@ export const UserProfilePage: React.FC = () => {
 
                 <hr className="my-4" />
 
-                <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left text-red-600 hover:bg-red-50 transition-colors">
+                <button 
+                  onClick={handleLogout}
+                  className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left text-red-600 hover:bg-red-50 transition-colors"
+                >
                   <LogOut className="w-5 h-5" />
                   <span>Đăng xuất</span>
                 </button>

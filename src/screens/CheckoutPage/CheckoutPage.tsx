@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import { useToast } from '../../contexts/ToastContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface CustomerInfo {
   fullName: string;
@@ -49,15 +50,16 @@ export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const { items, totalPrice, totalItems, clearCart } = useCart();
   const { addToast } = useToast();
+  const { user } = useAuth();
 
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    district: '',
-    ward: '',
+    fullName: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    address: user?.addresses?.[0]?.address || '',
+    city: user?.addresses?.[0]?.city || '',
+    district: user?.addresses?.[0]?.district || '',
+    ward: user?.addresses?.[0]?.ward || '',
     notes: ''
   });
 
