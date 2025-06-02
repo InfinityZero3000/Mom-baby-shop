@@ -52,7 +52,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Đệm và gối",
       price: "560.000 đ",
       originalPrice: "700.000 đ",
-      image: "/images/pillow-u-shape.png",
+      image: "/pillow-u-shape.png",
       rating: 4.8,
       reviews: 156,
       discount: "20%",
@@ -64,7 +64,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Xe đẩy",
       price: "7.499.000 đ",
       originalPrice: "8.499.000 đ",
-      image: "/images/stroller-1.png",
+      image: "/stroller-1.png",
       rating: 4.9,
       reviews: 203,
       discount: "12%",
@@ -75,7 +75,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       name: "Nôi đưa trẻ em Joie Serina",
       category: "Nôi cũi",
       price: "6.499.000 đ",
-      image: "/images/crib-joie.png",
+      image: "/crib-joie.png",
       rating: 4.7,
       reviews: 89,
       bgColor: "bg-gradient-to-br from-purple-100 to-purple-200",
@@ -86,7 +86,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Phụ kiện tắm",
       price: "450.000 đ",
       originalPrice: "550.000 đ",
-      image: "/images/bath-chair.png",
+      image: "/bath-chair.png",
       rating: 4.6,
       reviews: 67,
       discount: "18%",
@@ -106,12 +106,12 @@ export const ImprovedHomePage = (): JSX.Element => {
 
   // Brands
   const brands = [
-    { name: "Joie", logo: "/images/brand-joie.png" },
-    { name: "Chicco", logo: "/images/brand-chicco.png" },
-    { name: "Mothercare", logo: "/images/brand-mothercare.png" },
-    { name: "Fisher-Price", logo: "/images/brand-fisher-price.png" },
-    { name: "Aptamil", logo: "/images/brand-aptamil.png" },
-    { name: "Babylove", logo: "/images/brand-babylove.png" },  ];
+    { name: "Joie", logo: "/brand-joie.png" },
+    { name: "Chicco", logo: "/brand-chicco.png" },
+    { name: "Mothercare", logo: "/brand-mothercare.png" },
+    { name: "Fisher-Price", logo: "/brand-fisher-price.png" },
+    { name: "Aptamil", logo: "/brand-aptamil.png" },
+    { name: "Babylove", logo: "/brand-babylove.png" },  ];
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (

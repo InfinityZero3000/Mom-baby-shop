@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MomBabyShop - Điều hướng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pattaya&family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #dbeafe 50%, #f3e8ff 100%);
+            min-height: 100vh;
+        }
+        
+        .font-pattaya {
+            font-family: 'Pattaya', cursive;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ef62f9 0%, #0bbdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .frame-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        iframe {
+            border: none;
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-bold mb-4">
+                <span class="text-[#ef62f9]">MomBaby</span>
+                <span class="text-[#0bbdf8] font-pattaya">Shop</span>
+            </h1>
+            <p class="text-xl text-gray-600">Trình điều hướng trang web</p>
+        </header>
+        
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 gradient-text">Chọn trang để xem</h2>
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button class="page-button bg-white rounded-lg p-4 shadow-md card-hover transition-all border-2 border-[#ef62f9]" data-page="mombabyshop-html.html">
+                    <div class="text-2xl mb-2">🏠</div>
+                    <h3 class="font-semibold mb-1">Trang chủ</h3>
+                    <p class="text-sm text-gray-600">mombabyshop-html.html</p>
+                </button>
+                
+                <button class="page-button bg-white rounded-lg p-4 shadow-md card-hover transition-all border-2 border-transparent hover:border-[#ef62f9]" data-page="stroller-list.html">
+                    <div class="text-2xl mb-2">🚗</div>
+                    <h3 class="font-semibold mb-1">Xe đẩy</h3>
+                    <p class="text-sm text-gray-600">stroller-list.html</p>
+                </button>
+                
+                <button class="page-button bg-white rounded-lg p-4 shadow-md card-hover transition-all border-2 border-transparent hover:border-[#ef62f9]" data-page="clothing-list.html">
+                    <div class="text-2xl mb-2">👕</div>
+                    <h3 class="font-semibold mb-1">Quần áo</h3>
+                    <p class="text-sm text-gray-600">clothing-list.html</p>
+                </button>
+                
+                <button class="page-button bg-white rounded-lg p-4 shadow-md card-hover transition-all border-2 border-transparent hover:border-[#ef62f9]" data-page="product-list.html">
+                    <div class="text-2xl mb-2">🧸</div>
+                    <h3 class="font-semibold mb-1">Sản phẩm</h3>
+                    <p class="text-sm text-gray-600">product-list.html</p>
+                </button>
+                
+                <button class="page-button bg-white rounded-lg p-4 shadow-md card-hover transition-all border-2 border-transparent hover:border-[#ef62f9]" data-page="product-detail.html">
+                    <div class="text-2xl mb-2">🔍</div>
+                    <h3 class="font-semibold mb-1">Chi tiết sản phẩm</h3>
+                    <p class="text-sm text-gray-600">product-detail.html</p>
+                </button>
+            </div>
+        </div>
+        
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold gradient-text">Xem trước trang</h2>
+                <div class="flex gap-2">
+                    <button id="open-new-tab" class="bg-[#ef62f9] text-white px-4 py-2 rounded hover:bg-[#df52e9] transition-colors">
+                        Mở trong tab mới
+                    </button>
+                    <button id="toggle-frame" class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200 transition-colors">
+                        Ẩn/hiện xem trước
+                    </button>
+                </div>
+            </div>
+            
+            <div id="frame-container" class="frame-container bg-white">
+                <iframe id="preview-frame" src="mombabyshop-html.html"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Khởi tạo biến toàn cục để theo dõi trang hiện tại
+            let currentPage = 'mombabyshop-html.html';
+            
+            // Lấy tất cả các nút trang
+            const pageButtons = document.querySelectorAll('.page-button');
+            
+            // Lấy iframe xem trước
+            const previewFrame = document.getElementById('preview-frame');
+            
+            // Nút mở trong tab mới
+            const openNewTab = document.getElementById('open-new-tab');
+            
+            // Nút chuyển đổi xem trước
+            const toggleFrame = document.getElementById('toggle-frame');
+            const frameContainer = document.getElementById('frame-container');
+            
+            // Đặt sự kiện click cho mỗi nút trang
+            pageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Lấy trang từ thuộc tính data-page
+                    const page = this.dataset.page;
+                    currentPage = page;
+                    
+                    // Cập nhật iframe
+                    previewFrame.src = page;
+                    
+                    // Cập nhật UI - thêm viền cho nút được chọn
+                    pageButtons.forEach(btn => {
+                        btn.classList.remove('border-[#ef62f9]');
+                        btn.classList.add('border-transparent');
+                    });
+                    this.classList.remove('border-transparent');
+                    this.classList.add('border-[#ef62f9]');
+                });
+            });
+            
+            // Đặt sự kiện click cho nút mở tab mới
+            openNewTab.addEventListener('click', function() {
+                window.open(currentPage, '_blank');
+            });
+            
+            // Đặt sự kiện click cho nút chuyển đổi xem trước
+            toggleFrame.addEventListener('click', function() {
+                if (frameContainer.style.display === 'none') {
+                    frameContainer.style.display = 'block';
+                    toggleFrame.textContent = 'Ẩn xem trước';
+                } else {
+                    frameContainer.style.display = 'none';
+                    toggleFrame.textContent = 'Hiện xem trước';
+                }
+            });
+            
+            // Tự động điều chỉnh chiều cao của iframe khi cửa sổ thay đổi kích thước
+            window.addEventListener('resize', function() {
+                adjustIframeHeight();
+            });
+            
+            function adjustIframeHeight() {
+                // Điều chỉnh chiều cao phù hợp với kích thước cửa sổ
+                const windowHeight = window.innerHeight;
+                const frameTop = frameContainer.getBoundingClientRect().top;
+                const desiredHeight = windowHeight - frameTop - 40; // Margin bottom
+                
+                // Đặt chiều cao tối thiểu
+                previewFrame.style.height = Math.max(500, desiredHeight) + 'px';
+            }
+            
+            // Điều chỉnh chiều cao ban đầu
+            adjustIframeHeight();
+            
+            // Khởi tạo trang đầu tiên là trang chủ
+            pageButtons[0].click();
+            
+            // Thiết lập sync giỏ hàng và danh sách yêu thích
+            window.addEventListener('message', function(event) {
+                if (event.data.type === 'cart-update') {
+                    localStorage.setItem('mombabyshop-cart', JSON.stringify(event.data.cart));
+                } else if (event.data.type === 'wishlist-update') {
+                    localStorage.setItem('mombabyshop-wishlist', JSON.stringify(event.data.wishlist));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

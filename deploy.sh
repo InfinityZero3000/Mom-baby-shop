@@ -1,18 +1,42 @@
 #!/bin/bash
 
-# Script để deploy lên GitHub Pages
-echo "🚀 Bắt đầu quá trình deploy..."
+echo "🔧 Fixing deployment issues for GitHub Pages..."
 
-# Build project
-echo "📦 Đang build project..."
-npm run build
+# 1. Clean previous build
+echo "📦 Cleaning previous build..."
+rm -rf dist
 
-# Copy CNAME file vào dist
-echo "📄 Copy CNAME file..."
-cp CNAME dist/
+# 2. Build for GitHub Pages
+echo "🏗️ Building for GitHub Pages..."
+npm run build:github
 
-# Deploy với gh-pages
-echo "🌐 Deploy lên GitHub Pages..."
-npx gh-pages -d dist
-
-echo "✅ Deploy hoàn thành! Trang web sẽ sẵn sàng tại https://jenniferzero.github.io/Mom-baby-shop/"
+# 3. Check if build was successful
+if [ -d "dist" ]; then
+    echo "✅ Build successful!"
+    echo "📁 Build contents:"
+    ls -la dist/
+    
+    # 4. Check if index.html exists
+    if [ -f "dist/index.html" ]; then
+        echo "✅ index.html found"
+    else
+        echo "❌ index.html missing!"
+    fi
+    
+    # 5. Check if assets exist
+    if [ -d "dist/assets" ]; then
+        echo "✅ Assets folder found"
+        echo "📦 Assets:"
+        ls -la dist/assets/
+    else
+        echo "❌ Assets folder missing!"
+    fi
+    
+    echo ""
+    echo "🚀 To deploy manually:"
+    echo "   gh-pages -d dist"
+    
+else
+    echo "❌ Build failed!"
+    exit 1
+fi

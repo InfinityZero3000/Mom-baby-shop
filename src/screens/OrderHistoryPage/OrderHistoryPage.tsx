@@ -57,14 +57,14 @@ export const OrderHistoryPage: React.FC = () => {
           name: "Xe đẩy trẻ em Joie Chrome DLX",
           price: "7.500.000 đ",
           quantity: 1,
-          image: "/stroller-1.png"
+          image: "/images/stroller-1.png"
         },
         {
           id: 2,
           name: "Gối chữ U cho mẹ bầu",
           price: "560.000 đ",
           quantity: 1,
-          image: "/pillow-u-shape.png"
+          image: "/images/pillow-u-shape.png"
         }
       ],
       shippingAddress: "123 Nguyễn Văn A, Quận 1, TP.HCM",
@@ -83,14 +83,14 @@ export const OrderHistoryPage: React.FC = () => {
           name: "Bộ quần áo cotton organic cho bé gái",
           price: "320.000 đ",
           quantity: 2,
-          image: "/clothing-1.png"
+          image: "/images/clothing-1.png"
         },
         {
           id: 4,
           name: "Ghế gội đầu Holla cho bé",
           price: "450.000 đ",
           quantity: 1,
-          image: "/bath-chair.png"
+          image: "/images/bath-chair.png"
         }
       ],
       shippingAddress: "456 Lê Văn B, Quận 3, TP.HCM",
@@ -109,7 +109,7 @@ export const OrderHistoryPage: React.FC = () => {
           name: "Nôi đưa trẻ em Joie Serina",
           price: "6.499.000 đ",
           quantity: 1,
-          image: "/crib-joie.png"
+          image: "/images/crib-joie.png"
         }
       ],
       shippingAddress: "789 Trần Văn C, Quận 7, TP.HCM",

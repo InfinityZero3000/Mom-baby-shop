@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - MomBabyShop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="common.js" defer></script>
+    <script src="product-detail.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya:wght@400&family=Open+Sans:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .font-pattaya {
+            font-family: 'Pattaya', sans-ser        function toggleWishlist() {
+            const icon = document.getElementById('wishlistIcon');
+            isInWishlist = !isInWishlist;
+            
+            if (currentProduct) {
+                // Nếu có sản phẩm hiện tại từ URL, thêm sản phẩm đó vào danh sách yêu thích
+                const productToToggle = {
+                    id: currentProduct.id,
+                    name: currentProduct.name,
+                    price: currentProduct.priceValue,
+                    image: currentProduct.mainImage
+                };
+                
+                // Sử dụng hàm từ common.js nếu có
+                if (typeof window.toggleWishlist === 'function') {
+                    const result = window.toggleWishlist(productToToggle);
+                    isInWishlist = result.action === 'added';
+                } else {
+                    // Nếu không có hàm từ common.js, thêm trực tiếp vào localStorage
+                    const wishlist = JSON.parse(localStorage.getItem('mombabyshop-wishlist') || '[]');
+                    
+                    // Kiểm tra sản phẩm đã có trong danh sách yêu thích chưa
+                    const existingProductIndex = wishlist.findIndex(item => item.id === productToToggle.id);
+                    
+                    if (existingProductIndex >= 0) {
+                        // Nếu có, xóa khỏi danh sách
+                        wishlist.splice(existingProductIndex, 1);
+                        isInWishlist = false;
+                    } else {
+                        // Nếu chưa, thêm vào danh sách
+                        wishlist.push(productToToggle);
+                        isInWishlist = true;
+                    }
+                    
+                    localStorage.setItem('mombabyshop-wishlist', JSON.stringify(wishlist));
+                }
+            } else {
+                // Nếu không có sản phẩm từ URL, sử dụng thông tin từ trang hiện tại
+                const name = document.querySelector('h1.text-3xl').textContent;
+                const price = document.querySelector('.text-3xl.font-bold.text-pink-500').textContent;
+                const image = document.getElementById('mainImage').src;
+                
+                const productToToggle = {
+                    id: '1', // ID mặc định
+                    name: name,
+                    price: price,
+                    image: image
+                };
+                
+                // Thêm hoặc xóa khỏi danh sách yêu thích
+                const wishlist = JSON.parse(localStorage.getItem('mombabyshop-wishlist') || '[]');
+                const existingProductIndex = wishlist.findIndex(item => 
+                    item.name === productToToggle.name && item.price === productToToggle.price
+                );
+                
+                if (existingProductIndex >= 0) {
+                    wishlist.splice(existingProductIndex, 1);
+                    isInWishlist = false;
+                } else {
+                    wishlist.push(productToToggle);
+                    isInWishlist = true;
+                }
+                
+                localStorage.setItem('mombabyshop-wishlist', JSON.stringify(wishlist));
+            }
+            
+            // Cập nhật giao diện
+            if (isInWishlist) {
+                icon.classList.add('text-red-500');
+                icon.style.fill = 'currentColor';
+                showNotification('Đã thêm vào danh sách yêu thích', 'success');
+            } else {
+                icon.classList.remove('text-red-500');
+                icon.style.fill = 'none';
+                showNotification('Đã xóa khỏi danh sách yêu thích', 'info');
+            }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #ef62f9 0%, #0bbdf8 100%);
+        }
+        .star-filled {
+            color: #fbbf24;
+            fill: #fbbf24;
+        }
+        .star-empty {
+            color: #d1d5db;
+        }
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-button.active {
+            background-color: #ef62f9;
+            color: white;
+        }
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+        }
+        .thumbnail-active {
+            border-color: #ef62f9;
+        }
+        .thumbnail {
+            border: 2px solid #e5e7eb;
+            transition: border-color 0.3s ease;
+        }
+        .thumbnail:hover {
+            border-color: #ef62f9;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-8">
+                <a href="mombabyshop-html.html" class="text-3xl font-bold">
+                    <span class="text-pink-500">MomBaby</span>
+                    <span class="text-blue-400 font-pattaya">Shop</span>
+                </a>
+                
+                <div class="hidden lg:flex space-x-8">
+                    <a href="mombabyshop-html.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">Trang chủ</a>
+                    <a href="product-list.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">Sản phẩm</a>
+                    <a href="stroller-list.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">Xe đẩy</a>
+                    <a href="clothing-list.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">Quần áo</a>
+                </div>
+            </div>
+            
+            <button onclick="history.back()" class="flex items-center gap-2 text-gray-700 hover:text-pink-500 transition-colors">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Quay lại
+            </button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="px-8 lg:px-20 py-4">
+        <nav class="flex items-center space-x-2 text-sm text-gray-600">
+            <a href="mombabyshop-html.html" class="hover:text-pink-500 flex items-center gap-1 transition-colors">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 12 2-2m0 0 7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                Trang chủ
+            </a>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path>
+            </svg>
+            <a href="product-list.html" class="hover:text-pink-500 transition-colors">Sản phẩm</a>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path>
+            </svg>
+            <span class="text-pink-500 font-medium">Xe đẩy trẻ em Joie Chrome DLX</span>
+        </nav>
+    </div>
+
+    <div class="px-8 lg:px-20 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Product Images -->
+            <div class="space-y-4">
+                <!-- Main Image -->
+                <div class="relative bg-gray-50 rounded-2xl p-8 h-96 flex items-center justify-center">
+                    <div class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                        -12%
+                    </div>
+                    <div class="absolute top-4 right-4 bg-yellow-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                        BÁN CHẠY
+                    </div>
+                    
+                    <img
+                        id="mainImage"
+                        src="project/images/stroller-premium.png"
+                        alt="Xe đẩy trẻ em Joie Chrome DLX"
+                        class="max-h-full max-w-full object-contain product-image"
+                    />
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div class="flex gap-2">
+                    <button onclick="changeMainImage('project/images/stroller-premium.png', 0)" class="thumbnail thumbnail-active w-20 h-20 rounded-lg overflow-hidden">
+                        <img src="project/images/stroller-premium.png" alt="Hình 1" class="w-full h-full object-cover">
+                    </button>
+                    <button onclick="changeMainImage('project/images/stroller-1.png', 1)" class="thumbnail w-20 h-20 rounded-lg overflow-hidden">
+                        <img src="project/images/stroller-1.png" alt="Hình 2" class="w-full h-full object-cover">
+                    </button>
+                    <button onclick="changeMainImage('project/images/stroller-2.png', 2)" class="thumbnail w-20 h-20 rounded-lg overflow-hidden">
+                        <img src="project/images/stroller-2.png" alt="Hình 3" class="w-full h-full object-cover">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="space-y-6">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-pink-500 border border-pink-500 px-2 py-1 rounded text-xs font-medium">
+                            Joie
+                        </span>
+                        <button onclick="toggleWishlist()" class="p-2 hover:bg-red-50 rounded-full transition-colors">
+                            <svg id="wishlistIcon" class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">Xe đẩy trẻ em Joie Chrome DLX</h1>
+                    
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex items-center gap-1">
+                            <span class="star-filled text-xl">★</span>
+                            <span class="star-filled text-xl">★</span>
+                            <span class="star-filled text-xl">★</span>
+                            <span class="star-filled text-xl">★</span>
+                            <span class="star-filled text-xl">★</span>
+                        </div>
+                        <span class="text-sm text-gray-600">4.8 (156 đánh giá)</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="text-3xl font-bold text-pink-500">7.500.000 đ</span>
+                        <span class="text-xl text-gray-500 line-through">8.500.000 đ</span>
+                        <span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                            Tiết kiệm 12%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <p class="text-gray-700 leading-relaxed">
+                        Xe đẩy cao cấp với thiết kế hiện đại, an toàn tuyệt đối cho bé. Được thiết kế với công nghệ tiên tiến, khung nhôm chắc chắn và hệ thống phanh an toàn. Phù hợp cho trẻ từ 0-4 tuổi.
+                    </p>
+                </div>
+
+                <!-- Features -->
+                <div>
+                    <h3 class="font-semibold mb-3">Tính năng nổi bật:</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Gấp gọn 1 tay</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Phanh 2 bánh</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Khóa an toàn 5 điểm</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Chống lật</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">Bánh xe 360°</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Selection -->
+                <div>
+                    <h3 class="font-semibold mb-3">Màu sắc:</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="selectColor('Đen', this)" class="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:border-pink-500 transition-colors">
+                            Đen
+                        </button>
+                        <button onclick="selectColor('Xám', this)" class="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:border-pink-500 transition-colors">
+                            Xám
+                        </button>
+                        <button onclick="selectColor('Xanh navy', this)" class="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:border-pink-500 transition-colors">
+                            Xanh navy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div>
+                    <h3 class="font-semibold mb-3">Số lượng:</h3>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center border rounded-lg">
+                            <button onclick="decreaseQuantity()" class="p-2 hover:bg-gray-100 transition-colors">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                </svg>
+                            </button>
+                            <input type="number" id="quantity" value="1" min="1" class="quantity-input py-2 border-0 text-center outline-none" onchange="validateQuantity()">
+                            <button onclick="increaseQuantity()" class="p-2 hover:bg-gray-100 transition-colors">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="text-sm text-green-600 font-medium">Còn hàng</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <button onclick="buyNow()" class="w-full gradient-bg text-white text-lg py-4 rounded-lg hover:opacity-90 transition-opacity">
+                        <svg class="inline h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 2.5M7 13l2.5 2.5m0 0L12 18m0 0l2.5-2.5M12 18l-2.5-2.5"></path>
+                        </svg>
+                        MUA NGAY
+                    </button>
+                    
+                    <button onclick="addToCart()" class="w-full border border-pink-500 text-pink-500 text-lg py-4 rounded-lg hover:bg-pink-500 hover:text-white transition-colors">
+                        THÊM VÀO GIỎ HÀNG
+                    </button>
+                </div>
+
+                <!-- Benefits -->
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t">
+                    <div class="flex items-center gap-2 text-sm">
+                        <svg class="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Miễn phí vận chuyển</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                        <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Bảo hành chính hãng</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                        <svg class="h-5 w-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        <span>Đổi trả 30 ngày</span>
+                    </div>
+                </div>
+
+                <!-- Share -->
+                <div class="flex items-center gap-4 pt-4">
+                    <span class="text-sm font-medium">Chia sẻ:</span>
+                    <div class="flex gap-2">
+                        <button class="p-2 hover:bg-blue-50 rounded-full transition-colors">
+                            <span class="text-blue-600 text-xl">📘</span>
+                        </button>
+                        <button class="p-2 hover:bg-pink-50 rounded-full transition-colors">
+                            <span class="text-pink-600 text-xl">📷</span>
+                        </button>
+                        <button class="p-2 hover:bg-blue-50 rounded-full transition-colors">
+                            <span class="text-blue-500 text-xl">🐦</span>
+                        </button>
+                        <button class="p-2 hover:bg-gray-50 rounded-full transition-colors">
+                            <span class="text-gray-600 text-xl">📤</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Details Tabs -->
+        <div class="mt-16">
+            <div class="border-b border-gray-200">
+                <div class="grid grid-cols-3 gap-0">
+                    <button onclick="showTab('description')" class="tab-button active py-3 px-6 text-center border-b-2 border-transparent hover:text-pink-500 transition-colors">
+                        Mô tả sản phẩm
+                    </button>
+                    <button onclick="showTab('specifications')" class="tab-button py-3 px-6 text-center border-b-2 border-transparent hover:text-pink-500 transition-colors">
+                        Thông số kỹ thuật
+                    </button>
+                    <button onclick="showTab('reviews')" class="tab-button py-3 px-6 text-center border-b-2 border-transparent hover:text-pink-500 transition-colors">
+                        Đánh giá (156)
+                    </button>
+                </div>
+            </div>
+            
+            <div id="description" class="tab-content active mt-6">
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <div class="prose max-w-none">
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            Xe đẩy cao cấp với thiết kế hiện đại, an toàn tuyệt đối cho bé. Được thiết kế với công nghệ tiên tiến, khung nhôm chắc chắn và hệ thống phanh an toàn. Phù hợp cho trẻ từ 0-4 tuổi.
+                        </p>
+                        <h4 class="font-semibold mb-3">Tính năng chi tiết:</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li class="text-gray-700">Gấp gọn 1 tay - Tiện lợi cho việc di chuyển</li>
+                            <li class="text-gray-700">Phanh 2 bánh - An toàn khi dừng xe</li>
+                            <li class="text-gray-700">Khóa an toàn 5 điểm - Bảo vệ toàn diện cho bé</li>
+                            <li class="text-gray-700">Chống lật - Ổn định trong mọi địa hình</li>
+                            <li class="text-gray-700">Bánh xe 360° - Linh hoạt xoay chiều</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="specifications" class="tab-content mt-6">
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-900">Trọng lượng:</span>
+                            <span class="text-gray-700">8.5kg</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-900">Tải trọng tối đa:</span>
+                            <span class="text-gray-700">25kg</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-900">Kích thước mở:</span>
+                            <span class="text-gray-700">85 x 60 x 110cm</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-900">Kích thước gấp:</span>
+                            <span class="text-gray-700">30 x 60 x 80cm</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-900">Chất liệu khung:</span>
+                            <span class="text-gray-700">Nhôm cao cấp</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="font-medium text-gray-900">Chất liệu vải:</span>
+                            <span class="text-gray-700">Polyester chống nước</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="reviews" class="tab-content mt-6">
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <div class="text-center py-8">
+                        <div class="flex items-center justify-center gap-2 mb-4">
+                            <div class="flex gap-1">
+                                <span class="star-filled text-2xl">★</span>
+                                <span class="star-filled text-2xl">★</span>
+                                <span class="star-filled text-2xl">★</span>
+                                <span class="star-filled text-2xl">★</span>
+                                <span class="star-filled text-2xl">★</span>
+                            </div>
+                            <span class="text-2xl font-bold">4.8</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Dựa trên 156 đánh giá</p>
+                        <button class="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                            Viết đánh giá
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 py-12 px-8 lg:px-20 mt-16">
+        <div class="text-center">
+            <div class="text-2xl font-bold mb-4">
+                <span class="text-pink-500">MomBaby</span>
+                <span class="text-blue-400 font-pattaya">Shop</span>
+            </div>
+            <p class="text-gray-600 mb-6">
+                Đồng hành cùng mẹ chăm sóc bé yêu với những sản phẩm chất lượng cao.
+            </p>
+            <p class="text-sm text-gray-500">
+                © 2024 MomBabyShop. Tất cả quyền được bảo lưu.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let selectedColor = null;
+        let currentImageIndex = 0;
+        let inWishlist = false;
+        let currentProduct = null;
+        
+        // Khai báo danh sách sản phẩm mẫu để demo
+        const productDatabase = [
+            {
+                id: '1',
+                name: 'Xe đẩy trẻ em Joie Chrome DLX',
+                brand: 'Joie',
+                price: '7.500.000 đ',
+                priceValue: 7500000,
+                originalPrice: '8.500.000 đ',
+                originalPriceValue: 8500000,
+                discount: '12%',
+                rating: 4.8,
+                reviews: 156,
+                description: 'Xe đẩy cao cấp với thiết kế hiện đại, an toàn tuyệt đối cho bé. Được thiết kế với công nghệ tiên tiến, khung nhôm chắc chắn và hệ thống phanh an toàn. Phù hợp cho trẻ từ 0-4 tuổi.',
+                features: ['Gấp gọn 1 tay', 'Phanh 2 bánh', 'Khóa an toàn 5 điểm', 'Chống lật', 'Bánh xe 360°'],
+                colors: ['Đen', 'Xám', 'Xanh navy'],
+                stock: 10,
+                tags: ['Xe đẩy', 'Trẻ em', 'Joie'],
+                mainImage: 'project/images/stroller-premium.png',
+                images: ['project/images/stroller-premium.png', 'project/images/stroller-1.png', 'project/images/stroller-2.png']
+            },
+            {
+                id: '2',
+                name: 'Bộ quần áo trẻ em Cotton BabyLove',
+                brand: 'BabyLove',
+                price: '350.000 đ',
+                priceValue: 350000,
+                originalPrice: '450.000 đ',
+                originalPriceValue: 450000,
+                discount: '22%',
+                rating: 4.9,
+                reviews: 213,
+                description: 'Bộ quần áo cotton mềm mại, thấm hút mồ hôi tốt. Thiết kế dễ thương, phù hợp cho bé từ 6-36 tháng. An toàn cho làn da nhạy cảm của bé.',
+                features: ['Cotton 100%', 'Thấm hút tốt', 'Không gây dị ứng', 'Dễ giặt sạch', 'Không bai màu'],
+                colors: ['Xanh', 'Hồng', 'Vàng'],
+                stock: 25,
+                tags: ['Quần áo', 'Trẻ em', 'Cotton'],
+                mainImage: 'project/images/clothing-1.png',
+                images: ['project/images/clothing-1.png', 'project/images/clothing-2.png', 'project/images/clothing-organic.png']
+            },
+            {
+                id: '3',
+                name: 'Ghế ăn cao cấp Fisher-Price',
+                brand: 'Fisher Price',
+                price: '2.800.000 đ',
+                priceValue: 2800000,
+                originalPrice: '3.200.000 đ',
+                originalPriceValue: 3200000,
+                discount: '12%',
+                rating: 4.7,
+                reviews: 89,
+                description: 'Ghế ăn cao cấp được thiết kế hiện đại, có thể điều chỉnh độ cao và góc nghiêng. Phù hợp cho bé từ 6 tháng đến 5 tuổi.',
+                features: ['Điều chỉnh 7 độ cao', 'Dễ vệ sinh', 'Khay ăn tháo rời', 'Gấp gọn', 'An toàn'],
+                colors: ['Xám', 'Trắng', 'Xanh mint'],
+                stock: 8,
+                tags: ['Ghế ăn', 'Trẻ em', 'Fisher Price'],
+                mainImage: 'project/images/high-chair.png',
+                images: ['project/images/high-chair.png', 'project/images/bath-chair.png']
+            }
+        ];
+        
+        // Lấy ID sản phẩm từ URL khi trang được tải
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProductFromUrl();
+            
+            // Khởi tạo các chức năng khác
+            setupEventListeners();
+        });
+        
+        // Hàm lấy tham số từ URL
+        function getUrlParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        
+        // Tải sản phẩm từ ID trong URL
+        function loadProductFromUrl() {
+            const productId = getUrlParam('id');
+            
+            if (productId) {
+                // Tìm sản phẩm theo ID trong danh sách sản phẩm mẫu
+                const product = productDatabase.find(p => p.id === productId);
+                
+                if (product) {
+                    displayProduct(product);
+                }
+            }
+        }
+        
+        // Hiển thị thông tin sản phẩm
+        function displayProduct(product) {
+            currentProduct = product;
+            
+            // Cập nhật tiêu đề trang
+            document.title = `${product.name} - MomBabyShop`;
+            
+            // Cập nhật breadcrumb
+            const breadcrumbName = document.querySelector('.breadcrumb span');
+            if (breadcrumbName) {
+                breadcrumbName.textContent = product.name;
+            } else {
+                document.querySelector('nav.flex.items-center.space-x-2 span').textContent = product.name;
+            }
+            
+            // Cập nhật hình ảnh chính
+            const mainImage = document.getElementById('mainImage');
+            if (mainImage && product.mainImage) {
+                mainImage.src = product.mainImage;
+                mainImage.alt = product.name;
+            }
+            
+            // Cập nhật gallery hình ảnh
+            const thumbnailContainer = document.querySelector('.flex.gap-2');
+            if (thumbnailContainer && product.images) {
+                thumbnailContainer.innerHTML = '';
+                
+                product.images.forEach((img, idx) => {
+                    thumbnailContainer.innerHTML += `
+                        <button onclick="changeMainImage('${img}', ${idx})" class="thumbnail ${idx === 0 ? 'thumbnail-active' : ''} w-20 h-20 rounded-lg overflow-hidden">
+                            <img src="${img}" alt="Hình ${idx + 1}" class="w-full h-full object-cover">
+                        </button>
+                    `;
+                });
+            }
+            
+            // Cập nhật thông tin sản phẩm
+            const brandElement = document.querySelector('.text-pink-500.border');
+            if (brandElement) {
+                brandElement.textContent = product.brand;
+            }
+            
+            const nameElement = document.querySelector('h1.text-3xl');
+            if (nameElement) {
+                nameElement.textContent = product.name;
+            }
+            
+            // Cập nhật giá
+            const priceElement = document.querySelector('.text-3xl.font-bold.text-pink-500');
+            if (priceElement) {
+                priceElement.textContent = product.price;
+            }
+            
+            // Cập nhật giá gốc
+            const originalPriceElement = document.querySelector('.text-xl.text-gray-500.line-through');
+            if (originalPriceElement && product.originalPrice) {
+                originalPriceElement.textContent = product.originalPrice;
+            }
+            
+            // Cập nhật % giảm giá
+            const discountElement = document.querySelector('.bg-red-500.text-white.px-2.py-1.rounded');
+            if (discountElement && product.discount) {
+                discountElement.textContent = `Tiết kiệm ${product.discount}`;
+            }
+            
+            // Cập nhật mô tả sản phẩm
+            const descriptionElement = document.querySelector('.text-gray-700.leading-relaxed');
+            if (descriptionElement && product.description) {
+                descriptionElement.textContent = product.description;
+            }
+            
+            // Cập nhật tính năng nổi bật
+            const featuresContainer = document.querySelector('.grid.grid-cols-2.gap-2');
+            if (featuresContainer && product.features) {
+                featuresContainer.innerHTML = '';
+                
+                product.features.forEach(feature => {
+                    featuresContainer.innerHTML += `
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            <span class="text-sm text-gray-700">${feature}</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Cập nhật màu sắc
+            const colorsContainer = document.querySelector('div h3.font-semibold.mb-3:contains("Màu sắc:")').nextElementSibling;
+            if (colorsContainer && product.colors) {
+                colorsContainer.innerHTML = '';
+                
+                product.colors.forEach(color => {
+                    colorsContainer.innerHTML += `
+                        <button onclick="selectColor('${color}', this)" class="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:border-pink-500 transition-colors">
+                            ${color}
+                        </button>
+                    `;
+                });
+            }
+        }
+        
+        // Thiết lập các sự kiện trong trang
+        function setupEventListeners() {
+            // Các xử lý khác sẽ được thêm ở đây
+        }
+
+        function changeMainImage(src, index) {
+            document.getElementById('mainImage').src = src;
+            currentImageIndex = index;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach((thumbnail, idx) => {
+                if (idx === index) {
+                    thumbnail.classList.add('thumbnail-active');
+                } else {
+                    thumbnail.classList.remove('thumbnail-active');
+                }
+            });
+        }        function selectColor(color, element) {
+            selectedColor = color;
+            
+            // Remove active class from all color buttons
+            document.querySelectorAll('button[onclick*="selectColor"]').forEach(btn => {
+                btn.classList.remove('bg-pink-500', 'text-white');
+                btn.classList.add('border-gray-300', 'text-gray-700');
+            });
+            
+            // Add active class to selected button
+            element.classList.remove('border-gray-300', 'text-gray-700');
+            element.classList.add('bg-pink-500', 'text-white', 'border-pink-500');
+        }
+
+        function toggleWishlist() {
+            const icon = document.getElementById('wishlistIcon');
+            inWishlist = !inWishlist;
+            
+            if (inWishlist) {
+                icon.classList.add('text-red-500');
+                icon.style.fill = 'currentColor';
+                showNotification('Đã thêm vào danh sách yêu thích', 'success');
+            } else {
+                icon.classList.remove('text-red-500');
+                icon.style.fill = 'none';
+                showNotification('Đã xóa khỏi danh sách yêu thích', 'info');
+            }
+        }
+
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        }
+
+        function validateQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            const value = parseInt(quantityInput.value);
+            if (isNaN(value) || value < 1) {
+                quantityInput.value = 1;
+            }
+        }        function addToCart() {
+            if (!selectedColor) {
+                showNotification('Vui lòng chọn màu sắc', 'error');
+                return;
+            }
+            
+            const quantity = parseInt(document.getElementById('quantity').value);
+            
+            if (currentProduct) {
+                // Nếu có sản phẩm hiện tại từ URL, thêm sản phẩm đó vào giỏ hàng
+                const productToAdd = {
+                    id: currentProduct.id,
+                    name: currentProduct.name,
+                    price: currentProduct.priceValue,
+                    image: currentProduct.mainImage,
+                    color: selectedColor,
+                    quantity: quantity
+                };
+                
+                // Sử dụng hàm từ common.js nếu có
+                if (typeof window.addToCart === 'function') {
+                    window.addToCart(productToAdd);
+                } else {
+                    // Nếu không có hàm từ common.js, thêm trực tiếp vào localStorage
+                    const cart = JSON.parse(localStorage.getItem('mombabyshop-cart') || '[]');
+                    
+                    // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+                    const existingProductIndex = cart.findIndex(item => 
+                        item.id === productToAdd.id && item.color === productToAdd.color
+                    );
+                    
+                    if (existingProductIndex >= 0) {
+                        cart[existingProductIndex].quantity += quantity;
+                    } else {
+                        cart.push(productToAdd);
+                    }
+                    
+                    localStorage.setItem('mombabyshop-cart', JSON.stringify(cart));
+                }
+            } else {
+                // Nếu không có sản phẩm từ URL, sử dụng thông tin từ trang hiện tại
+                const name = document.querySelector('h1.text-3xl').textContent;
+                const price = document.querySelector('.text-3xl.font-bold.text-pink-500').textContent;
+                const image = document.getElementById('mainImage').src;
+                
+                const productToAdd = {
+                    id: '1', // ID mặc định
+                    name: name,
+                    price: price,
+                    image: image,
+                    color: selectedColor,
+                    quantity: quantity
+                };
+                
+                // Thêm vào giỏ hàng
+                const cart = JSON.parse(localStorage.getItem('mombabyshop-cart') || '[]');
+                cart.push(productToAdd);
+                localStorage.setItem('mombabyshop-cart', JSON.stringify(cart));
+            }
+            
+            showNotification(`Đã thêm ${quantity} sản phẩm vào giỏ hàng!`, 'success');
+            
+            // Cập nhật số lượng sản phẩm trong giỏ hàng trên giao diện
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+        }
+
+        function buyNow() {
+            if (!selectedColor) {
+                showNotification('Vui lòng chọn màu sắc', 'error');
+                return;
+            }
+            
+            addToCart();
+            setTimeout(() => {
+                window.location.href = 'checkout.html';
+            }, 1000);
+        }
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            } text-white transform translate-x-full transition-transform duration-300`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

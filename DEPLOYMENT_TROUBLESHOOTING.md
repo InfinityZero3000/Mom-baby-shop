@@ -1,37 +1,3 @@
-# 🔧 KHẮC PHỤC MÀN HÌNH TRẮNG KHI DEPLOY LÊN WEB
-
-## 🔍 **NGUYÊN NHÂN CHÍNH**
-
-### 1. **Vấn đề CNAME Configuration** ❌
-```plaintext
-CNAME: jenniferzero.github.io
-```
-- **Lỗi**: CNAME file chứa GitHub domain thay vì custom domain
-- **Hậu quả**: GitHub Pages không thể xử lý routing đúng cách
-
-### 2. **Path Resolution Issues** 
-- Base path `/Mom-baby-shop/` được cấu hình đúng trong vite.config.ts
-- Nhưng một số tài nguyên có thể không được tải đúng đường dẫn
-
-### 3. **SPA Routing Problems**
-- React Router với HashRouter cần cấu hình đặc biệt cho GitHub Pages
-- File 404.html cần được tối ưu cho routing
-
-## ✅ **GIẢI PHÁP ĐÃ THỰC HIỆN**
-
-### **Bước 1: Đã sửa CNAME** 
-```bash
-# Đã xóa nội dung CNAME không cần thiết
-# Và cập nhật build script để không copy CNAME
-```
-
-### **Bước 2: Xác minh Build Process**
-```bash
-✅ Build thành công
-✅ Assets được tạo đúng đường dẫn /Mom-baby-shop/
-✅ index.html có script tags đúng
-✅ 404.html được copy vào dist/
-```
 
 ## 🚀 **HƯỚNG DẪN DEPLOY CHÍNH XÁC**
 

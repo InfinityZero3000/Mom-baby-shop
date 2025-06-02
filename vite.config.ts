@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "src"),
       },
     },
-    publicDir: 'public',
+    publicDir: false, // Disable default public dir since we handle it manually
     css: {
       postcss: './postcss.config.js',
     },

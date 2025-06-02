@@ -85,7 +85,7 @@ Mom-baby-shop/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # GitHub Actions workflow
-├── public/                     # Static assets
+├── images/                     # Static assets
 ├── src/                        # Source code
 ├── index.html                  # Entry point
 ├── 404.html                   # SPA routing support
@@ -247,7 +247,7 @@ npm install
 **4. Màn hình trắng trên GitHub Pages:**
 - Đảm bảo React Router có `basename` đúng
 - Kiểm tra build với `npm run preview:github` trước khi deploy
-- File `404.html` phải có trong thư mục `public/`
+- File `404.html` phải có trong thư mục `images/`
 
 **5. Routing không hoạt động trên GitHub Pages:**
 - Đảm bảo đã dùng `npm run build:github`
