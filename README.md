@@ -47,14 +47,18 @@ npm run build
 
 ### 🌐 Build cho GitHub Pages
 ```bash
-npm run build:github
+# macOS/Linux
+npm run build:mac
+
+# Windows
+npm run build:win
 ```
 - **Output**: Tạo thư mục `dist/` với base path `/Mom-baby-shop/`
 - **Tính năng**: 
   - Tự động copy thư mục `images/` vào `dist/`
   - Copy `404.html` để hỗ trợ SPA routing
   - Cấu hình đúng base path cho GitHub Pages
-- **Script**: Sử dụng `./build-github.sh`
+- **Script**: Sử dụng `./deploy-mac.sh` hoặc `./deploy-win.ps1`
 
 ### 👀 Preview Build
 ```bash
@@ -71,9 +75,17 @@ npm run preview:github
 - **Sử dụng**: Test GitHub Pages build trước khi deploy
 
 ### 🚀 Deploy lên GitHub Pages
+
+#### macOS/Linux:
 ```bash
-npm run deploy
+npm run deploy:mac
 ```
+
+#### Windows:
+```powershell
+npm run deploy:win
+```
+
 - **Quá trình**: Build → Deploy to gh-pages branch
 - **Thời gian**: ~2-5 phút để website live
 - **Kết quả**: Website cập nhật tại demo URL
@@ -83,11 +95,12 @@ npm run deploy
 ```
 Mom-baby-shop/
 ├── 📄 index.html              # Entry point
-├── 📄 404.html               # SPA routing support cho GitHub Pages
-├── 📄 vite.config.ts         # Vite config với dynamic base path
-├── 📄 package.json           # Dependencies và scripts
-├── 📄 build-github.sh        # Custom build script cho GitHub Pages
-├── 📁 images/                # Static assets (ảnh sản phẩm, brands, etc.)
+├── 📄 404.html                # SPA routing support cho GitHub Pages
+├── 📄 vite.config.ts          # Vite config với dynamic base path
+├── 📄 package.json            # Dependencies và scripts
+├── 📄 deploy-mac.sh           # Unified deployment script cho macOS/Linux
+├── 📄 deploy-win.ps1          # Unified deployment script cho Windows
+├── 📁 images/                 # Static assets (ảnh sản phẩm, brands, etc.)
 │   ├── banner.png
 │   ├── mom-baby.jpg
 │   ├── brand-*.png
@@ -128,46 +141,100 @@ Mom-baby-shop/
 ### Cấu hình chính trong `vite.config.ts`:
 ```typescript
 export default defineConfig(({ mode }) => {
-  const isGitHubBuild = process.env.NODE_ENV === 'production' || mode === 'production';
+  // Tự động phát hiện GitHub Pages build
+  const isGitHubBuild = process.env.BUILD_FOR_GITHUB === 'true';
   
   return {
     base: isGitHubBuild ? '/Mom-baby-shop/' : '/',
-    publicDir: false, // Manual handling of static assets
+    publicDir: 'images',
     // ...
   };
 });
 ```
 
-### Scripts trong `package.json`:
+### Scripts triển khai trong `package.json`:
 ```json
 {
   "scripts": {
     "dev": "vite",
-    "build": "vite build", 
-    "build:github": "./build-github.sh",
+    "build": "vite build",
     "preview": "vite preview",
-    "preview:github": "vite preview --base=/Mom-baby-shop/",
-    "deploy": "npm run build:github && gh-pages -d dist"
+    "preview:github": "vite preview --base /Mom-baby-shop/",
+    
+    // Scripts cho macOS/Linux
+    "deploy:mac": "bash ./deploy-mac.sh",
+    "build:mac": "bash ./deploy-mac.sh --build-only",
+    "update-paths:mac": "bash ./deploy-mac.sh --update-paths --build-only",
+    "check:mac": "bash ./deploy-mac.sh --check --build-only",
+    
+    // Scripts cho Windows
+    "deploy:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1",
+    "build:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -BuildOnly",
+    "update-paths:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -UpdatePaths -BuildOnly",
+    "check:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -Check -BuildOnly"
   }
 }
 ```
 
-### Custom build script `build-github.sh`:
-```bash
-#!/bin/bash
-# Build với production mode và base path
-NODE_ENV=production npx vite build --mode production --base=/Mom-baby-shop/
+### Scripts thống nhất cho đa nền tảng
 
-# Copy static assets
-cp 404.html dist/
-cp -r images dist/
+#### Cho macOS/Linux:
+```bash
+./deploy-mac.sh [options]
+  Options:
+  --build-only   : Chỉ build cho GitHub Pages, không deploy
+  --update-paths : Cập nhật đường dẫn hình ảnh trước khi build
+  --check        : Chạy health check trước khi triển khai
 ```
 
-## 🔧 Xử lý sự cố
+#### Cho Windows:
+```powershell
+powershell -ExecutionPolicy Bypass -File deploy-win.ps1 [options]
+  Options:
+  -BuildOnly     : Chỉ build cho GitHub Pages, không deploy
+  -UpdatePaths   : Cập nhật đường dẫn hình ảnh
+  -Check         : Chạy kiểm tra hệ thống
+```
+
+## 🚀 Triển khai dự án
+
+### Trên macOS/Linux:
+```bash
+# Triển khai đầy đủ (build và deploy)
+npm run deploy:mac
+
+# Chỉ build cho GitHub Pages
+npm run build:mac
+
+# Cập nhật đường dẫn hình ảnh và build
+npm run update-paths:mac
+
+# Kiểm tra hệ thống trước khi build
+npm run check:mac
+```
+
+### Trên Windows:
+```cmd
+# Triển khai đầy đủ (build và deploy)
+npm run deploy:win
+
+# Chỉ build cho GitHub Pages
+npm run build:win
+
+# Cập nhật đường dẫn hình ảnh và build
+npm run update-paths:win
+
+# Kiểm tra hệ thống trước khi build
+npm run check:win
+```
+
+## 🔧 Xử lý sự cố phổ biến
 
 ### ❌ **Ảnh không hiển thị trên GitHub Pages**
-- **Nguyên nhân**: Đường dẫn ảnh không đúng hoặc thư mục `images/` chưa được copy
-- **Giải pháp**: Đảm bảo chạy `npm run build:github` thay vì `npm run build`
+- **Nguyên nhân**: Đường dẫn ảnh không đúng
+- **Giải pháp**: Sử dụng script cập nhật đường dẫn hình ảnh:
+  - macOS/Linux: `npm run update-paths:mac`
+  - Windows: `npm run update-paths:win`
 
 ### ❌ **404 Error khi refresh trang**
 - **Nguyên nhân**: GitHub Pages không hỗ trợ SPA routing mặc định
@@ -233,8 +300,11 @@ npm run dev
 
 ## 📚 Tài liệu bổ sung
 
-- 📖 **DEPLOYMENT_TROUBLESHOOTING.md**: Xử lý sự cố deploy
-- 🚀 **WINDOWS_DEPLOYMENT_GUIDE.md**: Hướng dẫn deploy trên Windows
+- 📖 **GUIDE_TROUBLESHOOTING.md**: Xử lý sự cố deploy
+- 🚀 **GUIDE_WINDOWS.md**: Hướng dẫn deploy trên Windows
+- 📑 **GUIDE_SCRIPTS.md**: Hướng dẫn sử dụng các scripts
+- 🧭 **GUIDE_NAVIGATION.md**: Thông tin về cấu trúc điều hướng
+- 🖼️ **GUIDE_PATH_UPDATE.md**: Cập nhật đường dẫn hình ảnh
 - 🐛 **GitHub Issues**: [Báo lỗi tại đây](https://github.com/jenniferzero/Mom-baby-shop/issues)
 
 ---

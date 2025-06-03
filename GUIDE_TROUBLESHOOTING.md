@@ -3,15 +3,41 @@
 
 ### **Phương pháp 1: Manual Deploy (Khuyến nghị để test)**
 
+#### macOS/Linux:
 ```bash
+# Option 1: Full deployment process
+npm run deploy:mac
+
+# Option 2: Step by step
 # 1. Clean build
 rm -rf dist
 
 # 2. Build for GitHub Pages
-npm run build:github
+npm run build:mac
 
 # 3. Verify build
 ls -la dist/
+
+# 4. Deploy using gh-pages
+npx gh-pages -d dist
+
+# 5. Wait 2-3 minutes for GitHub Pages to update
+```
+
+#### Windows:
+```powershell
+# Option 1: Full deployment process
+npm run deploy:win
+
+# Option 2: Step by step
+# 1. Clean build
+Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
+
+# 2. Build for GitHub Pages
+npm run build:win
+
+# 3. Verify build
+dir dist
 
 # 4. Deploy using gh-pages
 npx gh-pages -d dist

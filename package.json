@@ -7,14 +7,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:github": "bash ./build-github.sh",
     "preview": "vite preview",
     "preview:github": "vite preview --base /Mom-baby-shop/",
-    "deploy": "npm run build:github && gh-pages -d dist",
-    "deploy:local": "npm run build:github && powershell -Command \"Copy-Item -Path CNAME -Destination dist/\" && gh-pages -d dist",
-    "deploy:auto": "bash ./auto-deploy.sh",
-    "update-paths": "bash ./update-image-paths.sh",
-    "check-build": "bash ./check-and-build.sh"
+    "deploy:mac": "bash ./deploy-mac.sh",
+    "build:mac": "bash ./deploy-mac.sh --build-only",
+    "update-paths:mac": "bash ./deploy-mac.sh --update-paths --build-only",
+    "check:mac": "bash ./deploy-mac.sh --check --build-only",
+    "deploy:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1",
+    "build:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -BuildOnly",
+    "update-paths:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -UpdatePaths -BuildOnly",
+    "check:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -Check -BuildOnly"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.0",

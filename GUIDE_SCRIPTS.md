@@ -11,26 +11,43 @@ npm run preview      # Preview production build locally
 
 ### GitHub Pages Scripts
 ```bash
-npm run build:github   # Build specifically for GitHub Pages
-npm run preview:github # Preview GitHub Pages build
-npm run deploy         # Deploy to GitHub Pages
-npm run deploy:local   # Deploy with CNAME file (Windows)
+# Preview GitHub Pages build
+npm run preview:github
+
+# macOS/Linux
+npm run build:mac      # Build for GitHub Pages 
+npm run deploy:mac     # Build and deploy to GitHub Pages
+
+# Windows
+npm run build:win      # Build for GitHub Pages
+npm run deploy:win     # Build and deploy to GitHub Pages
 ```
 
 ### Utility Scripts
 ```bash
-./update-image-paths.sh  # Update all image paths to use asset helper
-./build-github.sh        # Manual GitHub Pages build
-./auto-deploy.sh         # Automatic commit, build, and deploy
-./check-and-build.sh     # Check dependencies and build both versions
+# Scripts cho môi trường macOS/Linux
+npm run update-paths:mac   # Cập nhật đường dẫn hình ảnh
+npm run check:mac          # Kiểm tra sức khỏe của hệ thống
+
+# Scripts cho môi trường Windows
+npm run update-paths:win   # Cập nhật đường dẫn hình ảnh
+npm run check:win          # Kiểm tra sức khỏe của hệ thống
 ```
 
 ## 🚀 Quick Deployment
 
 ### Option 1: Automatic Deployment (Recommended)
+
+#### macOS/Linux:
 ```bash
-./auto-deploy.sh
+npm run deploy:mac
 ```
+
+#### Windows:
+```powershell
+npm run deploy:win
+```
+
 This script will:
 - ✅ Check and commit any uncommitted changes
 - ✅ Install dependencies if needed
@@ -40,18 +57,35 @@ This script will:
 - ✅ Provide deployment status and URL
 
 ### Option 2: Manual Deployment
+
+#### macOS/Linux:
 ```bash
 # 1. Update image paths (if needed)
-./update-image-paths.sh
+npm run update-paths:mac
 
 # 2. Build for GitHub Pages
-npm run build:github
+npm run build:mac
 
 # 3. Preview build (optional)
 npm run preview:github
 
 # 4. Deploy
-npm run deploy
+npm run deploy:mac
+```
+
+#### Windows:
+```powershell
+# 1. Update image paths (if needed)
+npm run update-paths:win
+
+# 2. Build for GitHub Pages
+npm run build:win
+
+# 3. Preview build (optional)
+npm run preview:github
+
+# 4. Deploy
+npm run deploy:win
 ```
 
 ## 🔧 Asset Path Management
@@ -68,8 +102,15 @@ const imageSrc = getImagePath("images/product.png");
 
 ### Automatic Path Updates
 Run the update script to convert all image paths:
+
+#### macOS/Linux:
 ```bash
-./update-image-paths.sh
+npm run update-paths:mac
+```
+
+#### Windows:
+```powershell
+npm run update-paths:win
 ```
 
 This will:
@@ -104,12 +145,9 @@ Mom-baby-shop/
 │   ├── screens/              # Page components
 │   └── components/           # Reusable components
 ├── images/                   # Static assets
-├── scripts/
-│   ├── auto-deploy.sh        # Automatic deployment
-│   ├── build-github.sh       # GitHub Pages build
-│   ├── update-image-paths.sh # Path update utility
-│   └── check-and-build.sh    # Development helper
-└── dist/                     # Build output
+├── deploy-mac.sh            # macOS/Linux deployment script
+├── deploy-win.ps1           # Windows deployment script
+└── dist/                    # Build output
 ```
 
 ## 🔍 Troubleshooting
@@ -123,15 +161,22 @@ Mom-baby-shop/
 
 2. **Image paths not working**
    ```bash
-   ./update-image-paths.sh
-   npm run build:github
+   # macOS/Linux
+   npm run update-paths:mac
+   npm run build:mac
+   
+   # Windows
+   npm run update-paths:win
+   npm run build:win
    ```
 
 3. **Preview not working**
    ```bash
    npm run preview:github
-   # Then visit: http://localhost:4174/Mom-baby-shop/
+   # Truy cập: http://localhost:4173/Mom-baby-shop/
    ```
+   
+> **Lưu ý:** Xem thêm hướng dẫn xử lý sự cố chi tiết trong `GUIDE_TROUBLESHOOTING.md` và hướng dẫn dành riêng cho Windows trong `GUIDE_WINDOWS.md`
 
 ### Deployment Issues
 1. **GitHub Pages not updating**
@@ -184,14 +229,23 @@ dist/
 
 2. **Test before deploying**
    ```bash
-   npm run build:github
+   # macOS/Linux
+   npm run build:mac
    npm run preview:github
    # Test functionality, then deploy
+   
+   # Windows
+   npm run build:win
+   npm run preview:github
    ```
 
 3. **Use automatic deployment**
    ```bash
-   ./auto-deploy.sh
+   # macOS/Linux
+   npm run deploy:mac
+   
+   # Windows
+   npm run deploy:win
    # Handles everything automatically
    ```
 

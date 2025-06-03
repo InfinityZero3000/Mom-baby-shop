@@ -15,10 +15,10 @@
 - ✅ Thêm import statements cần thiết vào tất cả components
 
 #### 3. **Build Scripts và Automation**
-- ✅ Cập nhật `build-github.sh` với environment variables đúng
-- ✅ Tạo `update-image-paths.sh` để tự động cập nhật đường dẫn
-- ✅ Tạo `auto-deploy.sh` cho deployment tự động
-- ✅ Cải thiện `check-and-build.sh` với thông báo chi tiết
+- ✅ Tạo `deploy-mac.sh` cho triển khai trên macOS/Linux
+- ✅ Tạo `deploy-win.ps1` cho triển khai trên Windows
+- ✅ Thống nhất chức năng tự động cập nhật đường dẫn
+- ✅ Thêm tính năng kiểm tra hệ thống với thông báo chi tiết
 
 #### 4. **Configuration Updates**
 - ✅ Cập nhật `vite.config.ts` với environment detection
@@ -26,30 +26,39 @@
 - ✅ Cải thiện base path handling cho GitHub Pages
 
 #### 5. **Documentation**
-- ✅ Tạo `SCRIPT_USAGE_GUIDE.md` với hướng dẫn chi tiết
+- ✅ Tạo `GUIDE_SCRIPTS.md` với hướng dẫn chi tiết
 - ✅ Documenting tất cả scripts và use cases
 - ✅ Troubleshooting guide và best practices
 
 ## 🚀 Scripts được tạo/cập nhật
 
-### Scripts chính
+### Scripts chính - macOS/Linux
 ```bash
 npm run dev              # Development server
 npm run build            # Local production build  
-npm run build:github     # GitHub Pages build
+npm run build:mac        # GitHub Pages build (macOS/Linux)
 npm run preview:github   # Preview GitHub build
-npm run deploy           # Deploy to GitHub Pages
-npm run deploy:auto      # Auto deployment
-npm run update-paths     # Update image paths
-npm run check-build      # Check and build both versions
+npm run deploy:mac       # Deploy to GitHub Pages (macOS/Linux)
+npm run update-paths:mac # Update image paths (macOS/Linux)
+npm run check:mac        # Health check system (macOS/Linux)
 ```
 
-### Utility Scripts
-```bash
-./auto-deploy.sh         # Automatic commit, build, deploy
-./build-github.sh        # GitHub Pages build
-./update-image-paths.sh  # Update all image paths
-./check-and-build.sh     # Development helper
+### Scripts chính - Windows
+```powershell
+npm run dev              # Development server
+npm run build            # Local production build
+npm run build:win        # GitHub Pages build (Windows)
+npm run preview:github   # Preview GitHub build
+npm run deploy:win       # Deploy to GitHub Pages (Windows)
+npm run update-paths:win # Update image paths (Windows)
+npm run check:win        # Health check system (Windows)
+```
+
+### Unified Script Files
+```
+./deploy-mac.sh         # Combined deployment script for macOS/Linux
+./deploy-win.ps1        # Combined deployment script for Windows
+npm run check:mac        # Development helper
 ```
 
 ## 🔧 Các file được cập nhật
@@ -58,7 +67,7 @@ npm run check-build      # Check and build both versions
 - `src/lib/assets.ts` - **[MỚI]** Asset path utilities
 - `vite.config.ts` - Environment detection
 - `package.json` - Thêm scripts mới
-- `build-github.sh` - Cải thiện build process
+- `deploy-mac.sh` và `deploy-win.ps1` - Cải thiện build process
 
 ### Component Files  
 - `src/screens/ImprovedHomePage/ImprovedHomePage.tsx`
@@ -68,7 +77,7 @@ npm run check-build      # Check and build both versions
 - `src/screens/ProductDetailPage/ProductDetailPage.tsx`
 
 ### Documentation
-- `SCRIPT_USAGE_GUIDE.md` - **[MỚI]** Hướng dẫn sử dụng
+- `GUIDE_SCRIPTS.md` - **[MỚI]** Hướng dẫn sử dụng
 - Các file `.backup` - Backup của file gốc
 
 ## 🎯 Kết quả đạt được
