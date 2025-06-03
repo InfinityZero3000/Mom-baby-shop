@@ -206,7 +206,7 @@ build_for_github() {
 
     # Build the project
     echo "🏗️ Building project..."
-    vite build
+    npx vite build
 
     if [ $? -eq 0 ]; then
         print_success "GitHub Pages build completed successfully!"

@@ -207,7 +207,7 @@ function Build-ForGitHub {
     
     # Build the project
     Write-Info "🏗️ Building project..."
-    npm run build
+    npx vite build
     
     if ($LASTEXITCODE -eq 0) {
         Write-Success "✅ GitHub Pages build completed successfully!"
