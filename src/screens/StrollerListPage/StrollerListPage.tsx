@@ -4,11 +4,11 @@ import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+import { getImagePath } from "../../lib/assets";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
+import { Navigation } from "../../components/Navigation";
 import {
-  Search,
   ShoppingCart,
   Heart,
   Star,
@@ -17,8 +17,6 @@ import {
   List,
   ChevronLeft,
   ChevronRight,
-  User,
-  Package,
 } from "lucide-react";
 
 interface StrollerProduct {
@@ -44,8 +42,8 @@ export const StrollerListPage = (): JSX.Element => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   
-  const { addItem, openCart, totalItems } = useCart();
-  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
+  const { addItem } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { addToast } = useToast();
 
   // Effect to handle search params from URL
@@ -65,7 +63,7 @@ export const StrollerListPage = (): JSX.Element => {
       brand: "Joie",
       price: "7.500.000 đ",
       originalPrice: "8.500.000 đ",
-      image: "/images/stroller-1.png",
+      image: getImagePath("images/stroller-1.png"),
       rating: 4.8,
       reviews: 156,
       discount: "12%",
@@ -77,7 +75,7 @@ export const StrollerListPage = (): JSX.Element => {
       name: "Xe đẩy Chicco Bravo Trio",
       brand: "Chicco",
       price: "9.200.000 đ",
-      image: "/images/stroller-2.png",
+      image: getImagePath("images/stroller-2.png"),
       rating: 4.9,
       reviews: 203,
       features: ["3 trong 1", "Tương thích car seat", "Bánh lớn"],
@@ -89,7 +87,7 @@ export const StrollerListPage = (): JSX.Element => {
       brand: "Baby Jogger",
       price: "6.800.000 đ",
       originalPrice: "7.200.000 đ",
-      image: "/images/stroller-3.png",
+      image: getImagePath("images/stroller-3.png"),
       rating: 4.7,
       reviews: 89,
       discount: "6%",
@@ -101,7 +99,7 @@ export const StrollerListPage = (): JSX.Element => {
       name: "Xe đẩy Maxi-Cosi Lara2",
       brand: "Maxi-Cosi",
       price: "4.500.000 đ",
-      image: "/images/stroller-4.png",
+      image: getImagePath("images/stroller-4.png"),
       rating: 4.6,
       reviews: 67,
       features: ["Siêu nhẹ", "Gấp tự động", "UV Protection"],
@@ -113,7 +111,7 @@ export const StrollerListPage = (): JSX.Element => {
       brand: "Bugaboo",
       price: "15.500.000 đ",
       originalPrice: "17.000.000 đ",
-      image: "/images/stroller-5.png",
+      image: getImagePath("images/stroller-5.png"),
       rating: 5.0,
       reviews: 124,
       discount: "9%",
@@ -125,7 +123,7 @@ export const StrollerListPage = (): JSX.Element => {
       name: "Xe đẩy UPPAbaby Vista V2",
       brand: "UPPAbaby",
       price: "18.900.000 đ",
-      image: "/images/stroller-6.png",
+      image: getImagePath("images/stroller-6.png"),
       rating: 4.9,
       reviews: 178,
       features: ["Mở rộng cho 2 bé", "Giỏ lớn", "Bánh đặc biệt"],
@@ -217,64 +215,7 @@ export const StrollerListPage = (): JSX.Element => {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Navigation */}
-      <nav className="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <div className="text-3xl font-bold">
-              <span className="text-[#ef62f9]">MomBaby</span>
-              <span className="text-[#0bbdf8] font-['Pattaya']">Shop</span>
-            </div>            <div className="hidden lg:flex space-x-8">
-              <Link to="/home" className="font-semibold text-gray-800 hover:text-[#ef62f9]">TRANG CHỦ</Link>
-              <Link to="/strollers" className="font-semibold text-[#ef62f9]">XE ĐẨY</Link>
-              <Link to="/clothing" className="font-semibold text-gray-800 hover:text-[#ef62f9]">QUẦN ÁO</Link>
-              <Link to="/products" className="font-semibold text-gray-800 hover:text-[#ef62f9]">SẢN PHẨM</Link>
-            </div>
-          </div>
-            <div className="flex items-center space-x-4">
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Tìm kiếm xe đẩy..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 w-80"
-              />
-            </div>
-
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/orders">
-                <Package className="h-5 w-5" />
-              </Link>
-            </Button>
-
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/profile">
-                <User className="h-5 w-5" />
-              </Link>
-            </Button>
-
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/wishlist">
-                <Heart className="h-5 w-5" />
-                {wishlistTotalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {wishlistTotalItems}
-                  </span>
-                )}
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" className="relative" onClick={openCart}>
-              <ShoppingCart className="h-5 w-5" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#ef62f9] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Breadcrumb */}
       <div className="px-8 lg:px-20 py-4 text-sm text-gray-600">

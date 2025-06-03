@@ -17,6 +17,9 @@ import { OrderHistoryPage } from './screens/OrderHistoryPage';
 import { UserProfilePage } from './screens/UserProfilePage';
 import { LoginPage } from './screens/LoginPage';
 import { RegisterPage } from './screens/RegisterPage';
+import { DashboardPage } from './screens/DashboardPage';
+import { AdminSellerManagementPage } from './screens/AdminSellerManagementPage';
+import { SellerProductManagementPage } from './screens/SellerProductManagementPage';
 
 export const App: React.FC = () => {
   return (
@@ -31,6 +34,27 @@ export const App: React.FC = () => {
                 {/* Authentication routes */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                
+                {/* Dashboard routes */}
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                } />
+                
+                {/* Admin routes */}
+                <Route path="/admin/sellers" element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminSellerManagementPage />
+                  </ProtectedRoute>
+                } />
+                
+                {/* Seller routes */}
+                <Route path="/seller/products" element={
+                  <ProtectedRoute allowedRoles={['seller']}>
+                    <SellerProductManagementPage />
+                  </ProtectedRoute>
+                } />
                 
                 {/* Trang sản phẩm chính */}
                 <Route path="/products" element={<MainProductPage />} />

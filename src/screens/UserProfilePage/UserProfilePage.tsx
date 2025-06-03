@@ -23,8 +23,9 @@ import {
   Shield,
   LogOut,
   Store,
-  UserCog,
-  Settings
+  Users,
+  ShoppingBag,
+  LayoutDashboard
 } from 'lucide-react';
 
 interface UserProfile {
@@ -296,28 +297,29 @@ export const UserProfilePage: React.FC = () => {
             {user?.role === 'admin' ? 'Quản trị' : 'Quản lý bán hàng'}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Dashboard link for all roles */}
+            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard')}>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <LayoutDashboard className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-900">Dashboard</h4>
+                  <p className="text-sm text-gray-500">Tổng quan hệ thống</p>
+                </div>
+              </div>
+            </Card>
+
             {user?.role === 'seller' && (
               <>
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                      <Store className="w-5 h-5 text-orange-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">Cửa hàng</h4>
-                      <p className="text-sm text-gray-500">Quản lý cửa hàng</p>
-                    </div>
-                  </div>
-                </Card>
-                
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/seller/products')}>
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
                       <Package className="w-5 h-5 text-indigo-600" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900">Sản phẩm</h4>
-                      <p className="text-sm text-gray-500">Quản lý sản phẩm</p>
+                      <h4 className="font-medium text-gray-900">Quản lý Sản phẩm</h4>
+                      <p className="text-sm text-gray-500">Thêm, sửa, xóa sản phẩm</p>
                     </div>
                   </div>
                 </Card>
@@ -326,26 +328,26 @@ export const UserProfilePage: React.FC = () => {
             
             {user?.role === 'admin' && (
               <>
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/admin/sellers')}>
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                      <UserCog className="w-5 h-5 text-red-600" />
+                      <Users className="w-5 h-5 text-red-600" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900">Quản lý user</h4>
-                      <p className="text-sm text-gray-500">Quản lý tài khoản</p>
+                      <h4 className="font-medium text-gray-900">Quản lý Người bán</h4>
+                      <p className="text-sm text-gray-500">Phê duyệt, quản lý người bán</p>
                     </div>
                   </div>
                 </Card>
                 
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/admin/products')}>
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <Settings className="w-5 h-5 text-yellow-600" />
+                      <ShoppingBag className="w-5 h-5 text-yellow-600" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900">Cài đặt hệ thống</h4>
-                      <p className="text-sm text-gray-500">Cấu hình hệ thống</p>
+                      <h4 className="font-medium text-gray-900">Quản lý Sản phẩm</h4>
+                      <p className="text-sm text-gray-500">Xem tất cả sản phẩm</p>
                     </div>
                   </div>
                 </Card>

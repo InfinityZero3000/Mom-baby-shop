@@ -1,17 +1,14 @@
-import { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
-import { useAuth } from "../../contexts/AuthContext";
+import { getImagePath } from "../../lib/assets";
 import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
-import UserRoleIndicator from "../../components/UserRoleIndicator";
+import { Navigation } from "../../components/Navigation";
 import {
-  Search,
-  ShoppingCart,
   Heart,
   Star,
   ArrowRight,
@@ -19,8 +16,6 @@ import {
   Shield,
   RotateCcw,
   Phone,
-  User,
-  Package,
 } from "lucide-react";
 
 interface FeaturedProduct {
@@ -37,12 +32,10 @@ interface FeaturedProduct {
 }
 
 export const ImprovedHomePage = (): JSX.Element => {
-  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { addItem, openCart, totalItems } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
   const { addToast } = useToast();
-  const { isAuthenticated, logout } = useAuth();
 
   // Featured products data
   const featuredProducts: FeaturedProduct[] = [
@@ -52,7 +45,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Đệm và gối",
       price: "560.000 đ",
       originalPrice: "700.000 đ",
-      image: "/pillow-u-shape.png",
+      image: getImagePath("images/pillow-u-shape.png"),
       rating: 4.8,
       reviews: 156,
       discount: "20%",
@@ -64,7 +57,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Xe đẩy",
       price: "7.499.000 đ",
       originalPrice: "8.499.000 đ",
-      image: "/stroller-1.png",
+      image: "/images/stroller-1.png",
       rating: 4.9,
       reviews: 203,
       discount: "12%",
@@ -75,7 +68,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       name: "Nôi đưa trẻ em Joie Serina",
       category: "Nôi cũi",
       price: "6.499.000 đ",
-      image: "/crib-joie.png",
+      image: "/images/crib-joie.png",
       rating: 4.7,
       reviews: 89,
       bgColor: "bg-gradient-to-br from-purple-100 to-purple-200",
@@ -86,7 +79,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Phụ kiện tắm",
       price: "450.000 đ",
       originalPrice: "550.000 đ",
-      image: "/bath-chair.png",
+      image: "/images/bath-chair.png",
       rating: 4.6,
       reviews: 67,
       discount: "18%",
@@ -106,12 +99,12 @@ export const ImprovedHomePage = (): JSX.Element => {
 
   // Brands
   const brands = [
-    { name: "Joie", logo: "/brand-joie.png" },
-    { name: "Chicco", logo: "/brand-chicco.png" },
-    { name: "Mothercare", logo: "/brand-mothercare.png" },
-    { name: "Fisher-Price", logo: "/brand-fisher-price.png" },
-    { name: "Aptamil", logo: "/brand-aptamil.png" },
-    { name: "Babylove", logo: "/brand-babylove.png" },  ];
+    { name: "Joie", logo: "/images/brand-joie.png" },
+    { name: "Chicco", logo: "/images/brand-chicco.png" },
+    { name: "Mothercare", logo: "/images/brand-mothercare.png" },
+    { name: "Fisher-Price", logo: "/images/brand-fisher-price.png" },
+    { name: "Aptamil", logo: "/images/brand-aptamil.png" },
+    { name: "Babylove", logo: "/images/brand-babylove.png" },  ];
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -167,122 +160,14 @@ export const ImprovedHomePage = (): JSX.Element => {
     }
   };
 
-  const handleSearch = () => {
-    if (searchTerm.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
-    } else {
-      navigate('/products');
-    }
-  };
-
-  const handleSearchKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
   return (
     <div className="bg-white min-h-screen">
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-[#ef62f9] to-[#0bbdf8] text-white py-2 px-8 lg:px-20">
-        <div className="flex justify-between items-center text-sm">
-          <div className="flex items-center gap-4">
-            <span>Tải ứng dụng</span>
-            <span>|</span>
-            <span>Kết nối</span>
-          </div>          <div className="hidden md:flex items-center gap-4">
-            <Link to="/orders" className="hover:text-gray-200">Đơn hàng</Link>
-            <span>|</span>
-            <span>Hỗ trợ</span>
-            <span>|</span>
-            <Link to="/profile" className="hover:text-gray-200">Tài khoản</Link>
-            <span>|</span>
-            {isAuthenticated ? (
-              <>
-                <UserRoleIndicator />
-                <span>|</span>
-                <button 
-                  onClick={logout}
-                  className="hover:text-gray-200 cursor-pointer"
-                >
-                  Đăng xuất
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/login" className="hover:text-gray-200">Đăng nhập</Link>
-                <span>|</span>
-                <Link to="/register" className="hover:text-gray-200">Đăng ký</Link>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-
       {/* Navigation */}
-      <nav className="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <div className="text-3xl font-bold">
-              <span className="text-[#ef62f9]">MomBaby</span>
-              <span className="text-[#0bbdf8] font-['Pattaya']">Shop</span>
-            </div>            <div className="hidden lg:flex space-x-8">
-              <Link to="/home" className="font-semibold text-[#ef62f9]">TRANG CHỦ</Link>
-              <Link to="/products" className="font-semibold text-gray-800 hover:text-[#ef62f9]">SẢN PHẨM</Link>
-              <Link to="/strollers" className="font-semibold text-gray-800 hover:text-[#ef62f9]">XE ĐẨY</Link>
-              <Link to="/clothing" className="font-semibold text-gray-800 hover:text-[#ef62f9]">QUẦN ÁO</Link>
-              <a href="mailto:info@mombabyshop.com" className="font-semibold text-gray-800 hover:text-[#ef62f9]">LIÊN HỆ</a>
-            </div>
-          </div>
-            <div className="flex items-center space-x-4">
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Tìm kiếm sản phẩm..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyPress={handleSearchKeyPress}
-                className="pl-10 w-80"
-              />
-            </div>
-
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/orders">
-                <Package className="h-5 w-5" />
-              </Link>
-            </Button>
-
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/profile">
-                <User className="h-5 w-5" />
-              </Link>
-            </Button>
-
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/wishlist">
-                <Heart className="h-5 w-5" />
-                {wishlistTotalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {wishlistTotalItems}
-                  </span>
-                )}
-              </Link>
-            </Button>
-            <Button variant="ghost" size="icon" className="relative" onClick={openCart}>
-              <ShoppingCart className="h-5 w-5" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#ef62f9] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Hero Section */}
       <div className="relative w-full h-[600px] mx-auto bg-gradient-to-r from-pink-50 via-blue-50 to-purple-50 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/hero-baby-room.jpg')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 bg-[url('/images/mom-baby.jpg')] bg-cover bg-center opacity-20"></div>
         
         <div className="relative z-10 h-full flex items-center justify-center px-8 lg:px-20">
           <div className="max-w-4xl mx-auto text-center">

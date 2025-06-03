@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 import { Input } from '../../components/ui/input';
+import { Navigation } from '../../components/Navigation';
+import { getImagePath } from '../../lib/assets';
 import { 
   Package, 
   Truck, 
@@ -12,7 +14,6 @@ import {
   Clock, 
   Search,
   Eye,
-  ArrowLeft,
   Home,
   ChevronRight,
   Star,
@@ -40,7 +41,6 @@ interface Order {
 }
 
 export const OrderHistoryPage: React.FC = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
 
@@ -57,14 +57,14 @@ export const OrderHistoryPage: React.FC = () => {
           name: "Xe đẩy trẻ em Joie Chrome DLX",
           price: "7.500.000 đ",
           quantity: 1,
-          image: "/images/stroller-1.png"
+          image: getImagePath("images/stroller-1.png")
         },
         {
           id: 2,
           name: "Gối chữ U cho mẹ bầu",
           price: "560.000 đ",
           quantity: 1,
-          image: "/images/pillow-u-shape.png"
+          image: getImagePath("images/pillow-u-shape.png")
         }
       ],
       shippingAddress: "123 Nguyễn Văn A, Quận 1, TP.HCM",
@@ -83,14 +83,14 @@ export const OrderHistoryPage: React.FC = () => {
           name: "Bộ quần áo cotton organic cho bé gái",
           price: "320.000 đ",
           quantity: 2,
-          image: "/images/clothing-1.png"
+          image: getImagePath("images/clothing-1.png")
         },
         {
           id: 4,
           name: "Ghế gội đầu Holla cho bé",
           price: "450.000 đ",
           quantity: 1,
-          image: "/images/bath-chair.png"
+          image: getImagePath("images/bath-chair.png")
         }
       ],
       shippingAddress: "456 Lê Văn B, Quận 3, TP.HCM",
@@ -109,7 +109,7 @@ export const OrderHistoryPage: React.FC = () => {
           name: "Nôi đưa trẻ em Joie Serina",
           price: "6.499.000 đ",
           quantity: 1,
-          image: "/images/crib-joie.png"
+          image: getImagePath("images/crib-joie.png")
         }
       ],
       shippingAddress: "789 Trần Văn C, Quận 7, TP.HCM",
@@ -183,24 +183,7 @@ export const OrderHistoryPage: React.FC = () => {
   if (orders.length === 0) {
     return (
       <div className="bg-white min-h-screen">
-        {/* Navigation */}
-        <nav className="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
-          <div className="flex justify-between items-center">
-            <Link to="/" className="text-3xl font-bold">
-              <span className="text-[#ef62f9]">MomBaby</span>
-              <span className="text-[#0bbdf8] font-['Pattaya']">Shop</span>
-            </Link>
-            
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Quay lại
-            </Button>
-          </div>
-        </nav>
+        <Navigation />
 
         <div className="flex flex-col items-center justify-center py-16">
           <div className="text-center">
@@ -220,24 +203,7 @@ export const OrderHistoryPage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Navigation */}
-      <nav className="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
-        <div className="flex justify-between items-center">
-          <Link to="/" className="text-3xl font-bold">
-            <span className="text-[#ef62f9]">MomBaby</span>
-            <span className="text-[#0bbdf8] font-['Pattaya']">Shop</span>
-          </Link>
-          
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Quay lại
-          </Button>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Breadcrumb */}
       <div className="px-8 lg:px-20 py-4 border-b bg-gray-50">

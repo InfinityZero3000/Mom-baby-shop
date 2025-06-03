@@ -4,7 +4,6 @@ import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
 import { Button } from "../../components/ui/button";
-import { getImagePath } from "../../lib/assets";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
 import { Navigation } from "../../components/Navigation";
@@ -19,28 +18,24 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-interface ClothingProduct {
+interface StrollerProduct {
   id: number;
   name: string;
-  category: string;
+  brand: string;
   price: string;
   originalPrice?: string;
   image: string;
   rating: number;
   reviews: number;
   discount?: string;
-  sizes: string[];
+  features: string[];
   colors: string[];
-  material: string;
-  ageRange: string;
 }
 
-export const ClothingListPage = (): JSX.Element => {
+export const StrollerListPage = (): JSX.Element => {
   const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [selectedAgeRanges, setSelectedAgeRanges] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -59,119 +54,102 @@ export const ClothingListPage = (): JSX.Element => {
     }
   }, [searchParams]);
 
-  // Sample clothing products data
-  const clothingProducts: ClothingProduct[] = [
+  // Sample stroller products data
+  const strollerProducts: StrollerProduct[] = [
     {
       id: 1,
-      name: "Bộ quần áo cotton organic cho bé gái",
-      category: "Bộ đồ",
-      price: "320.000 đ",
-      originalPrice: "400.000 đ",
-      image: getImagePath("images/clothing-1.png"),
+      name: "Xe đẩy trẻ em Joie Chrome DLX",
+      brand: "Joie",
+      price: "7.500.000 đ",
+      originalPrice: "8.500.000 đ",
+      image: "/images/stroller-1.png",
       rating: 4.8,
-      reviews: 124,
-      discount: "20%",
-      sizes: ["6M", "9M", "12M", "18M", "24M"],
-      colors: ["Hồng", "Trắng", "Xanh pastel"],
-      material: "Cotton organic",
-      ageRange: "6-24 tháng",
+      reviews: 156,
+      discount: "12%",
+      features: ["Gấp gọn", "Phanh 2 bánh", "Khóa an toàn"],
+      colors: ["Xám", "Đen", "Xanh"],
     },
     {
       id: 2,
-      name: "Áo thun in hình động vật dễ thương",
-      category: "Áo thun",
-      price: "150.000 đ",
-      image: getImagePath("images/clothing-2.png"),
-      rating: 4.7,
-      reviews: 89,
-      sizes: ["6M", "9M", "12M", "18M", "24M", "3T"],
-      colors: ["Vàng", "Xanh", "Hồng", "Trắng"],
-      material: "Cotton 100%",
-      ageRange: "6 tháng - 3 tuổi",
+      name: "Xe đẩy Chicco Bravo Trio",
+      brand: "Chicco",
+      price: "9.200.000 đ",
+      image: "/images/stroller-2.png",
+      rating: 4.9,
+      reviews: 203,
+      features: ["3 trong 1", "Tương thích car seat", "Bánh lớn"],
+      colors: ["Đen", "Xám", "Nâu"],
     },
     {
       id: 3,
-      name: "Váy công chúa tutu cho bé gái",
-      category: "Váy",
-      price: "450.000 đ",
-      originalPrice: "550.000 đ",
-      image: getImagePath("images/clothing-3.png"),
-      rating: 4.9,
-      reviews: 67,
-      discount: "18%",
-      sizes: ["12M", "18M", "24M", "3T", "4T"],
-      colors: ["Hồng", "Tím", "Trắng"],
-      material: "Tulle + Cotton lining",
-      ageRange: "1-4 tuổi",
+      name: "Xe đẩy Baby Jogger City Mini GT2",
+      brand: "Baby Jogger",
+      price: "6.800.000 đ",
+      originalPrice: "7.200.000 đ",
+      image: "/images/stroller-3.png",
+      rating: 4.7,
+      reviews: 89,
+      discount: "6%",
+      features: ["Bánh địa hình", "Gấp 1 tay", "Tựa đầu điều chỉnh"],
+      colors: ["Đỏ", "Xanh", "Xám"],
     },
     {
       id: 4,
-      name: "Quần jeans mềm co giãn cho bé trai",
-      category: "Quần dài",
-      price: "280.000 đ",
-      image: getImagePath("images/clothing-4.png"),
+      name: "Xe đẩy Maxi-Cosi Lara2",
+      brand: "Maxi-Cosi",
+      price: "4.500.000 đ",
+      image: "/images/stroller-4.png",
       rating: 4.6,
-      reviews: 156,
-      sizes: ["9M", "12M", "18M", "24M", "3T", "4T"],
-      colors: ["Xanh đậm", "Xanh nhạt", "Đen"],
-      material: "Denim co giãn",
-      ageRange: "9 tháng - 4 tuổi",
+      reviews: 67,
+      features: ["Siêu nhẹ", "Gấp tự động", "UV Protection"],
+      colors: ["Hồng", "Xanh", "Xám"],
     },
     {
       id: 5,
-      name: "Body suit cotton cho trẻ sơ sinh",
-      category: "Body suit",
-      price: "180.000 đ",
-      originalPrice: "220.000 đ",
-      image: getImagePath("images/clothing-5.png"),
-      rating: 4.8,
-      reviews: 203,
-      discount: "18%",
-      sizes: ["NB", "3M", "6M", "9M"],
-      colors: ["Trắng", "Hồng nhạt", "Xanh nhạt", "Vàng nhạt"],
-      material: "Cotton organic",
-      ageRange: "0-9 tháng",
+      name: "Xe đẩy Bugaboo Fox 3",
+      brand: "Bugaboo",
+      price: "15.500.000 đ",
+      originalPrice: "17.000.000 đ",
+      image: "/images/stroller-5.png",
+      rating: 5.0,
+      reviews: 124,
+      discount: "9%",
+      features: ["Premium", "Bánh lớn", "Khung nhôm cao cấp"],
+      colors: ["Đen", "Trắng", "Xanh navy"],
     },
     {
       id: 6,
-      name: "Áo khoác hoodie mềm mại",
-      category: "Áo khoác",
-      price: "380.000 đ",
-      image: getImagePath("images/clothing-6.png"),
-      rating: 4.7,
-      reviews: 91,
-      sizes: ["12M", "18M", "24M", "3T", "4T", "5T"],
-      colors: ["Xám", "Xanh navy", "Hồng"],
-      material: "Cotton blend",
-      ageRange: "1-5 tuổi",
+      name: "Xe đẩy UPPAbaby Vista V2",
+      brand: "UPPAbaby",
+      price: "18.900.000 đ",
+      image: "/images/stroller-6.png",
+      rating: 4.9,
+      reviews: 178,
+      features: ["Mở rộng cho 2 bé", "Giỏ lớn", "Bánh đặc biệt"],
+      colors: ["Xám", "Đen", "Xanh"],
     },
   ];
 
-  const categories = ["Bộ đồ", "Áo thun", "Váy", "Quần dài", "Body suit", "Áo khoác"];
-  const sizes = ["NB", "3M", "6M", "9M", "12M", "18M", "24M", "3T", "4T", "5T"];
-  const ageRanges = ["0-6 tháng", "6-12 tháng", "1-2 tuổi", "2-3 tuổi", "3-5 tuổi"];
+  const brands = ["Joie", "Chicco", "Baby Jogger", "Maxi-Cosi", "Bugaboo", "UPPAbaby"];
   const priceRanges = [
-    "Dưới 200k",
-    "200k - 300k",
-    "300k - 500k",
-    "Trên 500k",
+    "Dưới 5 triệu",
+    "5 - 10 triệu",
+    "10 - 15 triệu",
+    "Trên 15 triệu",
   ];
 
   const productsPerPage = 6;
-  const totalPages = Math.ceil(clothingProducts.length / productsPerPage);
+  const totalPages = Math.ceil(strollerProducts.length / productsPerPage);
 
-  const filteredProducts = clothingProducts.filter((product) => {
+  const filteredProducts = strollerProducts.filter((product) => {
     const searchLower = searchTerm.toLowerCase();
     const matchesSearch = searchTerm === "" || 
                          product.name.toLowerCase().includes(searchLower) ||
-                         product.category.toLowerCase().includes(searchLower) ||
-                         product.material.toLowerCase().includes(searchLower) ||
-                         product.ageRange.toLowerCase().includes(searchLower) ||
+                         product.brand.toLowerCase().includes(searchLower) ||
+                         product.features.some(feature => feature.toLowerCase().includes(searchLower)) ||
                          product.colors.some(color => color.toLowerCase().includes(searchLower));
-    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-    const matchesSize = selectedSizes.length === 0 || selectedSizes.some(size => product.sizes.includes(size));
-    const matchesAgeRange = selectedAgeRanges.length === 0 || selectedAgeRanges.includes(product.ageRange);
-    return matchesSearch && matchesCategory && matchesSize && matchesAgeRange;
+    const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+    return matchesSearch && matchesBrand;
   });
 
   const currentProducts = filteredProducts.slice(
@@ -189,15 +167,15 @@ export const ClothingListPage = (): JSX.Element => {
     ));
   };
 
-  const handleAddToCart = (product: ClothingProduct) => {
+  const handleAddToCart = (product: StrollerProduct) => {
     addItem({
       id: product.id,
       name: product.name,
       price: product.price,
       originalPrice: product.originalPrice,
       image: product.image,
-      category: product.category,
-      brand: product.category,
+      category: "Xe đẩy",
+      brand: product.brand,
     });
     addToast({
       type: "success",
@@ -206,7 +184,7 @@ export const ClothingListPage = (): JSX.Element => {
     });
   };
 
-  const handleWishlistToggle = (product: ClothingProduct) => {
+  const handleWishlistToggle = (product: StrollerProduct) => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
       addToast({
@@ -221,13 +199,13 @@ export const ClothingListPage = (): JSX.Element => {
         price: product.price,
         originalPrice: product.originalPrice,
         image: product.image,
-        category: product.category,
-        brand: product.category,
+        category: "Xe đẩy",
+        brand: product.brand,
         rating: product.rating,
         reviews: product.reviews,
       });
       addToast({
-        type: "success", 
+        type: "success",
         title: "Thành công!",
         message: `${product.name} đã được thêm vào danh sách yêu thích`
       });
@@ -240,14 +218,14 @@ export const ClothingListPage = (): JSX.Element => {
 
       {/* Breadcrumb */}
       <div className="px-8 lg:px-20 py-4 text-sm text-gray-600">
-        <span>Trang chủ</span> <span className="mx-2">/</span> <span className="text-[#ef62f9]">Quần áo trẻ em</span>
+        <span>Trang chủ</span> <span className="mx-2">/</span> <span className="text-[#ef62f9]">Xe đẩy trẻ em</span>
       </div>
 
       <div className="px-8 lg:px-20 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Quần áo trẻ em</h1>
-          <p className="text-gray-600">Bộ sưu tập thời trang dễ thương và thoải mái cho bé yêu</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Xe đẩy trẻ em</h1>
+          <p className="text-gray-600">Khám phá bộ sưu tập xe đẩy cao cấp cho bé yêu</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -259,78 +237,24 @@ export const ClothingListPage = (): JSX.Element => {
                 Bộ lọc
               </h3>
 
-              {/* Category Filter */}
+              {/* Brand Filter */}
               <div className="mb-6">
-                <h4 className="font-medium mb-3">Danh mục</h4>
-                {categories.map((category) => (
-                  <label key={category} className="flex items-center mb-2">
+                <h4 className="font-medium mb-3">Thương hiệu</h4>
+                {brands.map((brand) => (
+                  <label key={brand} className="flex items-center mb-2">
                     <input
                       type="checkbox"
-                      checked={selectedCategories.includes(category)}
+                      checked={selectedBrands.includes(brand)}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setSelectedCategories([...selectedCategories, category]);
+                          setSelectedBrands([...selectedBrands, brand]);
                         } else {
-                          setSelectedCategories(selectedCategories.filter((c) => c !== category));
+                          setSelectedBrands(selectedBrands.filter((b) => b !== brand));
                         }
                       }}
                       className="mr-2"
                     />
-                    <span className="text-sm">{category}</span>
-                  </label>
-                ))}
-              </div>
-
-              <Separator className="my-4" />
-
-              {/* Size Filter */}
-              <div className="mb-6">
-                <h4 className="font-medium mb-3">Kích cỡ</h4>
-                <div className="grid grid-cols-3 gap-2">
-                  {sizes.map((size) => (
-                    <Button
-                      key={size}
-                      variant={selectedSizes.includes(size) ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => {
-                        if (selectedSizes.includes(size)) {
-                          setSelectedSizes(selectedSizes.filter((s) => s !== size));
-                        } else {
-                          setSelectedSizes([...selectedSizes, size]);
-                        }
-                      }}
-                      className={`text-xs ${
-                        selectedSizes.includes(size) 
-                          ? "bg-[#ef62f9] hover:bg-[#df52e9]" 
-                          : ""
-                      }`}
-                    >
-                      {size}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              <Separator className="my-4" />
-
-              {/* Age Range Filter */}
-              <div className="mb-6">
-                <h4 className="font-medium mb-3">Độ tuổi</h4>
-                {ageRanges.map((ageRange) => (
-                  <label key={ageRange} className="flex items-center mb-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedAgeRanges.includes(ageRange)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedAgeRanges([...selectedAgeRanges, ageRange]);
-                        } else {
-                          setSelectedAgeRanges(selectedAgeRanges.filter((a) => a !== ageRange));
-                        }
-                      }}
-                      className="mr-2"
-                    />
-                    <span className="text-sm">{ageRange}</span>
+                    <span className="text-sm">{brand}</span>
                   </label>
                 ))}
               </div>
@@ -358,9 +282,7 @@ export const ClothingListPage = (): JSX.Element => {
                 variant="outline"
                 className="w-full"
                 onClick={() => {
-                  setSelectedCategories([]);
-                  setSelectedSizes([]);
-                  setSelectedAgeRanges([]);
+                  setSelectedBrands([]);
                   setSelectedPriceRange("");
                   setSearchTerm("");
                 }}
@@ -452,7 +374,7 @@ export const ClothingListPage = (): JSX.Element => {
                         </h3>
                       </div>
                       
-                      <p className="text-sm text-gray-600 mb-2">{product.category}</p>
+                      <p className="text-sm text-gray-600 mb-2">{product.brand}</p>
                       
                       <div className="flex items-center mb-2">
                         <div className="flex">{renderStars(product.rating)}</div>
@@ -472,30 +394,17 @@ export const ClothingListPage = (): JSX.Element => {
                         )}
                       </div>
 
-                      {/* Material and Age Range */}
+                      {/* Features */}
                       <div className="mb-3">
-                        <div className="flex flex-wrap gap-1 mb-2">
-                          <span className="bg-green-50 text-green-600 text-xs px-2 py-1 rounded">
-                            {product.material}
-                          </span>
-                          <span className="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded">
-                            {product.ageRange}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Sizes */}
-                      <div className="mb-3">
-                        <p className="text-xs text-gray-600 mb-1">Kích cỡ:</p>
                         <div className="flex flex-wrap gap-1">
-                          {product.sizes.slice(0, 5).map((size, index) => (
-                            <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded">
-                              {size}
+                          {product.features.slice(0, 3).map((feature, index) => (
+                            <span
+                              key={index}
+                              className="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded"
+                            >
+                              {feature}
                             </span>
                           ))}
-                          {product.sizes.length > 5 && (
-                            <span className="text-xs text-gray-500">+{product.sizes.length - 5}</span>
-                          )}
                         </div>
                       </div>
 
@@ -503,14 +412,11 @@ export const ClothingListPage = (): JSX.Element => {
                       <div className="mb-4">
                         <p className="text-xs text-gray-600 mb-1">Màu sắc:</p>
                         <div className="flex gap-1">
-                          {product.colors.slice(0, 3).map((color, index) => (
+                          {product.colors.map((color, index) => (
                             <span key={index} className="text-xs bg-gray-100 px-2 py-1 rounded">
                               {color}
                             </span>
                           ))}
-                          {product.colors.length > 3 && (
-                            <span className="text-xs text-gray-500">+{product.colors.length - 3}</span>
-                          )}
                         </div>
                       </div>                      <div className="flex gap-2">
                         <Button 
@@ -583,8 +489,8 @@ export const ClothingListPage = (): JSX.Element => {
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">Sản phẩm</h4>
-            <ul className="space-y-2 text-sm text-gray-600">              <li><Link to="/strollers" className="hover:text-[#ef62f9]">Xe đẩy</Link></li>
+            <h4 className="font-semibold mb-4">Sản phẩm</h4>            <ul className="space-y-2 text-sm text-gray-600">
+              <li><Link to="/strollers" className="hover:text-[#ef62f9]">Xe đẩy</Link></li>
               <li><Link to="/clothing" className="hover:text-[#ef62f9]">Quần áo bé</Link></li>
               <li><Link to="/products" className="hover:text-[#ef62f9]">Đồ chơi</Link></li>
               <li><Link to="/products" className="hover:text-[#ef62f9]">Sữa bột</Link></li>

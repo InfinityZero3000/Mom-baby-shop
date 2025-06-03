@@ -14,8 +14,8 @@ import {
   RadioGroupItem, 
   Checkbox 
 } from '../../components/ui';
+import { Navigation } from '../../components/Navigation';
 import {
-  ArrowLeft,
   CreditCard,
   Truck,
   User,
@@ -239,24 +239,7 @@ export const CheckoutPage: React.FC = () => {
   if (items.length === 0) {
     return (
       <div className="bg-white min-h-screen">
-        {/* Navigation */}
-        <nav className="w-full py-6 px-8 lg:px-20 border-b border-gray-100">
-          <div className="flex justify-between items-center">
-            <Link to="/" className="text-3xl font-bold">
-              <span className="text-[#ef62f9]">MomBaby</span>
-              <span className="text-[#0bbdf8] font-['Pattaya']">Shop</span>
-            </Link>
-            
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Quay lại
-            </Button>
-          </div>
-        </nav>
+        <Navigation />
 
         <div className="flex flex-col items-center justify-center py-16">
           <div className="text-center">
@@ -276,24 +259,7 @@ export const CheckoutPage: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Navigation */}
-      <nav className="w-full py-6 px-8 lg:px-20 bg-white border-b border-gray-100">
-        <div className="flex justify-between items-center">
-          <Link to="/" className="text-3xl font-bold">
-            <span className="text-[#ef62f9]">MomBaby</span>
-            <span className="text-[#0bbdf8] font-['Pattaya']">Shop</span>
-          </Link>
-          
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Quay lại
-          </Button>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Breadcrumb */}
       <div className="bg-white px-8 lg:px-20 py-4 border-b">

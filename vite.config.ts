@@ -33,6 +33,10 @@ export default defineConfig(({ mode }) => {
         allow: ['..'],
       },
     },
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.BUILD_FOR_GITHUB': JSON.stringify(process.env.BUILD_FOR_GITHUB),
+    },
     css: {
       postcss: './postcss.config.js',
     },

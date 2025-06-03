@@ -4,7 +4,6 @@ import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
 import { Button } from "../../components/ui/button";
-import { getImagePath } from "../../lib/assets";
 import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
@@ -116,7 +115,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Xe đẩy",
       price: "7.500.000 đ",
       originalPrice: "8.500.000 đ",
-      image: getImagePath("images/stroller-premium.png"),
+      image: "/images/stroller-premium.png",
       rating: 4.8,
       reviews: 156,
       discount: "12%",
@@ -131,7 +130,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Quần áo",
       price: "320.000 đ",
       originalPrice: "400.000 đ",
-      image: getImagePath("images/clothing-organic.png"),
+      image: "/images/clothing-organic.png",
       rating: 4.9,
       reviews: 203,
       discount: "20%",
@@ -145,7 +144,7 @@ export const MainProductPage = (): JSX.Element => {
       name: "Sữa bột Aptamil Gold+",
       category: "Sữa bột",
       price: "580.000 đ",
-      image: getImagePath("images/milk-powder.png"),
+      image: "/images/milk-powder.png",
       rating: 4.7,
       reviews: 89,
       brand: "Aptamil",
@@ -159,7 +158,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Đồ chơi",
       price: "450.000 đ",
       originalPrice: "550.000 đ",
-      image: getImagePath("images/educational-toy.png"),
+      image: "/images/educational-toy.png",
       rating: 4.6,
       reviews: 67,
       discount: "18%",
@@ -173,7 +172,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Ghế ăn",
       price: "2.800.000 đ",
       originalPrice: "3.200.000 đ",
-      image: getImagePath("images/high-chair.png"),
+      image: "/images/high-chair.png",
       rating: 4.8,
       reviews: 124,
       discount: "13%",
@@ -187,7 +186,7 @@ export const MainProductPage = (): JSX.Element => {
       name: "Nôi cũi Babylove Premium",
       category: "Nôi cũi",
       price: "4.500.000 đ",
-      image: getImagePath("images/crib-premium.png"),
+      image: "/images/crib-premium.png",
       rating: 4.9,
       reviews: 78,
       brand: "Babylove",
