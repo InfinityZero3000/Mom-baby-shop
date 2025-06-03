@@ -44,22 +44,9 @@ key_files=(
     "src/components/Navigation/Navigation.tsx"
     "src/contexts/AuthContext.tsx"
     "src/contexts/CartContext.tsx"
-    "src/contexts/ToastContext.tsx"
-    "src/contexts/WishlistContext.tsx"
     "src/screens/LoginPage/LoginPage.tsx"
-    "src/screens/RegisterPage/RegisterPage.tsx"
-    "src/screens/ImprovedHomePage/ImprovedHomePage.tsx"
     "src/screens/AdminSellerManagementPage/AdminSellerManagementPage.tsx"
     "src/screens/SellerProductManagementPage/SellerProductManagementPage.tsx"
-    "src/screens/DashboardPage/DashboardPage.tsx"
-    "src/screens/CheckoutPage/CheckoutPage.tsx"
-    "src/screens/OrderHistoryPage/OrderHistoryPage.tsx"
-    "src/screens/UserProfilePage/UserProfilePage.tsx"
-    "src/screens/WishlistPage/WishlistPage.tsx"
-    "src/screens/MainProductPage/MainProductPage.tsx"
-    "src/screens/ProductDetailPage/ProductDetailPage.tsx"
-    "src/screens/ClothingListPage/ClothingListPage.tsx"
-    "src/screens/StrollerListPage/StrollerListPage.tsx"
 )
 
 for file in "${key_files[@]}"; do
