@@ -120,7 +120,6 @@ Mom-baby-shop/
 │   │   └── UserProfilePage/
 │   └── 📁 lib/              # Utilities
 │       └── utils.ts
-├── 📁 html-templates/        # Static HTML templates (reference)
 └── 📁 dist/                 # Build output (generated)
 ```
 
