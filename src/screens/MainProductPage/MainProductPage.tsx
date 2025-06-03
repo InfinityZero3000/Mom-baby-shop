@@ -21,6 +21,8 @@ import {
   Truck,
   Shield,
   RotateCcw,
+  ShoppingCart,
+  Search,
 } from "lucide-react";
 
 interface Product {
@@ -49,8 +51,8 @@ export const MainProductPage = (): JSX.Element => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   // Context hooks
-  const { addItem, totalItems, openCart } = useCart();
-  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
+  const { addItem } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { addToast } = useToast();
 
   // Effect to handle search params from URL
