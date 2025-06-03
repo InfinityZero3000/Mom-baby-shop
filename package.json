@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:github": "cross-env NODE_ENV=production vite build --mode production",
+    "build:github": "bash ./build-github.sh",
     "preview": "vite preview",
     "preview:github": "vite preview --base /Mom-baby-shop/",
     "deploy": "npm run build:github && gh-pages -d dist",
