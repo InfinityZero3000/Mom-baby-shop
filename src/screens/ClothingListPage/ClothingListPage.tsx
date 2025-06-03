@@ -225,6 +225,8 @@ export const ClothingListPage = (): JSX.Element => {
         image: product.image,
         category: product.category,
         brand: product.category,
+        rating: product.rating,
+        reviews: product.reviews,
       });
       addToast({
         type: "success", 

@@ -4,14 +4,15 @@ import path from "path";
 
 export default defineConfig(({ mode }) => {
   // Check if building for production (GitHub Pages)
-  const isGitHubBuild = process.env.NODE_ENV === 'production' || mode === 'production';
+  const isProduction = process.env.NODE_ENV === 'production' || mode === 'production';
+  const isGitHubBuild = process.env.GITHUB_PAGES === 'true' || process.env.BUILD_FOR_GITHUB === 'true';
   
   return {
     plugins: [react()],
     base: isGitHubBuild ? '/Mom-baby-shop/' : '/',
     build: {
       outDir: 'dist',
-      sourcemap: false,
+      sourcemap: isProduction ? false : true,
       assetsDir: 'assets',
       rollupOptions: {
         output: {
@@ -26,7 +27,7 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "src"),
       },
     },
-    publicDir: 'public', // Use standard public directory
+    publicDir: 'images',
     server: {
       fs: {
         allow: ['..'],
