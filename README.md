@@ -309,4 +309,4 @@ npm run dev
 
 ---
 
-**Phát triển bởi Zero** | **© 2025 Mom Baby Shop**
+**Phát triển bởi Nguyễn Hữu Thắng, sản phẩm học phần Công Nghệ Phần Mềm - HUIT**
