@@ -4,6 +4,7 @@ import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
 import { Button } from "../../components/ui/button";
+import { getImagePath } from "../../lib/assets";
 import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
@@ -20,6 +21,8 @@ import {
   Truck,
   Shield,
   RotateCcw,
+  ShoppingCart,
+  Search,
 } from "lucide-react";
 
 interface Product {
@@ -48,8 +51,8 @@ export const MainProductPage = (): JSX.Element => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
   // Context hooks
-  const { addItem, totalItems, openCart } = useCart();
-  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
+  const { addItem } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { addToast } = useToast();
 
   // Effect to handle search params from URL
@@ -115,7 +118,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Xe đẩy",
       price: "7.500.000 đ",
       originalPrice: "8.500.000 đ",
-      image: "/images/stroller-premium.png",
+      image: getImagePath("images/stroller-premium.png"),
       rating: 4.8,
       reviews: 156,
       discount: "12%",
@@ -130,7 +133,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Quần áo",
       price: "320.000 đ",
       originalPrice: "400.000 đ",
-      image: "/images/clothing-organic.png",
+      image: getImagePath("images/clothing-organic.png"),
       rating: 4.9,
       reviews: 203,
       discount: "20%",
@@ -144,7 +147,7 @@ export const MainProductPage = (): JSX.Element => {
       name: "Sữa bột Aptamil Gold+",
       category: "Sữa bột",
       price: "580.000 đ",
-      image: "/images/milk-powder.png",
+      image: getImagePath("images/milk-powder.png"),
       rating: 4.7,
       reviews: 89,
       brand: "Aptamil",
@@ -158,7 +161,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Đồ chơi",
       price: "450.000 đ",
       originalPrice: "550.000 đ",
-      image: "/images/educational-toy.png",
+      image: getImagePath("images/educational-toy.png"),
       rating: 4.6,
       reviews: 67,
       discount: "18%",
@@ -172,7 +175,7 @@ export const MainProductPage = (): JSX.Element => {
       category: "Ghế ăn",
       price: "2.800.000 đ",
       originalPrice: "3.200.000 đ",
-      image: "/images/high-chair.png",
+      image: getImagePath("images/high-chair.png"),
       rating: 4.8,
       reviews: 124,
       discount: "13%",
@@ -186,7 +189,7 @@ export const MainProductPage = (): JSX.Element => {
       name: "Nôi cũi Babylove Premium",
       category: "Nôi cũi",
       price: "4.500.000 đ",
-      image: "/images/crib-premium.png",
+      image: getImagePath("images/crib-premium.png"),
       rating: 4.9,
       reviews: 78,
       brand: "Babylove",

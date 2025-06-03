@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
+import { getImagePath } from "../../lib/assets";
 import { Input } from '../../components/ui/input';
 import { Separator } from '../../components/ui/separator';
 import { Badge, Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui';
@@ -66,14 +67,14 @@ export const ProductDetailPage: React.FC = () => {
       category: "Xe đẩy",
       price: "7.500.000 đ",
       originalPrice: "8.500.000 đ",
-      image: "/images/stroller-premium.png",
+      image: getImagePath("images/stroller-premium.png"),
       rating: 4.8,
       reviews: 156,
       discount: "12%",
       brand: "Joie",
       description: "Xe đẩy cao cấp với thiết kế hiện đại, an toàn tuyệt đối cho bé. Được thiết kế với công nghệ tiên tiến, khung nhôm chắc chắn và hệ thống phanh an toàn. Phù hợp cho trẻ từ 0-4 tuổi.",
       features: ["Gấp gọn 1 tay", "Phanh 2 bánh", "Khóa an toàn 5 điểm", "Chống lật", "Bánh xe 360°"],
-      gallery: ["/images/stroller-premium.png", "/images/stroller-premium-2.png", "/stroller-premium-3.png"],
+      gallery: [getImagePath("images/stroller-premium.png"), getImagePath("images/stroller-premium-2.png"), "/stroller-premium-3.png"],
       colors: ["Đen", "Xám", "Xanh navy"],
       specifications: {
         "Trọng lượng": "8.5kg",
@@ -92,14 +93,14 @@ export const ProductDetailPage: React.FC = () => {
       category: "Quần áo",
       price: "320.000 đ",
       originalPrice: "400.000 đ",
-      image: "/images/clothing-organic.png",
+      image: getImagePath("images/clothing-organic.png"),
       rating: 4.9,
       reviews: 203,
       discount: "20%",
       brand: "Mothercare",
       description: "Bộ quần áo cotton 100% organic, mềm mại và thân thiện với da bé. Được làm từ cotton hữu cơ cao cấp, không chứa hóa chất độc hại.",
       features: ["Cotton organic", "Không chất tẩy", "Kháng khuẩn tự nhiên", "Thấm hút mồ hôi"],
-      gallery: ["/images/clothing-organic.png", "/images/clothing-organic-2.png"],
+      gallery: [getImagePath("images/clothing-organic.png"), getImagePath("images/clothing-organic-2.png")],
       sizes: ["3M", "6M", "9M", "12M", "18M", "24M"],
       colors: ["Hồng", "Xanh", "Vàng", "Trắng"],
       specifications: {
@@ -117,14 +118,14 @@ export const ProductDetailPage: React.FC = () => {
       category: "Nôi cũi",
       price: "4.500.000 đ",
       originalPrice: "5.200.000 đ",
-      image: "/images/crib-premium.png",
+      image: getImagePath("images/crib-premium.png"),
       rating: 4.7,
       reviews: 89,
       discount: "13%",
       brand: "BabyLove",
       description: "Nôi cũi đa năng với thiết kế an toàn và tiện dụng. Có thể điều chỉnh độ cao và chuyển đổi thành giường trẻ em khi bé lớn.",
       features: ["Điều chỉnh 7 độ cao", "Chuyển đổi thành giường", "Gỗ tự nhiên", "Sơn không độc hại"],
-      gallery: ["/images/crib-premium.png", "/images/crib-premium-2.png"],
+      gallery: [getImagePath("images/crib-premium.png"), getImagePath("images/crib-premium-2.png")],
       colors: ["Gỗ tự nhiên", "Trắng"],
       specifications: {
         "Kích thước": "120 x 60 x 90cm",
@@ -139,13 +140,13 @@ export const ProductDetailPage: React.FC = () => {
       name: "Ghế ăn dặm Chicco Polly",
       category: "Ghế ăn",
       price: "2.800.000 đ",
-      image: "/images/high-chair.png",
+      image: getImagePath("images/high-chair.png"),
       rating: 4.6,
       reviews: 124,
       brand: "Chicco",
       description: "Ghế ăn dặm đa năng với thiết kế tiện lợi, điều chỉnh được độ cao và góc ngồi để phù hợp với từng giai đoạn phát triển của bé.",
       features: ["7 độ cao điều chỉnh", "3 vị trí tựa", "Bánh xe di chuyển", "Khay ăn có thể tháo rời"],
-      gallery: ["/images/high-chair.png"],
+      gallery: [getImagePath("images/high-chair.png")],
       colors: ["Xanh", "Hồng", "Xám"],
       specifications: {
         "Độ tuổi": "6 tháng - 3 tuổi",
@@ -161,14 +162,14 @@ export const ProductDetailPage: React.FC = () => {
       category: "Xe đẩy",
       price: "4.200.000 đ",
       originalPrice: "4.800.000 đ",
-      image: "/images/stroller-travel.png",
+      image: getImagePath("images/stroller-travel.png"),
       rating: 4.5,
       reviews: 78,
       discount: "12%",
       brand: "Joie",
       description: "Xe đẩy du lịch siêu nhẹ, gấp gọn cực kỳ tiện lợi. Thiết kế tối ưu cho việc di chuyển và du lịch.",
       features: ["Siêu nhẹ 5.9kg", "Gấp gọn 1 giây", "Bánh xe chống rung", "Tựa đầu điều chỉnh"],
-      gallery: ["/images/stroller-travel.png", "/images/stroller-travel-2.png"],
+      gallery: [getImagePath("images/stroller-travel.png"), getImagePath("images/stroller-travel-2.png")],
       colors: ["Đen", "Xanh dương"],
       specifications: {
         "Trọng lượng": "5.9kg",

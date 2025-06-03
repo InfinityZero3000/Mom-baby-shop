@@ -5,6 +5,7 @@ import { useWishlist } from "../../contexts/WishlistContext";
 import { useToast } from "../../contexts/ToastContext";
 import { getImagePath } from "../../lib/assets";
 import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import { Card } from "../../components/ui/card";
 import { Separator } from "../../components/ui/separator";
 import { Navigation } from "../../components/Navigation";
@@ -16,6 +17,8 @@ import {
   Shield,
   RotateCcw,
   Phone,
+  ShoppingCart,
+  Search,
 } from "lucide-react";
 
 interface FeaturedProduct {
@@ -37,6 +40,22 @@ export const ImprovedHomePage = (): JSX.Element => {
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist, totalItems: wishlistTotalItems } = useWishlist();
   const { addToast } = useToast();
 
+  // State for search functionality
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  // Handler functions
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+    }
+  };
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   // Featured products data
   const featuredProducts: FeaturedProduct[] = [
     {
@@ -57,7 +76,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Xe đẩy",
       price: "7.499.000 đ",
       originalPrice: "8.499.000 đ",
-      image: "/images/stroller-1.png",
+      image: getImagePath("images/stroller-1.png"),
       rating: 4.9,
       reviews: 203,
       discount: "12%",
@@ -68,7 +87,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       name: "Nôi đưa trẻ em Joie Serina",
       category: "Nôi cũi",
       price: "6.499.000 đ",
-      image: "/images/crib-joie.png",
+      image: getImagePath("images/crib-joie.png"),
       rating: 4.7,
       reviews: 89,
       bgColor: "bg-gradient-to-br from-purple-100 to-purple-200",
@@ -79,7 +98,7 @@ export const ImprovedHomePage = (): JSX.Element => {
       category: "Phụ kiện tắm",
       price: "450.000 đ",
       originalPrice: "550.000 đ",
-      image: "/images/bath-chair.png",
+      image: getImagePath("images/bath-chair.png"),
       rating: 4.6,
       reviews: 67,
       discount: "18%",
@@ -99,12 +118,12 @@ export const ImprovedHomePage = (): JSX.Element => {
 
   // Brands
   const brands = [
-    { name: "Joie", logo: "/images/brand-joie.png" },
-    { name: "Chicco", logo: "/images/brand-chicco.png" },
-    { name: "Mothercare", logo: "/images/brand-mothercare.png" },
-    { name: "Fisher-Price", logo: "/images/brand-fisher-price.png" },
-    { name: "Aptamil", logo: "/images/brand-aptamil.png" },
-    { name: "Babylove", logo: "/images/brand-babylove.png" },  ];
+    { name: "Joie", logo: getImagePath("images/brand-joie.png") },
+    { name: "Chicco", logo: getImagePath("images/brand-chicco.png") },
+    { name: "Mothercare", logo: getImagePath("images/brand-mothercare.png") },
+    { name: "Fisher-Price", logo: getImagePath("images/brand-fisher-price.png") },
+    { name: "Aptamil", logo: getImagePath("images/brand-aptamil.png") },
+    { name: "Babylove", logo: getImagePath("images/brand-babylove.png") },  ];
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
