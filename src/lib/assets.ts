@@ -5,27 +5,54 @@
 
 // Get base path for GitHub Pages deployment
 const getBasePath = (): string => {
-  // Check if we're building for GitHub Pages
-  const isGitHubBuild = 
-    process.env.BUILD_FOR_GITHUB === 'true' || 
-    process.env.GITHUB_PAGES === 'true' ||
-    (typeof window !== 'undefined' && window.location.hostname.includes('github.io'));
+  // For build time (when window is not available)
+  if (typeof window === 'undefined') {
+    return process.env.BUILD_FOR_GITHUB === 'true' || 
+           process.env.GITHUB_PAGES === 'true' ? '/Mom-baby-shop' : '';
+  }
   
-  return isGitHubBuild ? '/Mom-baby-shop' : '';
+  // For runtime (when window is available)
+  const isGitHubPages = 
+    window.location.hostname.includes('github.io') || 
+    window.location.pathname.startsWith('/Mom-baby-shop') ||
+    window.location.origin.includes('github.io') ||
+    // Also check for preview server with base path
+    window.location.pathname.includes('/Mom-baby-shop/');
+    
+  return isGitHubPages ? '/Mom-baby-shop' : '';
 };
 
 /**
  * Get the correct path for an image asset
- * @param imagePath - The relative image path (e.g., '/images/stroller-1.png')
+ * @param imagePath - The relative image path (e.g., 'images/stroller-1.png')
  * @returns The correct full path for the current environment
  */
 export const getImagePath = (imagePath: string): string => {
   const basePath = getBasePath();
   
   // Remove leading slash if present
-  const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
+  let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
   
-  return basePath ? `${basePath}/${cleanPath}` : `/${cleanPath}`;
+  // Remove 'images/' prefix since Vite publicDir copies files to root
+  if (cleanPath.startsWith('images/')) {
+    cleanPath = cleanPath.replace('images/', '');
+  }
+  
+  const finalPath = basePath ? `${basePath}/${cleanPath}` : `/${cleanPath}`;
+  
+  // Debug logging in development
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('getImagePath Debug:', {
+      originalPath: imagePath,
+      basePath,
+      cleanPath,
+      finalPath,
+      hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A',
+      pathname: typeof window !== 'undefined' ? window.location.pathname : 'N/A'
+    });
+  }
+  
+  return finalPath;
 };
 
 /**

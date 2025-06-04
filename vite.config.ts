@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     publicDir: 'images',
+    assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.gif', '**/*.webp'],
     server: {
       fs: {
         allow: ['..'],

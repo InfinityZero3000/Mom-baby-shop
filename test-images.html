@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Path Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-item { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        img { max-width: 200px; height: auto; margin: 10px 0; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Image Path Testing - GitHub Pages</h1>
+    <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
+    <p><strong>Base Path Should Be:</strong> <span id="basePath"></span></p>
+    
+    <div class="test-item">
+        <h3>Test 1: Direct path (banner.png)</h3>
+        <p>Path: <code>/Mom-baby-shop/banner.png</code></p>
+        <img src="/Mom-baby-shop/banner.png" alt="Banner" onload="showSuccess(this)" onerror="showError(this)">
+    </div>
+    
+    <div class="test-item">
+        <h3>Test 2: Stroller image (stroller-1.png)</h3>
+        <p>Path: <code>/Mom-baby-shop/stroller-1.png</code></p>
+        <img src="/Mom-baby-shop/stroller-1.png" alt="Stroller" onload="showSuccess(this)" onerror="showError(this)">
+    </div>
+    
+    <div class="test-item">
+        <h3>Test 3: Without base path (should fail)</h3>
+        <p>Path: <code>/banner.png</code></p>
+        <img src="/banner.png" alt="Banner" onload="showSuccess(this)" onerror="showError(this)">
+    </div>
+    
+    <div class="test-item">
+        <h3>Test 4: Relative path (should fail)</h3>
+        <p>Path: <code>banner.png</code></p>
+        <img src="banner.png" alt="Banner" onload="showSuccess(this)" onerror="showError(this)">
+    </div>
+
+    <script>
+        document.getElementById('currentUrl').textContent = window.location.href;
+        
+        // Test base path detection logic
+        const isGitHubPages = 
+            window.location.hostname.includes('github.io') || 
+            window.location.pathname.startsWith('/Mom-baby-shop') ||
+            window.location.origin.includes('github.io') ||
+            window.location.pathname.includes('/Mom-baby-shop/');
+            
+        document.getElementById('basePath').textContent = isGitHubPages ? '/Mom-baby-shop' : '';
+        
+        function showSuccess(img) {
+            const parent = img.parentElement;
+            const successMsg = document.createElement('p');
+            successMsg.className = 'success';
+            successMsg.textContent = '✅ Image loaded successfully';
+            parent.appendChild(successMsg);
+        }
+        
+        function showError(img) {
+            const parent = img.parentElement;
+            const errorMsg = document.createElement('p');
+            errorMsg.className = 'error';
+            errorMsg.textContent = '❌ Image failed to load';
+            parent.appendChild(errorMsg);
+        }
+    </script>
+</body>
+</html>

@@ -186,7 +186,10 @@ export const ImprovedHomePage = (): JSX.Element => {
 
       {/* Hero Section */}
       <div className="relative w-full h-[600px] mx-auto bg-gradient-to-r from-pink-50 via-blue-50 to-purple-50 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/mom-baby.jpg')] bg-cover bg-center opacity-20"></div>
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{ backgroundImage: `url(${getImagePath('images/mom-baby.jpg')})` }}
+        ></div>
         
         <div className="relative z-10 h-full flex items-center justify-center px-8 lg:px-20">
           <div className="max-w-4xl mx-auto text-center">

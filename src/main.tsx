@@ -11,7 +11,12 @@ const basename = window.location.hostname === 'localhost' || window.location.hos
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
-    <BrowserRouter basename={basename}>
+    <BrowserRouter 
+      basename={basename}
+      future={{
+        v7_startTransition: true
+      }}
+    >
       <App />
     </BrowserRouter>
   </StrictMode>,
