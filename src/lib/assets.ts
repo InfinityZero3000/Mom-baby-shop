@@ -17,7 +17,19 @@ const getBasePath = (): string => {
     window.location.pathname.startsWith('/Mom-baby-shop') ||
     window.location.origin.includes('github.io') ||
     // Also check for preview server with base path
-    window.location.pathname.includes('/Mom-baby-shop/');
+    window.location.pathname.includes('/Mom-baby-shop/') ||
+    // Check for localhost preview with base path
+    (window.location.hostname === 'localhost' && window.location.pathname.startsWith('/Mom-baby-shop'));
+  
+  // Always log detection logic for debugging
+  console.log('getBasePath Debug:', {
+    hostname: window.location.hostname,
+    pathname: window.location.pathname,
+    origin: window.location.origin,
+    href: window.location.href,
+    isGitHubPages,
+    basePath: isGitHubPages ? '/Mom-baby-shop' : ''
+  });
     
   return isGitHubPages ? '/Mom-baby-shop' : '';
 };
@@ -40,17 +52,17 @@ export const getImagePath = (imagePath: string): string => {
   
   const finalPath = basePath ? `${basePath}/${cleanPath}` : `/${cleanPath}`;
   
-  // Debug logging in development
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('getImagePath Debug:', {
-      originalPath: imagePath,
-      basePath,
-      cleanPath,
-      finalPath,
-      hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A',
-      pathname: typeof window !== 'undefined' ? window.location.pathname : 'N/A'
-    });
-  }
+  // Always show debug logging to troubleshoot GitHub Pages issues
+  console.log('getImagePath Debug:', {
+    originalPath: imagePath,
+    basePath,
+    cleanPath,
+    finalPath,
+    hostname: typeof window !== 'undefined' ? window.location.hostname : 'N/A',
+    pathname: typeof window !== 'undefined' ? window.location.pathname : 'N/A',
+    origin: typeof window !== 'undefined' ? window.location.origin : 'N/A',
+    href: typeof window !== 'undefined' ? window.location.href : 'N/A'
+  });
   
   return finalPath;
 };
