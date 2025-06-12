@@ -7,6 +7,10 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 
 🔗 **Website**: [https://jenniferzero.github.io/Mom-baby-shop/](https://jenniferzero.github.io/Mom-baby-shop/)
 
+
+## 🌸 Giao diện chính của hệ thống 
+<img width="1741" alt="image" src="https://github.com/user-attachments/assets/1904a73a-1e1c-4f14-8564-faf7897f70aa" />
+
 ## 📋 Yêu cầu hệ thống
 
 - **Node.js** ≥ 18.0
