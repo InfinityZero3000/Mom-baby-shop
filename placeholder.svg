@@ -1,0 +1,12 @@
+<!-- Placeholder SVG -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <g fill="#9ca3af">
+    <rect x="150" y="100" width="100" height="80" rx="8"/>
+    <circle cx="175" cy="125" r="15"/>
+    <path d="M150 160 L175 140 L200 155 L225 130 L250 160 Z"/>
+  </g>
+  <text x="200" y="210" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="16">
+    Hình ảnh sản phẩm
+  </text>
+</svg>
