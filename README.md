@@ -15,11 +15,15 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 
 ## Một số giao diện danh sách sản phẩm
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/e2527631-75fc-412e-b302-915c53accd07" /> 
+
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/270286fe-b573-48bc-b61f-c82d85eb381c" /> 
+
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/3d82a1d6-f71c-4906-80ac-667f4fda5c27" />
 
-## Dashboard của Quản trị viên
+## Dashboard của Quản trị viên & Người bán hàng
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/84c6e74e-f4ca-4e18-a51b-f5bb6b104e9a" />
+
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/df5e751e-f631-4da1-a58a-bb96302dfc5a" />
 
 ## Trang chủ tài khoản 
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/eea0b8b7-e451-4865-9348-793ac9f8a484" />
