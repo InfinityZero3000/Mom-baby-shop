@@ -5,6 +5,7 @@ import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 import { Input } from '../../components/ui/input';
+import { AvatarUpload } from '../../components/ui/AvatarUpload';
 import { 
   User, 
   MapPin, 
@@ -120,6 +121,10 @@ export const UserProfilePage: React.FC = () => {
     setIsEditing(false);
   };
 
+  const handleAvatarChange = (newAvatar: string) => {
+    setEditedProfile({...editedProfile, avatar: newAvatar});
+  };
+
   const handleLogout = () => {
     logout();
     navigate('/');
@@ -130,18 +135,12 @@ export const UserProfilePage: React.FC = () => {
       {/* Avatar and Basic Info */}
       <Card className="p-6">
         <div className="flex items-start space-x-6">
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-              {userProfile.avatar ? (
-                <img src={userProfile.avatar} alt="Avatar" className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-12 h-12 text-gray-400" />
-              )}
-            </div>
-            <button className="absolute -bottom-2 -right-2 w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600 transition-colors">
-              <Camera className="w-4 h-4" />
-            </button>
-          </div>
+          <AvatarUpload
+            currentAvatar={isEditing ? editedProfile.avatar : userProfile.avatar}
+            onAvatarChange={handleAvatarChange}
+            size="lg"
+            editable={isEditing}
+          />
           
           <div className="flex-1">
             <div className="flex items-center justify-between mb-4">

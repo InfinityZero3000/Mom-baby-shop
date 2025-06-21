@@ -1,0 +1,15 @@
+<!-- Avatar Baby 1 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#fef5e7"/>
+  <!-- Head -->
+  <circle cx="100" cy="90" r="40" fill="#fed7d7"/>
+  <!-- Hair (sparse) -->
+  <ellipse cx="100" cy="60" rx="30" ry="15" fill="#d69e2e"/>
+  <!-- Eyes -->
+  <circle cx="88" cy="85" r="4" fill="#000"/>
+  <circle cx="112" cy="85" r="4" fill="#000"/>
+  <!-- Mouth -->
+  <circle cx="100" cy="95" r="6" fill="#ff6b9d"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="150" rx="45" ry="40" fill="#68d391"/>
+</svg>

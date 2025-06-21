@@ -5,6 +5,7 @@ import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { AvatarUpload } from '../ui/AvatarUpload';
 import UserRoleIndicator from '../UserRoleIndicator';
 import {
   Search,
@@ -246,11 +247,23 @@ export const Navigation: React.FC<NavigationProps> = ({
               </Link>
             </Button>
 
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/profile">
-                <User className="h-5 w-5" />
+            {/* User Profile */}
+            {isAuthenticated ? (
+              <Link to="/profile" className="block">
+                <AvatarUpload
+                  currentAvatar={user?.avatar}
+                  onAvatarChange={() => {}} // Readonly in navigation
+                  size="sm"
+                  editable={false}
+                />
               </Link>
-            </Button>
+            ) : (
+              <Button variant="ghost" size="icon" className="relative" asChild>
+                <Link to="/profile">
+                  <User className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
 
             <Button variant="ghost" size="icon" className="relative" asChild>
               <Link to="/wishlist">

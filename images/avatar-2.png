@@ -1,0 +1,6 @@
+<!-- Avatar 2 - Woman -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#fce7f3"/>
+  <circle cx="100" cy="80" r="35" fill="#ec4899"/>
+  <ellipse cx="100" cy="160" rx="60" ry="50" fill="#ec4899"/>
+</svg>

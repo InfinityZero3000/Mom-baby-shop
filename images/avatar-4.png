@@ -1,0 +1,6 @@
+<!-- Avatar 4 - Young Adult -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#dcfce7"/>
+  <circle cx="100" cy="80" r="35" fill="#22c55e"/>
+  <ellipse cx="100" cy="160" rx="60" ry="50" fill="#22c55e"/>
+</svg>

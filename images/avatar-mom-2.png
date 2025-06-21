@@ -1,0 +1,15 @@
+<!-- Avatar Mom 2 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#f3e8ff"/>
+  <!-- Hair -->
+  <ellipse cx="100" cy="60" rx="45" ry="35" fill="#4a5568"/>
+  <!-- Face -->
+  <circle cx="100" cy="85" r="30" fill="#fed7d7"/>
+  <!-- Eyes -->
+  <circle cx="90" cy="80" r="3" fill="#000"/>
+  <circle cx="110" cy="80" r="3" fill="#000"/>
+  <!-- Mouth -->
+  <ellipse cx="100" cy="92" rx="8" ry="4" fill="#e53e3e"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="160" rx="55" ry="45" fill="#9f7aea"/>
+</svg>

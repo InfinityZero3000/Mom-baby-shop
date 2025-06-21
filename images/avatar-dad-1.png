@@ -1,0 +1,17 @@
+<!-- Avatar Dad -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#e6fffa"/>
+  <!-- Hair -->
+  <ellipse cx="100" cy="55" rx="40" ry="25" fill="#2d3748"/>
+  <!-- Face -->
+  <circle cx="100" cy="85" r="32" fill="#fbb6ce"/>
+  <!-- Eyes -->
+  <circle cx="90" cy="80" r="3" fill="#000"/>
+  <circle cx="110" cy="80" r="3" fill="#000"/>
+  <!-- Mustache -->
+  <ellipse cx="100" cy="88" rx="12" ry="3" fill="#2d3748"/>
+  <!-- Mouth -->
+  <ellipse cx="100" cy="95" rx="8" ry="4" fill="#4299e1"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="160" rx="60" ry="50" fill="#38b2ac"/>
+</svg>
