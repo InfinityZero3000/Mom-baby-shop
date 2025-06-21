@@ -124,7 +124,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           user: {
             id: 1,
             email: 'customer@example.com',
-            name: 'Nguyễn Văn Khách',
+            name: 'Actor Khách Hàng',
             role: 'customer' as UserRole,
             phone: '0123456789',
             avatar: '/default-avatar.png',
@@ -186,7 +186,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           user: {
             id: 3,
             email: 'admin@example.com',
-            name: 'Actor Quản Trị',
+            name: 'Actor Quản Trị Viên',
             role: 'admin' as UserRole,
             phone: '0555666777',
             avatar: '/admin-avatar.png',
