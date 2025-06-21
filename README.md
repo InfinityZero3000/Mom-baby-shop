@@ -7,9 +7,23 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 
 🔗 **Website**: [https://jenniferzero.github.io/Mom-baby-shop/](https://jenniferzero.github.io/Mom-baby-shop/)
 
+## Trang đăng nhập với nhiều actor 
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/76ee5eca-a43b-4fba-b993-a535a7a12c59" />
 
-## 🌸 Giao diện chính của hệ thống 
-<img width="1741" alt="image" src="https://github.com/user-attachments/assets/1904a73a-1e1c-4f14-8564-faf7897f70aa" />
+## Giao diện chính của hệ thống 
+<img width="1790" alt="image" src="https://github.com/user-attachments/assets/a3e6827c-6da8-4709-96bb-cfabb12c31e4" />
+
+## Một số giao diện danh sách sản phẩm
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/e2527631-75fc-412e-b302-915c53accd07" /> 
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/270286fe-b573-48bc-b61f-c82d85eb381c" /> 
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/3d82a1d6-f71c-4906-80ac-667f4fda5c27" />
+
+## Dashboard của Quản trị viên
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/84c6e74e-f4ca-4e18-a51b-f5bb6b104e9a" />
+
+## Trang chủ tài khoản 
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/eea0b8b7-e451-4865-9348-793ac9f8a484" />
+
 
 ## 📋 Yêu cầu hệ thống
 
@@ -232,35 +246,6 @@ npm run update-paths:win
 npm run check:win
 ```
 
-## 🔧 Xử lý sự cố phổ biến
-
-### ❌ **Ảnh không hiển thị trên GitHub Pages**
-- **Nguyên nhân**: Đường dẫn ảnh không đúng
-- **Giải pháp**: Sử dụng script cập nhật đường dẫn hình ảnh:
-  - macOS/Linux: `npm run update-paths:mac`
-  - Windows: `npm run update-paths:win`
-
-### ❌ **404 Error khi refresh trang**
-- **Nguyên nhân**: GitHub Pages không hỗ trợ SPA routing mặc định
-- **Giải pháp**: File `404.html` đã được cấu hình tự động
-
-### ❌ **CSS không load đúng**
-- **Nguyên nhân**: Base path không đúng
-- **Giải pháp**: Kiểm tra `vite.config.ts` có cấu hình base path đúng
-
-### ❌ **Build lỗi**
-```bash
-# Xóa cache và cài lại
-rm -rf node_modules package-lock.json dist
-npm install
-npm run build:github
-```
-
-### ❌ **Port đã được sử dụng**
-```bash
-npm run dev -- --port 3000
-```
-
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18 + TypeScript
@@ -282,16 +267,16 @@ npm run dev -- --port 3000
 
 ## 🎨 Tính năng chính
 
-- 🏠 **Trang chủ**: Banner, sản phẩm nổi bật, thương hiệu
-- 🛍️ **Sản phẩm**: Danh sách xe đẩy, quần áo trẻ em
-- 🔍 **Chi tiết sản phẩm**: Gallery ảnh, thông tin chi tiết
-- 🛒 **Giỏ hàng**: Thêm/xóa sản phẩm, modal cart
-- ❤️ **Wishlist**: Lưu sản phẩm yêu thích
-- 👤 **Tài khoản**: Đăng ký, đăng nhập, profile
-- 📋 **Đơn hàng**: Checkout, lịch sử đơn hàng
-- 📱 **Responsive**: Tối ưu cho mobile và desktop
+-  **Trang chủ**: Banner, sản phẩm nổi bật, thương hiệu
+-  **Sản phẩm**: Danh sách xe đẩy, quần áo trẻ em
+-  **Chi tiết sản phẩm**: Gallery ảnh, thông tin chi tiết
+-  **Giỏ hàng**: Thêm/xóa sản phẩm, modal cart
+- ❤ **Wishlist**: Lưu sản phẩm yêu thích
+-  **Tài khoản**: Đăng ký, đăng nhập, profile
+-  **Đơn hàng**: Checkout, lịch sử đơn hàng
+-  **Responsive**: Tối ưu cho mobile và desktop
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Clone và chạy nhanh
@@ -299,17 +284,17 @@ git clone https://github.com/jenniferzero/Mom-baby-shop.git
 cd Mom-baby-shop
 npm install
 npm run dev
-# ➡️ Mở http://localhost:5173/
+# ➡ Mở http://localhost:5173/
 ```
 
 ## 📚 Tài liệu bổ sung
 
-- 📖 **GUIDE_TROUBLESHOOTING.md**: Xử lý sự cố deploy
-- 🚀 **GUIDE_WINDOWS.md**: Hướng dẫn deploy trên Windows
-- 📑 **GUIDE_SCRIPTS.md**: Hướng dẫn sử dụng các scripts
-- 🧭 **GUIDE_NAVIGATION.md**: Thông tin về cấu trúc điều hướng
-- 🖼️ **GUIDE_PATH_UPDATE.md**: Cập nhật đường dẫn hình ảnh
-- 🐛 **GitHub Issues**: [Báo lỗi tại đây](https://github.com/jenniferzero/Mom-baby-shop/issues)
+-  **GUIDE_TROUBLESHOOTING.md**: Xử lý sự cố deploy
+-  **GUIDE_WINDOWS.md**: Hướng dẫn deploy trên Windows
+-  **GUIDE_SCRIPTS.md**: Hướng dẫn sử dụng các scripts
+-  **GUIDE_NAVIGATION.md**: Thông tin về cấu trúc điều hướng
+-  **GUIDE_PATH_UPDATE.md**: Cập nhật đường dẫn hình ảnh
+-  **GitHub Issues**: [Báo lỗi tại đây](https://github.com/jenniferzero/Mom-baby-shop/issues)
 
 ---
 
