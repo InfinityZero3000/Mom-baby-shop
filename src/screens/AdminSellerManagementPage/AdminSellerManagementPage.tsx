@@ -43,7 +43,7 @@ const AdminSellerManagementPage: React.FC = () => {
     const mockSellers: Seller[] = [
       {
         id: 1,
-        name: 'Trần Thị Bán Hàng',
+        name: 'Actor Bán Hàng',
         email: 'seller@example.com',
         phone: '0987654321',
         storeName: 'Baby Store ABC',
@@ -56,7 +56,7 @@ const AdminSellerManagementPage: React.FC = () => {
       },
       {
         id: 2,
-        name: 'Nguyễn Văn Kinh Doanh',
+        name: 'Actor Kinh Doanh',
         email: 'business@example.com',
         phone: '0123456789',
         storeName: 'Mom Care Store',
@@ -69,7 +69,7 @@ const AdminSellerManagementPage: React.FC = () => {
       },
       {
         id: 3,
-        name: 'Lê Thị Kinh Doanh',
+        name: 'Actor Kinh Doanh',
         email: 'newbie@example.com',
         phone: '0999888777',
         storeName: 'Baby World',
