@@ -4,6 +4,7 @@ export { Card, CardContent, CardDescription, CardHeader, CardTitle } from './car
 export { Checkbox } from './checkbox';
 export { Input } from './input';
 export { Label } from './label';
+export { ProductImage } from './ProductImage';
 export { RadioGroup, RadioGroupItem } from './radio-group';
 export { Separator } from './separator';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';

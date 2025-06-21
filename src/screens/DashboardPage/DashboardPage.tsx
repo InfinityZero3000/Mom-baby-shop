@@ -28,9 +28,9 @@ const DashboardPage: React.FC = () => {
         totalOrders: 1250,
         totalRevenue: 875000000,
         recentSellers: [
-          { id: 1, name: 'Trần Thị Bán Hàng', storeName: 'Baby Store ABC', status: 'active', joinDate: '2024-01-15' },
-          { id: 2, name: 'Nguyễn Văn Kinh Doanh', storeName: 'Mom Care Store', status: 'active', joinDate: '2024-02-20' },
-          { id: 3, name: 'Lê Thị Kinh Doanh', storeName: 'Baby World', status: 'pending', joinDate: '2024-12-01' }
+          { id: 1, name: 'Actor Bán Hàng', storeName: 'Baby Store ABC', status: 'active', joinDate: '2024-01-15' },
+          { id: 2, name: 'Actor Kinh Doanh', storeName: 'Mom Care Store', status: 'active', joinDate: '2024-02-20' },
+          { id: 3, name: 'Actor Kinh Doanh', storeName: 'Baby World', status: 'pending', joinDate: '2024-12-01' }
         ]
       };
     } else if (user?.role === 'seller') {

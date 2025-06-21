@@ -40,6 +40,11 @@ const getBasePath = (): string => {
  * @returns The correct full path for the current environment
  */
 export const getImagePath = (imagePath: string): string => {
+  // Nếu đã là URL đầy đủ, trả về nguyên
+  if (imagePath.startsWith('http') || imagePath.startsWith('//')) {
+    return imagePath;
+  }
+  
   const basePath = getBasePath();
   
   // Remove leading slash if present

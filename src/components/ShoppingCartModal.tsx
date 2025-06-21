@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
+import { ProductImage } from '../components/ui/ProductImage';
 import { Separator } from '../components/ui/separator';
 import {
   X,
@@ -185,10 +186,11 @@ export const ShoppingCartModal: React.FC = () => {
                       <div className="flex gap-4">
                         {/* Product Image */}
                         <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                          <img
+                          <ProductImage
                             src={item.image}
                             alt={item.name}
                             className="h-full w-full object-cover"
+                            fallbackClassName="h-full w-full flex items-center justify-center bg-gray-200"
                           />
                         </div>
 

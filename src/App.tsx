@@ -20,6 +20,7 @@ import { RegisterPage } from './screens/RegisterPage';
 import { DashboardPage } from './screens/DashboardPage';
 import { AdminSellerManagementPage } from './screens/AdminSellerManagementPage';
 import { SellerProductManagementPage } from './screens/SellerProductManagementPage';
+import { CartDebugPage } from './screens/CartDebugPage';
 
 export const App: React.FC = () => {
   return (
@@ -95,6 +96,9 @@ export const App: React.FC = () => {
                 
                 {/* Trang liên hệ - tạm thời hiển thị ImprovedHomePage */}
                 <Route path="/contact" element={<ImprovedHomePage />} />
+                
+                {/* Debug route - chỉ để kiểm tra */}
+                <Route path="/debug/cart" element={<CartDebugPage />} />
                 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to="/" replace />} />

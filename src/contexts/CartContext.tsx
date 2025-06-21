@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { getImagePath } from '../lib/assets';
 
 export interface CartItem {
   id: number;
@@ -182,7 +183,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (savedCart) {
       try {
         const cartItems = JSON.parse(savedCart);
-        dispatch({ type: 'LOAD_CART', payload: cartItems });
+        // Đảm bảo tất cả hình ảnh có đường dẫn đúng khi load - chỉ xử lý nếu chưa được xử lý
+        const itemsWithCorrectImages = cartItems.map((item: CartItem) => ({
+          ...item,
+          image: item.image.startsWith('http') || item.image.startsWith('/') ? item.image : getImagePath(item.image)
+        }));
+        dispatch({ type: 'LOAD_CART', payload: itemsWithCorrectImages });
       } catch (error) {
         console.error('Error loading cart from localStorage:', error);
       }
@@ -195,7 +201,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [state.items]);
 
   const addItem = (item: Omit<CartItem, 'quantity'> & { quantity?: number }) => {
-    dispatch({ type: 'ADD_ITEM', payload: item });
+    // Đảm bảo hình ảnh có đường dẫn đúng - chỉ xử lý nếu chưa được xử lý
+    const itemWithCorrectImage = {
+      ...item,
+      image: item.image.startsWith('http') || item.image.startsWith('/') ? item.image : getImagePath(item.image)
+    };
+    dispatch({ type: 'ADD_ITEM', payload: itemWithCorrectImage });
   };
 
   const removeItem = (id: number) => {
