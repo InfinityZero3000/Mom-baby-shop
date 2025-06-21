@@ -131,7 +131,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             addresses: [
               {
                 id: 1,
-                name: 'Nguyễn Văn Khách',
+                name: 'Actor Khách Hàng',
                 phone: '0123456789',
                 address: '123 Đường ABC',
                 city: 'Hồ Chí Minh',
@@ -155,7 +155,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           user: {
             id: 2,
             email: 'seller@example.com',
-            name: 'Trần Thị Bán Hàng',
+            name: 'Actor Bán Hàng',
             role: 'seller' as UserRole,
             phone: '0987654321',
             avatar: '/seller-avatar.png',
@@ -186,7 +186,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           user: {
             id: 3,
             email: 'admin@example.com',
-            name: 'Lê Văn Quản Trị',
+            name: 'Actor Quản Trị',
             role: 'admin' as UserRole,
             phone: '0555666777',
             avatar: '/admin-avatar.png',
