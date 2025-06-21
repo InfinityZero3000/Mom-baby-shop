@@ -8,7 +8,9 @@ import { Textarea } from '../../components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Badge } from '../../components/ui/badge';
 import { Separator } from '../../components/ui/separator';
+import { ProductImage } from '../../components/ui/ProductImage';
 import { Navigation } from '../../components/Navigation';
+import { getImagePath } from '../../lib/assets';
 
 interface Product {
   id: number;
@@ -118,7 +120,7 @@ const SellerProductManagementPage: React.FC = () => {
           category: 'xe-day',
           subcategory: 'Xe đẩy cao cấp',
           brand: 'Premium Baby',
-          images: ['/images/stroller-premium.png', '/images/stroller-1.png'],
+          images: [getImagePath('images/stroller-premium.png'), getImagePath('images/stroller-1.png')],
           stock: 15,
           status: 'active',
           sellerId: user.id,
@@ -138,7 +140,7 @@ const SellerProductManagementPage: React.FC = () => {
           category: 'quan-ao',
           subcategory: 'Quần áo trẻ em',
           brand: 'Organic Baby',
-          images: ['/images/clothing-organic.png', '/images/clothing-1.png'],
+          images: [getImagePath('images/clothing-organic.png'), getImagePath('images/clothing-1.png')],
           stock: 30,
           status: 'active',
           sellerId: user.id,
@@ -157,7 +159,7 @@ const SellerProductManagementPage: React.FC = () => {
           category: 'do-choi',
           subcategory: 'Đồ chơi giáo dục',
           brand: 'Smart Toys',
-          images: ['/images/educational-toy.png'],
+          images: [getImagePath('images/educational-toy.png')],
           stock: 0,
           status: 'out_of_stock',
           sellerId: user.id,
@@ -191,7 +193,7 @@ const SellerProductManagementPage: React.FC = () => {
       const newProduct: Product = {
         id: Date.now(),
         ...formData,
-        images: formData.images.length > 0 ? formData.images : ['/images/placeholder.png'],
+        images: formData.images.length > 0 ? formData.images : [getImagePath('images/placeholder.svg')],
         sellerId: user?.id || 0,
         tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
         createdAt: new Date().toISOString().split('T')[0],
@@ -263,8 +265,45 @@ const SellerProductManagementPage: React.FC = () => {
   };
 
   const handleImageAdd = () => {
-    const imageUrl = prompt('Nhập URL hình ảnh:');
-    if (imageUrl) {
+    // Danh sách hình ảnh mẫu có sẵn
+    const sampleImages = [
+      'images/stroller-1.png',
+      'images/stroller-2.png', 
+      'images/stroller-3.png',
+      'images/stroller-4.png',
+      'images/stroller-5.png',
+      'images/stroller-6.png',
+      'images/stroller-premium.png',
+      'images/clothing-1.png',
+      'images/clothing-2.png',
+      'images/clothing-3.png',
+      'images/clothing-4.png',
+      'images/clothing-5.png',
+      'images/clothing-6.png',
+      'images/clothing-organic.png',
+      'images/educational-toy.png',
+      'images/crib-joie.png',
+      'images/crib-premium.png',
+      'images/high-chair.png',
+      'images/bath-chair.png',
+      'images/pillow-u-shape.png',
+      'images/milk-powder.png'
+    ];
+    
+    const imageInput = prompt(`Chọn hình ảnh (nhập số thứ tự 1-${sampleImages.length}) hoặc nhập URL:\n\n${sampleImages.map((img, index) => `${index + 1}. ${img.replace('images/', '').replace('.png', '')}`).join('\n')}`);
+    
+    if (imageInput) {
+      let imageUrl = imageInput;
+      
+      // Nếu người dùng nhập số, chọn hình từ danh sách
+      const imageIndex = parseInt(imageInput) - 1;
+      if (!isNaN(imageIndex) && imageIndex >= 0 && imageIndex < sampleImages.length) {
+        imageUrl = getImagePath(sampleImages[imageIndex]);
+      } else if (!imageInput.startsWith('http') && !imageInput.startsWith('/')) {
+        // Nếu không phải URL, thêm getImagePath
+        imageUrl = getImagePath(imageInput);
+      }
+      
       setFormData({
         ...formData,
         images: [...formData.images, imageUrl]
@@ -388,11 +427,14 @@ const SellerProductManagementPage: React.FC = () => {
                   <div className="flex flex-col lg:flex-row gap-6">
                     {/* Product Image */}
                     <div className="lg:w-48">
-                      <img
-                        src={product.images[0] || '/images/placeholder.png'}
-                        alt={product.name}
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
+                      <div className="w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
+                        <ProductImage
+                          src={product.images[0] || getImagePath('images/placeholder.svg')}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                          fallbackClassName="w-full h-full flex items-center justify-center bg-gray-200"
+                        />
+                      </div>
                     </div>
                     
                     {/* Product Info */}
@@ -713,11 +755,14 @@ const SellerProductManagementPage: React.FC = () => {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {formData.images.map((image, index) => (
                           <div key={index} className="relative">
-                            <img
-                              src={image}
-                              alt={`Product ${index + 1}`}
-                              className="w-full h-32 object-cover rounded-lg border"
-                            />
+                            <div className="w-full h-32 bg-gray-100 rounded-lg border overflow-hidden">
+                              <ProductImage
+                                src={image}
+                                alt={`Product ${index + 1}`}
+                                className="w-full h-full object-cover"
+                                fallbackClassName="w-full h-full flex items-center justify-center bg-gray-200"
+                              />
+                            </div>
                             <Button
                               type="button"
                               variant="outline"
