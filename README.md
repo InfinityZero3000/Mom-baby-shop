@@ -26,7 +26,8 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/df5e751e-f631-4da1-a58a-bb96302dfc5a" />
 
 ## Trang chủ tài khoản 
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/eea0b8b7-e451-4865-9348-793ac9f8a484" />
+<img width="1792" alt="image" src="https://github.com/user-attachments/assets/588efd03-5559-4005-8904-c60a5c73ce38" />
+
 
 
 ## 📋 Yêu cầu hệ thống
