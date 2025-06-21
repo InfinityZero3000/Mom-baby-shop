@@ -21,6 +21,7 @@ import { DashboardPage } from './screens/DashboardPage';
 import { AdminSellerManagementPage } from './screens/AdminSellerManagementPage';
 import { SellerProductManagementPage } from './screens/SellerProductManagementPage';
 import { CartDebugPage } from './screens/CartDebugPage';
+import { AvatarTestPage } from './screens/AvatarTestPage';
 
 export const App: React.FC = () => {
   return (
@@ -97,8 +98,9 @@ export const App: React.FC = () => {
                 {/* Trang liên hệ - tạm thời hiển thị ImprovedHomePage */}
                 <Route path="/contact" element={<ImprovedHomePage />} />
                 
-                {/* Debug route - chỉ để kiểm tra */}
+                {/* Debug routes - chỉ để kiểm tra */}
                 <Route path="/debug/cart" element={<CartDebugPage />} />
+                <Route path="/debug/avatar" element={<AvatarTestPage />} />
                 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to="/" replace />} />

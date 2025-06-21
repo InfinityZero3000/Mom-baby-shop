@@ -18,6 +18,7 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [error, setError] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Predefined avatar options
@@ -52,26 +53,145 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
     lg: 'w-5 h-5'
   };
 
+  // Function to resize image before converting to base64
+  const resizeImage = (file: File, maxWidth: number = 300, maxHeight: number = 300, quality: number = 0.8): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        if (!ctx) {
+          reject(new Error('Không thể tạo canvas context'));
+          return;
+        }
+        
+        const img = new Image();
+        
+        img.onload = () => {
+          try {
+            // Calculate new dimensions
+            let { width, height } = img;
+            
+            console.log('Original image dimensions:', { width, height });
+            
+            if (width > height) {
+              if (width > maxWidth) {
+                height = (height * maxWidth) / width;
+                width = maxWidth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width = (width * maxHeight) / height;
+                height = maxHeight;
+              }
+            }
+            
+            console.log('Resized dimensions:', { width, height });
+            
+            // Set canvas dimensions
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Draw and compress image
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Convert to base64 with compression
+            const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+            
+            console.log('Image processing completed:', {
+              originalSize: file.size,
+              compressedLength: compressedBase64.length,
+              estimatedCompressedSize: Math.round(compressedBase64.length * 0.75)
+            });
+            
+            resolve(compressedBase64);
+          } catch (error) {
+            reject(new Error(`Lỗi khi xử lý ảnh: ${error instanceof Error ? error.message : 'Unknown error'}`));
+          }
+        };
+        
+        img.onerror = () => reject(new Error('Không thể tải ảnh. File có thể bị hỏng.'));
+        
+        // Create object URL for the file
+        const objectUrl = URL.createObjectURL(file);
+        img.src = objectUrl;
+        
+        // Clean up object URL after some time
+        setTimeout(() => {
+          URL.revokeObjectURL(objectUrl);
+        }, 1000);
+        
+      } catch (error) {
+        reject(new Error(`Lỗi khởi tạo: ${error instanceof Error ? error.message : 'Unknown error'}`));
+      }
+    });
+  };
+
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setError(''); // Clear any previous errors
+      
+      // Validate file size (max 10MB for original file)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        const errorMsg = 'File quá lớn! Vui lòng chọn ảnh nhỏ hơn 10MB.';
+        setError(errorMsg);
+        console.error('File size error:', { size: file.size, maxSize, fileName: file.name });
+        return;
+      }
+
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        const errorMsg = 'Định dạng file không được hỗ trợ! Vui lòng chọn file JPG, PNG, GIF hoặc WebP.';
+        setError(errorMsg);
+        console.error('File type error:', { type: file.type, allowed: allowedTypes, fileName: file.name });
+        return;
+      }
+
+      console.log('Starting file upload process:', {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: new Date(file.lastModified).toISOString()
+      });
+
       setIsUploading(true);
       
-      // Create a FileReader to convert file to base64
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        onAvatarChange(base64String);
-        setIsUploading(false);
-        setShowOptions(false);
-      };
-      reader.readAsDataURL(file);
+      // Resize and compress image
+      resizeImage(file, 300, 300, 0.8)
+        .then((compressedBase64) => {
+          console.log('File uploaded and compressed successfully:', {
+            originalName: file.name,
+            originalSize: file.size,
+            originalType: file.type,
+            compressedSize: compressedBase64.length,
+            compressionRatio: (compressedBase64.length / file.size).toFixed(2)
+          });
+          onAvatarChange(compressedBase64);
+          setIsUploading(false);
+          setShowOptions(false);
+          setError('');
+        })
+        .catch((error) => {
+          console.error('Error processing uploaded file:', error);
+          const errorMsg = `Có lỗi xảy ra khi xử lý file: ${error.message}`;
+          setError(errorMsg);
+          setIsUploading(false);
+        });
     }
+    
+    // Reset input value to allow selecting the same file again
+    event.target.value = '';
   };
 
   const handleAvatarSelect = (avatarPath: string) => {
-    onAvatarChange(getImagePath(avatarPath));
+    const fullPath = getImagePath(avatarPath);
+    console.log('Avatar selected:', { original: avatarPath, resolved: fullPath });
+    onAvatarChange(fullPath);
     setShowOptions(false);
+    setError('');
   };
 
   const triggerFileInput = () => {
@@ -123,17 +243,36 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
             <Button
               onClick={triggerFileInput}
               variant="outline"
-              className="w-full flex items-center justify-center gap-2"
+              className="w-full flex items-center justify-center gap-2 hover:bg-pink-50 hover:border-pink-300"
+              disabled={isUploading}
             >
-              <Upload className="w-4 h-4" />
-              Tải ảnh từ máy tính
+              {isUploading ? (
+                <>
+                  <div className="animate-spin rounded-full border-2 border-pink-500 border-t-transparent w-4 h-4"></div>
+                  Đang xử lý...
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4" />
+                  Tải ảnh từ máy tính
+                </>
+              )}
             </Button>
+            <p className="text-xs text-gray-500 mt-1 text-center">
+              Hỗ trợ JPG, PNG, GIF, WebP. Tối đa 10MB.
+            </p>
+            {error && (
+              <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-600">
+                {error}
+              </div>
+            )}
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
               onChange={handleFileUpload}
               className="hidden"
+              disabled={isUploading}
             />
           </div>
 
