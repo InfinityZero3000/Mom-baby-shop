@@ -5,7 +5,7 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 
 ## 🌐 Demo Live
 
-🔗 **Website**: [https://jenniferzero.github.io/Mom-baby-shop/](https://jenniferzero.github.io/Mom-baby-shop/)
+🔗 **Website**: [Mom-baby-shop](https://infinityzero3000.github.io/Mom-baby-shop/)
 
 ## Trang đăng nhập với nhiều actor 
 <img width="1792" alt="image" src="https://github.com/user-attachments/assets/76ee5eca-a43b-4fba-b993-a535a7a12c59" />
