@@ -7,28 +7,9 @@ Dự án website bán hàng trực tuyến cho mẹ và bé được xây dựng
 
 🔗 **Website**: [Mom-baby-shop](https://infinityzero3000.github.io/Mom-baby-shop/)
 
-## Trang đăng nhập với nhiều actor 
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/76ee5eca-a43b-4fba-b993-a535a7a12c59" />
-
 ## Giao diện chính của hệ thống 
-<img width="1790" alt="image" src="https://github.com/user-attachments/assets/a3e6827c-6da8-4709-96bb-cfabb12c31e4" />
 
-## Một số giao diện danh sách sản phẩm
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/e2527631-75fc-412e-b302-915c53accd07" /> 
-
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/270286fe-b573-48bc-b61f-c82d85eb381c" /> 
-
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/3d82a1d6-f71c-4906-80ac-667f4fda5c27" />
-
-## Dashboard của Quản trị viên & Người bán hàng
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/84c6e74e-f4ca-4e18-a51b-f5bb6b104e9a" />
-
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/df5e751e-f631-4da1-a58a-bb96302dfc5a" />
-
-## Trang chủ tài khoản 
-<img width="1792" alt="image" src="https://github.com/user-attachments/assets/588efd03-5559-4005-8904-c60a5c73ce38" />
-
-
+<img width="1792" height="999" alt="image" src="https://github.com/user-attachments/assets/8bdcbbb6-0e83-4fe6-8468-d4b51d778d76" />
 
 ## 📋 Yêu cầu hệ thống
 
