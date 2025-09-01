@@ -50,38 +50,6 @@ npm run build
 - **Sử dụng**: Build cho server thông thường
 
 
-## 🚀 Triển khai dự án
-
-### Trên macOS/Linux:
-```bash
-# Triển khai đầy đủ (build và deploy)
-npm run deploy:mac
-
-# Chỉ build cho GitHub Pages
-npm run build:mac
-
-# Cập nhật đường dẫn hình ảnh và build
-npm run update-paths:mac
-
-# Kiểm tra hệ thống trước khi build
-npm run check:mac
-```
-
-### Trên Windows:
-```cmd
-# Triển khai đầy đủ (build và deploy)
-npm run deploy:win
-
-# Chỉ build cho GitHub Pages
-npm run build:win
-
-# Cập nhật đường dẫn hình ảnh và build
-npm run update-paths:win
-
-# Kiểm tra hệ thống trước khi build
-npm run check:win
-```
-
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18 + TypeScript
@@ -123,13 +91,6 @@ npm run dev
 # ➡ Mở http://localhost:5173/
 ```
 
-## 📚 Tài liệu bổ sung
-
--  **GUIDE_TROUBLESHOOTING.md**: Xử lý sự cố deploy
--  **GUIDE_WINDOWS.md**: Hướng dẫn deploy trên Windows
--  **GUIDE_SCRIPTS.md**: Hướng dẫn sử dụng các scripts
--  **GUIDE_NAVIGATION.md**: Thông tin về cấu trúc điều hướng
--  **GUIDE_PATH_UPDATE.md**: Cập nhật đường dẫn hình ảnh
 -  **GitHub Issues**: [Báo lỗi tại đây](https://github.com/jenniferzero/Mom-baby-shop/issues)
 
 ---
