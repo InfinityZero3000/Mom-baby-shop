@@ -9,14 +9,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "preview:github": "vite preview --base /Mom-baby-shop/",
-    "deploy:mac": "bash ./deploy-mac.sh",
-    "build:mac": "bash ./deploy-mac.sh --build-only",
-    "update-paths:mac": "bash ./deploy-mac.sh --update-paths --build-only",
-    "check:mac": "bash ./deploy-mac.sh --check --build-only",
-    "deploy:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1",
-    "build:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -BuildOnly",
-    "update-paths:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -UpdatePaths -BuildOnly",
-    "check:win": "powershell -ExecutionPolicy Bypass -File deploy-win.ps1 -Check -BuildOnly"
+    "deploy:mac": "bash ./config/deploy-mac.sh",
+    "build:mac": "bash ./config/deploy-mac.sh --build-only",
+    "update-paths:mac": "bash ./config/deploy-mac.sh --update-paths --build-only",
+    "check:mac": "bash ./config/deploy-mac.sh --check --build-only",
+    "deploy:win": "powershell -ExecutionPolicy Bypass -File config/deploy-win.ps1",
+    "build:win": "powershell -ExecutionPolicy Bypass -File config/deploy-win.ps1 -BuildOnly",
+    "update-paths:win": "powershell -ExecutionPolicy Bypass -File config/deploy-win.ps1 -UpdatePaths -BuildOnly",
+    "check:win": "powershell -ExecutionPolicy Bypass -File config/deploy-win.ps1 -Check -BuildOnly"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.0",

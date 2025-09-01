@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
       'process.env.BUILD_FOR_GITHUB': JSON.stringify(process.env.BUILD_FOR_GITHUB),
     },
     css: {
-      postcss: './postcss.config.js',
+      postcss: './config/postcss.config.js',
     },
   };
 });
